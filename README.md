@@ -1,2 +1,2 @@
 # cityzer-front
-Front-end for Softala 3 2017
+Front end for Softala 3 project for Cityzer
