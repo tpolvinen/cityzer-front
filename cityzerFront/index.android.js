@@ -15,18 +15,22 @@ import {
 export default class cityzerFront extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
-        </Text>
-      </View>
+
+        <View style={{flex: 1}}>
+          <View style={{flex: 1, backgroundColor: 'powderblue'}} />
+          <View style={{flex: 4, backgroundColor: 'skyblue'}} />
+          <View style={{flex: 3, flexDirection: 'row'}}>
+            <View style={{flex: 1, backgroundColor: 'powderblue'}} />
+            <View style={{flex: 1, backgroundColor: 'skyblue'}} />
+            <View style={{flex: 1, backgroundColor: 'steelblue'}} />
+          </View>
+          <View style={{flex: 1, backgroundColor: 'steelblue'}} />
+
+
+
+
+        </View>
+
     );
   }
 }
