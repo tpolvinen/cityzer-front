@@ -14,6 +14,32 @@ import {
 } from 'react-native';
 
 export default class cityzerFront extends Component {
+
+    constructor(props){
+        super(props);
+        this.state ={
+            lat: null,
+            lon: null,
+            error: null,
+        }
+    }
+
+    componentDidMount() {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                this.setState({
+                    lat: position.coords.latitude,
+                    lon: position.coords.longitude,
+                    error: null,
+                });
+            },
+            (error) => this.setState({ error: error.message }),
+            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+        );
+    }
+
+
+
     render() {
         return (
             <View style={styles.container}>
@@ -25,7 +51,9 @@ export default class cityzerFront extends Component {
                 <Image
                     style={styles.location}
                     source={{uri:'https://i.imgur.com/K67wWwj.gif'}}
-                />Ratapihantie 13, 00520, 00520 Helsinki
+                />
+                  Latitude: {this.state.lat}
+                  Longitude: {this.state.lon}
               </Text>
 
                 {/*Timestamp*/}
