@@ -5,71 +5,198 @@
  */
 
 import React, { Component } from 'react';
-import { Alert, AppRegistry, Button, StyleSheet, View, Text } from 'react-native';
-
+import {
+    Image,
+    AppRegistry,
+    StyleSheet,
+    Text,
+    View
+} from 'react-native';
 
 export default class cityzerFront extends Component {
+    render() {
+        return (
+            <View style={styles.container}>
 
 
-    _onPressButton() {
-        Alert.alert('You tapped the button!')
+
+                {/*Address and get location button*/}
+                <Text style={styles.welcome}>
+                    <Image
+                        style={styles.location}
+                        source={{uri:'https://i.imgur.com/K67wWwj.gif'}}
+                    />Ratapihantie 13, 00520, 00520 Helsinki
+                </Text>
+
+                {/*Timestamp*/}
+                <Text style={styles.timestamp}>
+                    12:00
+                </Text>
+
+                {/*main picture*/}
+                <Image
+                    style={styles.mainImage}
+                    source={{uri:'https://i.imgur.com/DmEIa4L.gif'}}
+                />
+
+                {/*Flex table*/}
+                <View style={{flex: 1, flexDirection: 'row'}}>
+                    <Text style={styles.infoText}>
+                        Celcius{'\n'}
+                        <Text style={styles.info}>
+                            23°
+                        </Text>
+                    </Text>
+
+                    {/*infoTex2 because it would automatically add margintop: 10 after implementing image*/}
+                    <Text style={styles.infoText2}>
+                        Wind{'\n'}
+                        <Image
+                            style={styles.infoImage}
+                            source={{uri:'https://i.imgur.com/A14dO55.gif'}}
+                        />
+                    </Text>
+
+                    <Text style={styles.infoText}>
+                        Rain{'\n'}
+                        {/*infoRain temporary*/}
+                        <Text style={styles.infoRain}>
+                            0,0{'\n'}
+                            mm{'\n'}
+                            (1h)
+                        </Text>
+                    </Text>
+                </View>
+
+
+                {/*Button for estimates*/}
+                <View style={{flex: 1, flexDirection: 'row'}}>
+                    <Text style={styles.heading1}>
+                        1H
+                    </Text>
+                    <Text style={styles.heading2}>
+                        2H
+                    </Text>
+                    <Text style={styles.heading3}>
+                        3H
+                    </Text>
+                </View>
+
+            </View>
+
+        );
     }
-
-  render() {
-    return (
-
-        <View style={{flex: 1}}>
-          <View style={{flex: 1, backgroundColor: 'powderblue'}}>
-            <Button
-                onPress={this._onPressButton}
-                title="Press Me"
-            />
-          </View>
-          <View style={{flex: 4, backgroundColor: 'skyblue'}} />
-          <View style={styles.testi}>
-            <View style={{flex: 1, backgroundColor: 'powderblue'}}>
-            <Text style={styles.welcome}>Sademäärä +1h!</Text>
-            </View>
-            <View style={{flex: 1, backgroundColor: 'skyblue'}}>
-              <Text>Sademäärä +2h!</Text>
-            </View>
-            <View style={{flex: 1, backgroundColor: 'steelblue'}} >
-              <Text>Sademäärä +3h!</Text>
-            </View>
-          </View>
-          <View style={{flex: 1, backgroundColor: 'steelblue'}} />
-
-
-
-
-        </View>
-
-    );
-  }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-    testi:{
-    flex: 3,
-    flexDirection: 'row',
 
-  },
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        marginTop: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#DAECF8',
+    },
+    location: {
+        width: 40,
+        height: 40,
+    },
+    welcome: {
+        fontSize: 20,
+        textAlign: 'center',
+        margin: 10,
+    },
+    timestamp: {
+        fontSize: 100,
+        marginTop: -20,
+        color: '#FFFFFF',
+        textShadowColor:'#333333',
+        textShadowOffset: {width: 1, height: 1},
+        textShadowRadius: 4,
+    },
+    mainImage: {
+        width: 225,
+        height: 225,
+    },
+    infoText: {
+        fontSize: 25,
+        marginLeft: 10,
+        marginRight: 10,
+        marginTop: 10,
+        marginBottom: -15,
+        padding: 5,
+        textAlign: 'center',
+    },
+    infoText2: {
+        fontSize: 25,
+        marginLeft: 10,
+        marginRight: 10,
+        marginBottom: -15,
+        padding: 5,
+        textAlign: 'center',
+    },
+    info: {
+        fontSize: 35,
+        color: '#ff002f',
+        width: 50,
+        height: 50,
+    },
+    infoRain: {
+        fontSize: 20,
+        color: '#FFFFFF',
+        textShadowColor:'#333333',
+        textShadowOffset: {width: 1, height: 1},
+    },
+    infoImage: {
+        width: 50,
+        height: 50,
+    },
+    heading1: {
+        fontSize: 50,
+        marginTop: 30,
+        borderWidth: 4,
+        borderRadius: 10,
+        marginLeft: 2,
+        marginRight: 2,
+        paddingTop: 10,
+        paddingLeft: 1,
+        paddingRight: 1,
+        overflow: 'hidden',
+        textAlign: 'center',
+        borderColor:'#ffffff',
+        backgroundColor:'#b0e0e6',
+    },
+    heading2: {
+        fontSize: 50,
+        marginTop: 30,
+        borderWidth: 4,
+        borderRadius: 10,
+        marginLeft: 2,
+        marginRight: 2,
+        paddingTop: 10,
+        paddingLeft: 1,
+        paddingRight: 1,
+        overflow: 'hidden',
+        textAlign: 'center',
+        borderColor:'#ffffff',
+        backgroundColor:'#87ceeb',
+    },
+    heading3: {
+        fontSize: 50,
+        marginTop: 30,
+        borderWidth: 4,
+        borderRadius: 10,
+        marginLeft: 2,
+        marginRight: 2,
+        paddingTop: 10,
+        paddingLeft: 1,
+        paddingRight: 1,
+        overflow: 'hidden',
+        textAlign: 'center',
+        borderColor:'#ffffff',
+        backgroundColor:'#4682b4',
+    },
 });
 
 AppRegistry.registerComponent('cityzerFront', () => cityzerFront);
