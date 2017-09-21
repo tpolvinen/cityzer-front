@@ -12,6 +12,7 @@ import {
     Text,
     View
 } from 'react-native';
+import axios from 'axios';
 
 export default class cityzerFront extends Component {
 
@@ -21,17 +22,17 @@ export default class cityzerFront extends Component {
             lat: null,
             lon: null,
             error: null,
+            address: null,
+            suburb: null,
         }
     }
 
     componentDidMount() {
         navigator.geolocation.getCurrentPosition(
             (position) => {
-                this.setState({
-                    lat: position.coords.latitude,
-                    lon: position.coords.longitude,
-                    error: null,
-                });
+                const url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='+position.coords.latitude+','+position.coords.longitude+'&key=AIzaSyD-VCDRI-XxI1U-oz-5ujODryCQ1zSJi0U';
+                fetch(url).then(data=>console.log(data));
+
             },
             (error) => this.setState({ error: error.message }),
             { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
