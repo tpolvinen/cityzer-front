@@ -26,20 +26,22 @@ export default class cityzerFront extends Component {
             suburb: null,
         }
     }
+    state = { address: [] };
 
     componentDidMount() {
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 const url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='+position.coords.latitude+','+position.coords.longitude+'&key=AIzaSyD-VCDRI-XxI1U-oz-5ujODryCQ1zSJi0U';
-                fetch(url).then(data=>console.log(data));
+                axios.get(url)
+                    .then(response => this.setState({ address: response.data.results[0].address_components[1].long_name })
+                        //console.log(response.data.results[0].address_components[1,2])
+            );
 
             },
             (error) => this.setState({ error: error.message }),
             { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
         );
     }
-
-
 
     render() {
         return (
@@ -55,6 +57,7 @@ export default class cityzerFront extends Component {
                 />
                   Latitude: {this.state.lat}
                   Longitude: {this.state.lon}
+                  Address: {this.state.address}
               </Text>
 
                 {/*Timestamp*/}
