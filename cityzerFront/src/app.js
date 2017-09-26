@@ -18,7 +18,9 @@ class App extends Component {
             error: null,
             address: null,
             suburb: null,
-            weather: null
+            rain: null,
+            temperature: null,
+            json: [],
         }
     }
     state = { address: [] };
@@ -32,19 +34,27 @@ class App extends Component {
                         //console.log(response.data.results[0].address_components[1,2])
                     );
 
+
             },
             (error) => this.setState({ error: error.message }),
             { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
         );
-        const urli = 'http://128.199.61.201/api/getWeather.json';
-        axios.get(urli)
-            .then(response => console.log(response.data));
+
+        const url1 = 'http://128.199.61.201/api/weather.json';
+        axios.get(url1)
+            .then(response => this.setState({rain: response.data.precipitation_amount_353, temperature: response.data.air_temperature_4}));
+    }
+    getWeather() {
+        console.log(this.state);
     }
 
     render() {
-        return (
-            <View style={styles.container}>
 
+        return (
+
+
+        <View style={styles.container}>
+            {this.getWeather()}
 
 
                 {/*Address and get location button*/}
@@ -53,15 +63,10 @@ class App extends Component {
                         style={styles.location}
                         source={{uri:'https://i.imgur.com/K67wWwj.gif'}}
                     />
-                    Latitude: {this.state.lat}
-                    Longitude: {this.state.lon}
-                    Address: {this.state.address}
+                     {this.state.address}
                 </Text>
 
-                {/*Timestamp*/}
-                <Text style={styles.timestamp}>
-                    12:00
-                </Text>
+
 
                 {/*main picture*/}
                 <Image
@@ -72,32 +77,27 @@ class App extends Component {
                 {/*Flex table*/}
                 <View style={{flex: 1, flexDirection: 'row'}}>
                     <Text style={styles.infoText}>
-                        Celcius{'\n'}
+                        Kelvin{'\n'}
                         <Text style={styles.info}>
-                            23°
+                            {this.state.temperature}°
                         </Text>
                     </Text>
 
-                    {/*infoTex2 because it would automatically add margintop: 10 after implementing image*/}
-                    <Text style={styles.infoText2}>
-                        Wind{'\n'}
-                        <Image
-                            style={styles.infoImage}
-                            source={{uri:'https://i.imgur.com/A14dO55.gif'}}
-                        />
-                    </Text>
+
 
                     <Text style={styles.infoText}>
                         Rain{'\n'}
                         {/*infoRain temporary*/}
                         <Text style={styles.infoRain}>
-                            0,0{'\n'}
-                            mm{'\n'}
-                            (1h)
+                            {this.state.rain}mm{'\n'}
                         </Text>
                     </Text>
                 </View>
 
+                {/*Timestamp*/}
+                <Text style={styles.timestamp}>
+                    12:00
+                </Text>
 
                 {/*Button for estimates*/}
                 <View style={{flex: 1, flexDirection: 'row'}}>
@@ -111,6 +111,8 @@ class App extends Component {
                         3H
                     </Text>
                 </View>
+
+
 
             </View>
 
@@ -138,8 +140,8 @@ const styles = StyleSheet.create({
         margin: 10,
     },
     timestamp: {
-        fontSize: 100,
-        marginTop: -20,
+        fontSize: 15,
+        marginLeft: 200,
         color: '#FFFFFF',
         textShadowColor:'#333333',
         textShadowOffset: {width: 1, height: 1},
