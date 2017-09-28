@@ -11,6 +11,7 @@ import axios from 'axios';
 
 class App extends Component {
 
+
     constructor(props){
         super(props);
         this.state ={
@@ -22,20 +23,33 @@ class App extends Component {
             rain: null,
             temperature: null,
             json: [],
-        }
+        };
         this.getWeather = this.getWeather.bind(this);
     }
     state = { address: [] };
 
+    KtoC(kelvin) {
+        console.log(typeof kelvin +' '+ kelvin);
+        let temp = parseFloat(kelvin);
+        console.log(temp);
+        temp = temp-273.15;
+        console.log(temp);
+        return temp;
+    };
+
     getWeather(i) {
-        const rain = this.state.json.precipitation_amount_353_1h
+        const rain = this.state.json.precipitation_amount_353_1h;
+        const rain2 = this.state.json.precipitation_amount_353_2h;
+        const rain3 = this.state.json.precipitation_amount_353_3h;
             switch (i) {
                 case '1':
-                    return this.setState({rain: rain, temperature: this.state.json.air_temperature_4_1h});
+                    return this.setState({rain: rain, temperature: this.KtoC(this.state.json.air_temperature_4_1h)});
                 case '2':
-                    return this.setState({rain: this.state.json.precipitation_amount_353_2h, temperature: this.state.json.air_temperature_4_2h});
+                    let temperature = this.KtoC(this.state.json.air_temperature_4_2h);
+                    console.log(temperature);
+                    return (this.setState({rain: rain2, temperature: temperature}));
                 case '3':
-                    return this.setState({rain: this.state.json.precipitation_amount_353_3h, temperature: this.state.json.air_temperature_4_3h});
+                    return this.setState({rain: rain3, temperature: this.KtoC(this.state.json.air_temperature_4_3h)});
                 default:
                     this.setState({rain: this.state.json.precipitation_amount_353, temperature: this.state.json.air_temperature_4});
             }
