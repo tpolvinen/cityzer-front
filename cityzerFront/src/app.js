@@ -54,7 +54,7 @@ class App extends Component {
                 case '3':
                     return this.setState({rain: rain3, temperature: this.KtoC(this.state.json.air_temperature_4_3h)});
                 default:
-                    this.setState({rain: this.state.json.precipitation_amount_353, temperature: this.state.json.air_temperature_4});
+                    this.setState({rain: parseFloat(this.state.json.precipitation_amount_353).toFixed(2), temperature: this.KtoC(this.state.json.air_temperature_4)});
             }
     }
 
@@ -108,7 +108,7 @@ class App extends Component {
                 {/*main picture*/}
                 <Image
                     style={styles.mainImage}
-                    source={require('./img/cloud.svg')}
+                    source={require('./img/sun.svg')}
                 />
 
                 {/*Flex table*/}
@@ -135,6 +135,15 @@ class App extends Component {
                 <Text style={styles.timestamp}>
                     12:00
                 </Text>
+
+
+                <View style={{flex: 1, flexDirection: 'row'}}>
+                <TouchableOpacity onPress={this.getWeather.bind(this, '_')}>
+                    <Text style={styles.heading1}>
+                       Weather Now
+                    </Text>
+                </TouchableOpacity>
+                </View>
 
                 {/*Button for estimates*/}
                 <View style={{flex: 1, flexDirection: 'row'}}>
