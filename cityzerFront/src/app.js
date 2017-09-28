@@ -4,7 +4,8 @@ import {
     AppRegistry,
     StyleSheet,
     Text,
-    View
+    View,
+    TouchableHighlight
 } from 'react-native';
 import axios from 'axios';
 
@@ -25,6 +26,23 @@ class App extends Component {
     }
     state = { address: [] };
 
+    getWeather(i) {
+        console.log(i);
+            switch (i) {
+                case '1':
+                    console.log(this.state.json.air_temperature_4_1h);
+                    this.setState({rain: this.state.json.precipitation_amount_353_1h, temperature: this.state.json.air_temperature_4_1h});
+                case '2':
+                    console.log(i);
+                    this.setState({rain: this.state.json.precipitation_amount_353_2h, temperature: this.state.json.air_temperature_4_2h});
+                case '3':
+                    console.log(i);
+                    this.setState({rain: this.state.json.precipitation_amount_353_3h, temperature: this.state.json.air_temperature_4_3h});
+                default:
+                    this.setState({rain: this.state.json.precipitation_amount_353, temperature: this.state.json.air_temperature_4});
+            }
+    }
+
     componentDidMount() {
         navigator.geolocation.getCurrentPosition(
             (position) => {
@@ -42,11 +60,14 @@ class App extends Component {
 
         const url1 = 'http://128.199.61.201/api/weather.json';
         axios.get(url1)
-            .then(response => this.setState({rain: response.data.precipitation_amount_353, temperature: response.data.air_temperature_4}));
+            .then(response => {
+                this.setState({json: response.data, rain: response.data.precipitation_amount_353, temperature: response.data.air_temperature_4});
+                console.log(this.state);
+            });
+
+
     }
-    getWeather() {
-        console.log(this.state);
-    }
+
 
     render() {
 
@@ -54,8 +75,6 @@ class App extends Component {
 
 
         <View style={styles.container}>
-            {this.getWeather()}
-
 
                 {/*Address and get location button*/}
                 <Text style={styles.welcome}>
@@ -101,15 +120,21 @@ class App extends Component {
 
                 {/*Button for estimates*/}
                 <View style={{flex: 1, flexDirection: 'row'}}>
-                    <Text style={styles.heading1}>
-                        1H
-                    </Text>
+                    <TouchableHighlight onPress={this.getWeather.bind(this, '1')}>
+                        <Text style={styles.heading1}>
+                            1H
+                        </Text>
+                    </TouchableHighlight>
+                    <TouchableHighlight onPress={this.getWeather.bind(this, '2')}>
                     <Text style={styles.heading2}>
                         2H
                     </Text>
+                    </TouchableHighlight>
+                        <TouchableHighlight onPress={this.getWeather.bind(this, '3')}>
                     <Text style={styles.heading3}>
                         3H
                     </Text>
+                    </TouchableHighlight>
                 </View>
 
 
