@@ -5,7 +5,7 @@ import {
     StyleSheet,
     Text,
     View,
-    TouchableHighlight
+    TouchableOpacity
 } from 'react-native';
 import axios from 'axios';
 
@@ -30,23 +30,26 @@ class App extends Component {
 
     KtoC(kelvin) {
         console.log(typeof kelvin +' '+ kelvin);
+        const kelvinToCelsius = require('kelvin-to-celsius');
         let temp = parseFloat(kelvin);
         console.log(temp);
-        temp = temp-273.15;
+        temp = kelvinToCelsius(temp);
         console.log(temp);
-        return temp;
+        //let temps = toString(temp);
+        return temp.toString();
     };
 
     getWeather(i) {
-        const rain = this.state.json.precipitation_amount_353_1h;
-        const rain2 = this.state.json.precipitation_amount_353_2h;
-        const rain3 = this.state.json.precipitation_amount_353_3h;
+        const rain = parseFloat(this.state.json.precipitation_amount_353_1h).toFixed(2);
+        const rain2 = parseFloat(this.state.json.precipitation_amount_353_2h).toFixed(2);
+        const rain3 = parseFloat(this.state.json.precipitation_amount_353_3h).toFixed(2);
+        let temperature = '';
             switch (i) {
                 case '1':
                     return this.setState({rain: rain, temperature: this.KtoC(this.state.json.air_temperature_4_1h)});
                 case '2':
                     let temperature = this.KtoC(this.state.json.air_temperature_4_2h);
-                    console.log(temperature);
+                    console.log(typeof temperature +' '+ temperature);
                     return (this.setState({rain: rain2, temperature: temperature}));
                 case '3':
                     return this.setState({rain: rain3, temperature: this.KtoC(this.state.json.air_temperature_4_3h)});
@@ -73,7 +76,10 @@ class App extends Component {
         const url1 = 'http://128.199.61.201/api/weather.json';
         axios.get(url1)
             .then(response => {
-                this.setState({json: response.data, rain: response.data.precipitation_amount_353, temperature: response.data.air_temperature_4});
+                this.setState({
+                    json: response.data,
+                    rain: parseFloat(response.data.precipitation_amount_353).toFixed(2),
+                    temperature: this.KtoC(response.data.air_temperature_4)});
                 console.log(this.state);
             });
 
@@ -102,13 +108,13 @@ class App extends Component {
                 {/*main picture*/}
                 <Image
                     style={styles.mainImage}
-                    source={require('./img/suncloudsnowrainthree.svg')}
+                    source={require('./img/cloud.svg')}
                 />
 
                 {/*Flex table*/}
                 <View style={{flex: 1, flexDirection: 'row'}}>
                     <Text style={styles.infoText}>
-                        Kelvin{'\n'}
+                        Celcius{'\n'}
                         <Text style={styles.info}>
                             {this.state.temperature}°
                         </Text>
@@ -120,7 +126,7 @@ class App extends Component {
                         Rain{'\n'}
                         {/*infoRain temporary*/}
                         <Text style={styles.infoRain}>
-                            {this.state.rain}mm{'\n'}
+                            {this.state.rain}mm/h{'\n'}
                         </Text>
                     </Text>
                 </View>
@@ -132,21 +138,23 @@ class App extends Component {
 
                 {/*Button for estimates*/}
                 <View style={{flex: 1, flexDirection: 'row'}}>
-                    <TouchableHighlight key='1' onPress={this.getWeather.bind(this, '1')}>
+                    <TouchableOpacity onPress={this.getWeather.bind(this, '1')}>
                         <Text style={styles.heading1}>
                             1H
                         </Text>
-                    </TouchableHighlight>
-                    <TouchableHighlight onPress={this.getWeather.bind(this, '2')}>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={this.getWeather.bind(this, '2')}>
                     <Text style={styles.heading2}>
                         2H
                     </Text>
-                    </TouchableHighlight>
-                        <TouchableHighlight onPress={this.getWeather.bind(this, '3')}>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={this.getWeather.bind(this, '3')}>
                     <Text style={styles.heading3}>
                         3H
                     </Text>
-                    </TouchableHighlight>
+                    </TouchableOpacity>
                 </View>
 
 
