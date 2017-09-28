@@ -23,21 +23,19 @@ class App extends Component {
             temperature: null,
             json: [],
         }
+        this.getWeather = this.getWeather.bind(this);
     }
     state = { address: [] };
 
     getWeather(i) {
-        console.log(i);
+        const rain = this.state.json.precipitation_amount_353_1h
             switch (i) {
                 case '1':
-                    console.log(this.state.json.air_temperature_4_1h);
-                    this.setState({rain: this.state.json.precipitation_amount_353_1h, temperature: this.state.json.air_temperature_4_1h});
+                    return this.setState({rain: rain, temperature: this.state.json.air_temperature_4_1h});
                 case '2':
-                    console.log(i);
-                    this.setState({rain: this.state.json.precipitation_amount_353_2h, temperature: this.state.json.air_temperature_4_2h});
+                    return this.setState({rain: this.state.json.precipitation_amount_353_2h, temperature: this.state.json.air_temperature_4_2h});
                 case '3':
-                    console.log(i);
-                    this.setState({rain: this.state.json.precipitation_amount_353_3h, temperature: this.state.json.air_temperature_4_3h});
+                    return this.setState({rain: this.state.json.precipitation_amount_353_3h, temperature: this.state.json.air_temperature_4_3h});
                 default:
                     this.setState({rain: this.state.json.precipitation_amount_353, temperature: this.state.json.air_temperature_4});
             }
@@ -120,7 +118,7 @@ class App extends Component {
 
                 {/*Button for estimates*/}
                 <View style={{flex: 1, flexDirection: 'row'}}>
-                    <TouchableHighlight onPress={this.getWeather.bind(this, '1')}>
+                    <TouchableHighlight key='1' onPress={this.getWeather.bind(this, '1')}>
                         <Text style={styles.heading1}>
                             1H
                         </Text>
