@@ -88,7 +88,7 @@ class App extends Component {
                 {/*main picture*/}
                 <Image
                     style={styles.mainImage}
-                    source={{uri:'https://i.imgur.com/DmEIa4L.gif'}}
+                    source={require('./img/suncloudsnowrainthree.svg')}
                 />
 
                 {/*Flex table*/}
