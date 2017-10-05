@@ -108,7 +108,7 @@ class App extends Component {
                 {/*main picture*/}
                 <Image
                     style={styles.mainImage}
-                    source={require('./img/sun.svg')}
+                    source={require('./img/suncloudraintwo.svg')}
                 />
 
                 {/*Flex table*/}
@@ -202,8 +202,10 @@ const styles = StyleSheet.create({
         textShadowRadius: 4,
     },
     mainImage: {
-        width: 225,
-        height: 225,
+        width: 300,
+        height: 300,
+        marginBottom: -20,
+        marginTop: -50,
     },
     infoText: {
         fontSize: 25,
