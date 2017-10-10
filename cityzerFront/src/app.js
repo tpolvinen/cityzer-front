@@ -19,6 +19,7 @@ class App extends Component {
             lon: null,
             error: null,
             address: null,
+            addressNo: null,
             suburb: null,
             rain: null,
             temperature: null,
@@ -63,8 +64,8 @@ class App extends Component {
             (position) => {
                 const url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='+position.coords.latitude+','+position.coords.longitude+'&key=AIzaSyD-VCDRI-XxI1U-oz-5ujODryCQ1zSJi0U';
                 axios.get(url)
-                    .then(response => this.setState({ address: response.data.results[0].address_components[1].long_name })
-                        //console.log(response.data.results[0].address_components[1,2])
+                    //.then(response => console.log(response.data)
+                    .then(response => this.setState({ address: response.data.results[0].address_components[1].long_name , addressNo: response.data.results[0].address_components[0].long_name , suburb: response.data.results[2].address_components[0].long_name})
                     );
 
 
@@ -100,7 +101,8 @@ class App extends Component {
                         style={styles.location}
                         source={{uri:'https://i.imgur.com/K67wWwj.gif'}}
                     />
-                     {this.state.address}
+                     {this.state.address} {this.state.addressNo}{'\n'}
+                     {this.state.suburb}
                 </Text>
 
 
