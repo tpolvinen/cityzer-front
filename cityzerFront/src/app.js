@@ -133,7 +133,7 @@ class App extends Component {
                 {/*main picture*/}
                 <Image
                     style={styles.mainImage}
-                    source={require('./img/cloudtest5.SVG.psd')}
+                    source={require('./img/cloudtest3.png')}
                 />
 
 
