@@ -24,7 +24,14 @@ var myStyles = React.StyleSheet.create({
         marginBottom: 20,
     },
     timestamp: {
-        fontSize: 100,
+        fontSize: 40,
+        color: '#FFFFFF',
+        textShadowColor:'#333333',
+        textShadowOffset: {width: 1, height: 1},
+        textShadowRadius: 4,
+    },
+    datestamp: {
+        fontSize: 40,
         marginTop: -20,
         color: '#FFFFFF',
         textShadowColor:'#333333',
@@ -67,6 +74,11 @@ var myStyles = React.StyleSheet.create({
     infoImage: {
         width: 50,
         height: 50,
+    },
+    forecastFlex: {
+        flex: 1,
+        flexDirection:'row',
+        marginTop: 35,
     },
     heading1: {
         height: 70,
