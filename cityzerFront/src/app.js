@@ -262,7 +262,7 @@ const styles = StyleSheet.create({
         width: 300,
         height: 300,
         marginTop: -70,
-        marginBottom: -40,
+        marginBottom: -30,
     },
     infoText: {
         fontSize: 25,
