@@ -7,13 +7,10 @@
     "test": "jest"
   },
   "dependencies": {
-    "moment": "^2.18.1",
+    "axios": "^0.16.2",
+    "kelvin-to-celsius": "^1.0.0",
     "react": "16.0.0-alpha.12",
-    "react-native": "0.48.3",
-    "react-native-button": "^2.1.0",
-    "react-native-extended-stylesheet": "^0.6.0",
-    "react-native-popup": "^0.6.1",
-    "react-native-simple-toast": "0.0.7"
+    "react-native": "0.48.3"
   },
   "devDependencies": {
     "babel-jest": "21.0.2",
