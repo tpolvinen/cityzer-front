@@ -5,7 +5,8 @@ import {
     StyleSheet,
     Text,
     View,
-    TouchableOpacity
+    TouchableOpacity,
+    AppState
 } from 'react-native';
 import axios from 'axios';
 
@@ -24,6 +25,7 @@ class App extends Component {
             rain: null,
             temperature: null,
             json: [],
+            appState: AppState.currentState
         };
         this.getWeather = this.getWeather.bind(this);
     }
@@ -60,14 +62,16 @@ class App extends Component {
     }
 
     componentDidMount() {
+        AppState.addEventListener('change', this._handleAppStateChange);
+
         navigator.geolocation.getCurrentPosition(
             (position) => {
-                const url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='+position.coords.latitude+','+position.coords.longitude+'&key=AIzaSyD-VCDRI-XxI1U-oz-5ujODryCQ1zSJi0U';
+                this.setState({ lon: position.coords.longitude, lat: position.coords.latitude });
+                const url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='+this.state.lat+','+this.state.lon+'&key=AIzaSyD-VCDRI-XxI1U-oz-5ujODryCQ1zSJi0U';
                 axios.get(url)
                     //.then(response => console.log(response.data)
                     .then(response => this.setState({ address: response.data.results[0].address_components[1].long_name , addressNo: response.data.results[0].address_components[0].long_name , suburb: response.data.results[2].address_components[0].long_name})
                     );
-
 
             },
             (error) => this.setState({ error: error.message }),
@@ -85,6 +89,29 @@ class App extends Component {
             });
 
 
+    }
+
+    componentWillUnmount() {
+        AppState.removeEventListener('change', this._handleAppStateChange);
+    }
+
+    _handleAppStateChange = (nextAppState) => {
+        if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+            console.log(this.state.appState);
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    this.setState({ lon: position.coords.longitude, lat: position.coords.latitude });
+                    const url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='+this.state.lat+','+this.state.lon+'&key=AIzaSyD-VCDRI-XxI1U-oz-5ujODryCQ1zSJi0U';
+                    axios.get(url)
+                        .then(response => this.setState(
+                            { address: response.data.results[0].address_components[1].long_name }));
+                },
+                (error) => this.setState({ error: error.message }),
+                { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+            );
+        }
+        this.setState({appState: nextAppState});
+        console.log(this.state.appState + ' ' + this.state.address);
     }
 
 
@@ -110,8 +137,9 @@ class App extends Component {
                 {/*main picture*/}
                 <Image
                     style={styles.mainImage}
-                    source={require('./img/suncloudraintwo.svg')}
+                    source={require('./img/cloudtest5.SVG.psd')}
                 />
+
 
                 {/*Flex table*/}
                 <View style={{flex: 1, flexDirection: 'row'}}>
@@ -204,10 +232,8 @@ const styles = StyleSheet.create({
         textShadowRadius: 4,
     },
     mainImage: {
-        width: 300,
-        height: 300,
-        marginBottom: -20,
-        marginTop: -50,
+        width: 225,
+        height: 225,
     },
     infoText: {
         fontSize: 25,
