@@ -20,6 +20,7 @@ class App extends Component {
             lon: null,
             error: null,
             address: null,
+            addressNo: null,
             suburb: null,
             rain: null,
             temperature: null,
@@ -92,8 +93,10 @@ class App extends Component {
                 this.setState({ lon: position.coords.longitude, lat: position.coords.latitude });
                 const url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='+this.state.lat+','+this.state.lon+'&key=AIzaSyD-VCDRI-XxI1U-oz-5ujODryCQ1zSJi0U';
                 axios.get(url)
-                    .then(response => this.setState(
-                        { address: response.data.results[0].address_components[1].long_name }));
+                    //.then(response => console.log(response.data)
+                    .then(response => this.setState({ address: response.data.results[0].address_components[1].long_name , addressNo: response.data.results[0].address_components[0].long_name , suburb: response.data.results[2].address_components[0].long_name})
+                    );
+
             },
             (error) => this.setState({ error: error.message }),
             { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
@@ -149,7 +152,8 @@ class App extends Component {
                         style={styles.location}
                         source={{uri:'https://i.imgur.com/K67wWwj.gif'}}
                     />
-                     {this.state.address}
+                     {this.state.address} {this.state.addressNo}{'\n'}
+                     {this.state.suburb}
                 </Text>
 
 
@@ -157,7 +161,9 @@ class App extends Component {
                 {/*main picture*/}
                 <Image
                     style={styles.mainImage}
+
                     source={{uri: this.state.imgSrc}}
+
                 />
 
 
@@ -252,8 +258,10 @@ const styles = StyleSheet.create({
         textShadowRadius: 4,
     },
     mainImage: {
-        width: 225,
-        height: 225,
+        width: 300,
+        height: 300,
+        marginTop: -70,
+        marginBottom: -40,
     },
     infoText: {
         fontSize: 25,
