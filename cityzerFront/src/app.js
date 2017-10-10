@@ -137,7 +137,7 @@ class App extends Component {
                 {/*main picture*/}
                 <Image
                     style={styles.mainImage}
-                    source={require('./img/cloudtest3.png')}
+                    source={require('./img/sun.png')}
                 />
 
 
@@ -232,8 +232,10 @@ const styles = StyleSheet.create({
         textShadowRadius: 4,
     },
     mainImage: {
-        width: 225,
-        height: 225,
+        width: 300,
+        height: 300,
+        marginTop: -70,
+        marginBottom: -40,
     },
     infoText: {
         fontSize: 25,
