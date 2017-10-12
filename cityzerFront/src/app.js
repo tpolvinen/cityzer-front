@@ -16,8 +16,8 @@ class App extends Component {
     constructor(props){
         super(props);
         this.state ={
-            lat: null,
-            lon: null,
+            lat: 60.201403,
+            lon: 24.933598,
             error: null,
             address: null,
             addressNo: null,
@@ -92,7 +92,7 @@ class App extends Component {
         console.log(typeof this.state.imgSrc)
         navigator.geolocation.getCurrentPosition(
             (position) => {
-                this.setState({ lon: position.coords.longitude, lat: position.coords.latitude });
+               // this.setState({ lon: position.coords.longitude, lat: position.coords.latitude });
                 const url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='+this.state.lat+','+this.state.lon+'&key=AIzaSyD-VCDRI-XxI1U-oz-5ujODryCQ1zSJi0U';
                 axios.get(url)
                     //.then(response => console.log(response.data)
@@ -171,9 +171,9 @@ class App extends Component {
                 {/*Flex table*/}
                 <View style={{flex: 1, flexDirection: 'row'}}>
                     <Text style={styles.infoText}>
-                        Celcius{'\n'}
+                        Temperature{'\n'}
                         <Text style={styles.info}>
-                            {this.state.temperature}°
+                            {this.state.temperature}°C
                         </Text>
                     </Text>
 
@@ -188,6 +188,10 @@ class App extends Component {
                     </Text>
                 </View>
 
+            <Text>
+                error: {this.state.error}
+
+            </Text>
                 {/*Timestamp*/}
                 <Text style={styles.timestamp}>
                     12:00
