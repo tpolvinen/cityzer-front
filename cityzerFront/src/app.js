@@ -9,6 +9,7 @@ import {
     AppState
 } from 'react-native';
 import axios from 'axios';
+import I18n from 'react-native-i18n'
 
 class App extends Component {
 
@@ -172,6 +173,7 @@ class App extends Component {
                 <View style={{flex: 1, flexDirection: 'row'}}>
                     <Text style={styles.infoText}>
                         Temperature{'\n'}
+
                         <Text style={styles.info}>
                             {this.state.temperature}°C
                         </Text>
@@ -180,7 +182,7 @@ class App extends Component {
 
 
                     <Text style={styles.infoText}>
-                        Rain{'\n'}
+                        {I18n.t('rain')}{'\n'}
                         {/*infoRain temporary*/}
                         <Text style={styles.infoRain}>
                             {this.state.rain}mm/h{'\n'}
@@ -201,7 +203,7 @@ class App extends Component {
                 <View style={{flex: 1, flexDirection: 'row'}}>
                 <TouchableOpacity onPress={this.getWeather.bind(this, '_')}>
                     <Text style={styles.heading1}>
-                       Weather Now
+                        {I18n.t('now')}
                     </Text>
                 </TouchableOpacity>
                 </View>
@@ -232,6 +234,21 @@ class App extends Component {
             </View>
 
         );
+    }
+}
+
+I18n.fallbacks = true
+
+I18n.translations = {
+    en: {
+        temp: 'Temperature',
+        rain: 'Rain',
+        now: 'Weather now'
+    },
+    fi: {
+        temp: 'Lämpötila',
+        rain: 'Sade',
+        now: 'Sää nyt'
     }
 }
 
