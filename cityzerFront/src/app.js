@@ -89,7 +89,6 @@ class App extends Component {
     componentDidMount() {
         this.imgSrc = require('./img/sun.png');
         AppState.addEventListener('change', this._handleAppStateChange);
-        console.log(typeof this.state.imgSrc)
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 this.setState({ lon: position.coords.longitude, lat: position.coords.latitude });
