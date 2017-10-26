@@ -6,7 +6,8 @@ import {
     Text,
     View,
     TouchableOpacity,
-    AppState
+    AppState,
+    Platform
 } from 'react-native';
 import axios from 'axios';
 import I18n from 'react-native-i18n'
@@ -96,7 +97,7 @@ class App extends Component {
                 this.setState({
                     json: response.data,
                     rain: parseFloat(response.data.precipitation_amount_353).toFixed(2),
-                    temperature: this.KtoC(response.data.air_temperature_4)});
+                    temperature: this.KtoC((response.data.air_temperature_4).toFixed(2))});
                 console.log(this.state);
             });
     }
@@ -256,7 +257,7 @@ I18n.translations = {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: 20,
+        marginTop: (Platform.OS === 'ios') ? 20 : 0,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#DAECF8',
