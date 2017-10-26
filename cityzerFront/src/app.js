@@ -39,7 +39,7 @@ class App extends Component {
         const kelvinToCelsius = require('kelvin-to-celsius');
         let temp = parseFloat(kelvin);
         console.log(temp);
-        temp = kelvinToCelsius(temp);
+        //temp = kelvinToCelsius(temp);
         console.log(temp);
         //let temps = toString(temp);
         return temp.toString();
@@ -90,7 +90,7 @@ class App extends Component {
             }
     }
     urlCall() {
-        const url = 'http://128.199.61.201/api/weather.json';
+        const url = 'http://128.199.61.201:8080/cityzer-0.0.1-SNAPSHOT/api/getWeather?time=0&lat=60.0&lon=20.0';
         axios.get(url)
             .then(response => {
                 this.setState({
@@ -107,7 +107,7 @@ class App extends Component {
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 this.setState({ lon: position.coords.longitude, lat: position.coords.latitude });
-                const url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='+this.state.lat+','+this.state.lon+'&key=AIzaSyD-VCDRI-XxI1U-oz-5ujODryCQ1zSJi0U';
+                const url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='+this.state.lat+','+this.state.lon+'&key=AIzaSyD-VCDRI-XxI1U-oz-5ujODryCQ1zSJi0U&language=fin';
                 axios.get(url)
                     //.then(response => console.log(response.data)
                     .then(response => this.setState({ address: response.data.results[0].address_components[1].long_name , addressNo: response.data.results[0].address_components[0].long_name , suburb: response.data.results[2].address_components[0].long_name})
@@ -120,7 +120,6 @@ class App extends Component {
 
         this.urlCall();
 
-
     }
 
     componentWillUnmount() {
@@ -129,7 +128,7 @@ class App extends Component {
 
     _handleAppStateChange = (nextAppState) => {
         if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
-            console.log(this.state.appState);
+            //console.log(this.state.appState);
             navigator.geolocation.getCurrentPosition(
                 (position) => {
                     this.setState({ lon: position.coords.longitude, lat: position.coords.latitude });
@@ -143,7 +142,7 @@ class App extends Component {
             );
         }
         this.setState({appState: nextAppState});
-        console.log(this.state.appState + ' ' + this.state.address);
+        //console.log(this.state.appState + ' ' + this.state.address);
     }
 
 
