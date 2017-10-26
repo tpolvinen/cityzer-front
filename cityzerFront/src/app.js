@@ -68,23 +68,37 @@ class App extends Component {
 
 
     getWeather(i) {
-        const rain = parseFloat(this.state.json.precipitation_amount_353_1h).toFixed(2);
+        this.urlCall()
+        const rain = parseFloat(this.state.json.precipitation_amount_353).toFixed(2);
+        const rain1 = parseFloat(this.state.json.precipitation_amount_353_1h).toFixed(2);
         const rain2 = parseFloat(this.state.json.precipitation_amount_353_2h).toFixed(2);
         const rain3 = parseFloat(this.state.json.precipitation_amount_353_3h).toFixed(2);
         let temperature = '';
         let imgSrc = '';
             switch (i) {
+                case '0':
+                    return this.setState({rain: rain, imgSrc: this.weatherState(rain), temperature: this.KtoC(this.state.json.air_temperature_4)});
                 case '1':
-                    return this.setState({rain: rain, imgSrc: this.weatherState(rain), temperature: this.KtoC(this.state.json.air_temperature_4_1h)});
+                    return this.setState({rain: rain, imgSrc: this.weatherState(rain1), temperature: this.KtoC(this.state.json.air_temperature_4_1h)});
                 case '2':
                     let temperature = this.KtoC(this.state.json.air_temperature_4_2h);
-                    console.log(typeof temperature +' '+ temperature);
                     return (this.setState({rain: rain2, imgSrc: this.weatherState(rain2), temperature: temperature}));
                 case '3':
                     return this.setState({rain: rain3, imgSrc: this.weatherState(rain3), temperature: this.KtoC(this.state.json.air_temperature_4_3h)});
                 default:
                     this.setState({rain: parseFloat(this.state.json.precipitation_amount_353).toFixed(2), temperature: this.KtoC(this.state.json.air_temperature_4), imgSrc: this.weatherState(parseFloat(this.state.json.precipitation_amount_353).toFixed(2))});
             }
+    }
+    urlCall() {
+        const url = 'http://128.199.61.201/api/weather.json';
+        axios.get(url)
+            .then(response => {
+                this.setState({
+                    json: response.data,
+                    rain: parseFloat(response.data.precipitation_amount_353).toFixed(2),
+                    temperature: this.KtoC(response.data.air_temperature_4)});
+                console.log(this.state);
+            });
     }
 
     componentDidMount() {
@@ -104,15 +118,7 @@ class App extends Component {
             { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
         );
 
-        const url1 = 'http://128.199.61.201/api/weather.json';
-        axios.get(url1)
-            .then(response => {
-                this.setState({
-                    json: response.data,
-                    rain: parseFloat(response.data.precipitation_amount_353).toFixed(2),
-                    temperature: this.KtoC(response.data.air_temperature_4)});
-                console.log(this.state);
-            });
+        this.urlCall();
 
 
     }
@@ -195,7 +201,7 @@ class App extends Component {
 
 
                 <View style={{flex: 1, flexDirection: 'row'}}>
-                <TouchableOpacity onPress={this.getWeather.bind(this, '_')}>
+                <TouchableOpacity onPress={this.getWeather.bind(this, '0')}>
                     <Text style={styles.heading1}>
                         {I18n.t('now')}
                     </Text>
