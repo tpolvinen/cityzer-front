@@ -17,8 +17,8 @@ class App extends Component {
     constructor(props){
         super(props);
         this.state ={
-            lat: null,
-            lon: null,
+            lat: 60.201403,
+            lon: 24.933598,
             error: null,
             address: null,
             addressNo: null,
@@ -92,10 +92,14 @@ class App extends Component {
         const url = 'http://128.199.61.201/api/weather.json';
         axios.get(url)
             .then(response => {
-                this.setState({
-                    json: response.data
+                if (this.state.rain == null) {
+                    this.setState({
+                        json: response.data,
+                        rain: response.data.precipitation_amount_353,
+                        temperature: this.KtoC(response.data.air_temperature_4)
                     });
-                console.log(this.state);
+                    console.log(this.state);
+                }
             });
     }
 
@@ -104,8 +108,8 @@ class App extends Component {
         AppState.addEventListener('change', this._handleAppStateChange);
         navigator.geolocation.getCurrentPosition(
             (position) => {
-                this.setState({ lon: position.coords.longitude, lat: position.coords.latitude });
-                const url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='+this.state.lat+','+this.state.lon+'&key=AIzaSyD-VCDRI-XxI1U-oz-5ujODryCQ1zSJi0U&language=fin';
+               // this.setState({ lon: position.coords.longitude, lat: position.coords.latitude });
+                const url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='+this.state.lat+','+this.state.lon+'&key=AIzaSyD-VCDRI-XxI1U-oz-5ujODryCQ1zSJi0U';
                 axios.get(url)
                     //.then(response => console.log(response.data)
                     .then(response => this.setState({ address: response.data.results[0].address_components[1].long_name , addressNo: response.data.results[0].address_components[0].long_name , suburb: response.data.results[2].address_components[0].long_name})
@@ -118,6 +122,7 @@ class App extends Component {
 
         this.urlCall();
 
+
     }
 
     componentWillUnmount() {
@@ -126,7 +131,7 @@ class App extends Component {
 
     _handleAppStateChange = (nextAppState) => {
         if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
-            //console.log(this.state.appState);
+            console.log(this.state.appState);
             navigator.geolocation.getCurrentPosition(
                 (position) => {
                     this.setState({ lon: position.coords.longitude, lat: position.coords.latitude });
@@ -140,7 +145,7 @@ class App extends Component {
             );
         }
         this.setState({appState: nextAppState});
-        //console.log(this.state.appState + ' ' + this.state.address);
+        console.log(this.state.appState + ' ' + this.state.address);
     }
 
     render() {
@@ -167,11 +172,11 @@ class App extends Component {
                 />
 
                 {/*Flex table*/}
-                <View style={{flex: 1, flexDirection: 'row'}}>
-                    <Text style={styles.infoText}>
-                        {I18n.t('temp')}{'\n'}
-                        <Text style={styles.info}>
-                            {this.state.temperature}°
+            <Text style={styles.infoText}>
+                {I18n.t('temp')}{'\n'}
+                <Text style={styles.info}>
+                    {this.state.temperature}°
+
                         </Text>
                     </Text>
 
@@ -183,6 +188,7 @@ class App extends Component {
                         </Text>
                     </Text>
                 </View>
+
 
                 {/*Timestamp*/}
                 <Text style={styles.timestamp}>
