@@ -11,6 +11,8 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import I18n from 'react-native-i18n'
+import ScaleSheet from 'react-native-scalesheet';
+
 
 class App extends Component {
 
@@ -39,7 +41,7 @@ class App extends Component {
         const kelvinToCelsius = require('kelvin-to-celsius');
         let temp = parseFloat(kelvin);
         console.log(temp);
-        temp = kelvinToCelsius(temp);
+        /*temp = kelvinToCelsius(temp);*/
         console.log(temp);
         //let temps = toString(temp);
         return temp.toString();
@@ -112,7 +114,7 @@ class App extends Component {
                     );
 
             },
-            (error) => this.setState({ error: error.message }),
+            (error) => this.setState({ address: "Paikannus ei onnistunut\nsää Helsingissä", lat:"24.940922", lon:"60.168630"}),
             { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
         );
 
@@ -135,7 +137,7 @@ class App extends Component {
                         .then(response => this.setState(
                             { address: response.data.results[0].address_components[1].long_name }));
                 },
-                (error) => this.setState({ error: error.message }),
+                (error) => this.setState({ address: "Paikannus ei onnistunut \nsää Helsingissä" }),
                 { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
             );
         }
@@ -147,12 +149,12 @@ class App extends Component {
 
         return (
 
-        <View style={styles.container}>
+        <View style={[styles.container, {flex:1}, stylesScale.container]}>
 
                 {/*Address and get location button*/}
                 <Text style={styles.welcome}>
                     <Image
-                        style={styles.location}
+                        style={[styles.location, stylesScale.location]}
                         source={{uri:'https://i.imgur.com/K67wWwj.gif'}}
                     />
                      {this.state.address} {this.state.addressNo}{'\n'}
@@ -168,14 +170,14 @@ class App extends Component {
 
                 {/*Flex table*/}
                 <View style={{flex: 1, flexDirection: 'row'}}>
-                    <Text style={styles.infoText}>
+                    <Text style={[styles.infoText, stylesScale.infoText]}>
                         {I18n.t('temp')}{'\n'}
                         <Text style={styles.info}>
                             {this.state.temperature}°
                         </Text>
                     </Text>
 
-                    <Text style={styles.infoText}>
+                    <Text style={[styles.infoText, stylesScale.infoText]}>
                         {I18n.t('rain')}{'\n'}
                         {/*infoRain temporary*/}
                         <Text style={styles.infoRain}>
@@ -185,35 +187,35 @@ class App extends Component {
                 </View>
 
                 {/*Timestamp*/}
-                <Text style={styles.timestamp}>
+                <Text style={[styles.timestamp, stylesScale.timestamp]}>
                     12:00
                 </Text>
 
 
                 <View style={{flex: 1, flexDirection: 'row'}}>
                 <TouchableOpacity onPress={this.getWeather.bind(this, '0')}>
-                    <Text style={styles.heading1}>
+                    <Text style={[styles.heading1, stylesScale.heading]}>
                         {I18n.t('now')}
                     </Text>
                 </TouchableOpacity>
                 </View>
 
                 {/*Button for estimates*/}
-                <View style={{flex: 1, flexDirection: 'row'}}>
+                <View style={[{flex: 1, flexDirection: 'row'}, stylesScale.buttons]}>
                     <TouchableOpacity onPress={this.getWeather.bind(this, '1')}>
-                        <Text style={styles.heading1}>
+                        <Text style={[styles.heading1, stylesScale.heading1]}>
                             1H
                         </Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={this.getWeather.bind(this, '2')}>
-                    <Text style={styles.heading2}>
+                    <Text style={[styles.heading2, stylesScale.heading2]}>
                         2H
                     </Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={this.getWeather.bind(this, '3')}>
-                    <Text style={styles.heading3}>
+                    <Text style={[styles.heading3, stylesScale.heading3]}>
                         3H
                     </Text>
                     </TouchableOpacity>
@@ -242,6 +244,85 @@ I18n.translations = {
         now: 'Väder nu'
     }
 }
+
+const stylesScale = ScaleSheet.create({
+    container: {
+        // 82.5% of the devices width, can also be written as '82.5vw'
+        width: 100 + 'vw',
+
+        // 57% of the devices height, can also be written as 57vh
+        height: 100 + 'vh',
+
+
+    },
+    location: {
+        // 82.5% of the devices width, can also be written as '82.5vw'
+        width: 5 + 'vw',
+
+        // 57% of the devices height, can also be written as 57vh
+        height: 5 + 'vh',
+    },
+    mainImage: {
+        // 82.5% of the devices width, can also be written as '82.5vw'
+        width: 25 + 'vw',
+
+        // 57% of the devices height, can also be written as 57vh
+        height: 25 + 'vh',
+    },
+
+    infoImage: {
+        // 82.5% of the devices width, can also be written as '82.5vw'
+        width: 15 + 'vw',
+
+        // 57% of the devices height, can also be written as 57vh
+        height: 15 + 'vh',
+    },
+    timestamp: {
+        // 82.5% of the devices width, can also be written as '82.5vw'
+        width: 1 + 'vw',
+
+        // 57% of the devices height, can also be written as 57vh
+        height: 1 + 'vh',
+    },
+    buttons: {
+        marginBottom: 3 +'vh'
+    },
+    heading1: {
+        // 82.5% of the devices width, can also be written as '82.5vw'
+        width: 50 + 'vw',
+
+        // 57% of the devices height, can also be written as 57vh
+
+    },
+    heading1: {
+        // 82.5% of the devices width, can also be written as '82.5vw'
+        width: 30 + 'vw',
+
+        // 57% of the devices height, can also be written as 57vh
+
+
+
+    },
+    heading2: {
+        // 82.5% of the devices width, can also be written as '82.5vw'
+        width: 30 + 'vw',
+
+        // 57% of the devices height, can also be written as 57vh
+
+
+
+    },
+    heading3: {
+        // 82.5% of the devices width, can also be written as '82.5vw'
+        width: 30 + 'vw',
+
+        // 57% of the devices height, can also be written as 57vh
+
+
+
+
+    }
+});
 
 const styles = StyleSheet.create({
     container: {
@@ -308,8 +389,9 @@ const styles = StyleSheet.create({
         height: 50,
     },
     heading1: {
-        fontSize: 30,
-        marginTop: 30,
+        fontSize: 15,
+        marginTop: 10,
+        marginBottom: 10,
         borderWidth: 4,
         borderRadius: 10,
         marginLeft: 2,
@@ -324,8 +406,9 @@ const styles = StyleSheet.create({
         backgroundColor:'#b0e0e6',
     },
     heading2: {
-        fontSize: 30,
-        marginTop: 30,
+        fontSize: 15,
+        marginTop: 10,
+        marginBottom: 10,
         borderWidth: 4,
         borderRadius: 10,
         marginLeft: 2,
@@ -340,8 +423,9 @@ const styles = StyleSheet.create({
         backgroundColor:'#87ceeb',
     },
     heading3: {
-        fontSize: 30,
-        marginTop: 30,
+        fontSize: 15,
+        marginTop: 10,
+        marginBottom: 10,
         borderWidth: 4,
         borderRadius: 10,
         marginLeft: 2,
@@ -356,4 +440,5 @@ const styles = StyleSheet.create({
         backgroundColor:'#4682b4',
     },
 });
+
 export default App;
