@@ -13,7 +13,6 @@ import I18n from 'react-native-i18n'
 
 class App extends Component {
 
-
     constructor(props){
         super(props);
         this.state ={
@@ -66,7 +65,6 @@ class App extends Component {
         return imgSrc;
     }
 
-
     getWeather(i) {
         const rain = parseFloat(this.state.json.precipitation_amount_353_1h).toFixed(2);
         const rain2 = parseFloat(this.state.json.precipitation_amount_353_2h).toFixed(2);
@@ -106,6 +104,7 @@ class App extends Component {
         );
 
         const url1 = 'http://128.199.61.201:8080/cityzer-0.0.1-SNAPSHOT/api/getWeather?time=0&lat=60.0&lon=20.0';
+
         axios.get(url1)
             .then(response => {
                 this.setState({
@@ -141,11 +140,9 @@ class App extends Component {
         //console.log(this.state.appState + ' ' + this.state.address);
     }
 
-
     render() {
 
         return (
-
 
         <View style={styles.container}>
 
@@ -159,15 +156,12 @@ class App extends Component {
                      {this.state.suburb}
                 </Text>
 
-
-
                 {/*main picture*/}
                 <Image
                     style={styles.mainImage}
                     source={this.imgSrc}
 
                 />
-
 
                 {/*Flex table*/}
                 <View style={{flex: 1, flexDirection: 'row'}}>
@@ -177,8 +171,6 @@ class App extends Component {
                             {this.state.temperature}°
                         </Text>
                     </Text>
-
-
 
                     <Text style={styles.infoText}>
                         {I18n.t('rain')}{'\n'}
@@ -223,11 +215,7 @@ class App extends Component {
                     </Text>
                     </TouchableOpacity>
                 </View>
-
-
-
             </View>
-
         );
     }
 }
@@ -244,10 +232,13 @@ I18n.translations = {
         temp: 'Lämpötila',
         rain: 'Sade',
         now: 'Sää nyt'
+    },
+    sv: {
+        temp: 'Temperatur',
+        rain: 'Regn',
+        now: 'Väder nu'
     }
 }
-
-
 
 const styles = StyleSheet.create({
     container: {
@@ -314,45 +305,48 @@ const styles = StyleSheet.create({
         height: 50,
     },
     heading1: {
-        fontSize: 50,
+        fontSize: 30,
         marginTop: 30,
         borderWidth: 4,
         borderRadius: 10,
         marginLeft: 2,
         marginRight: 2,
-        paddingTop: 10,
-        paddingLeft: 1,
-        paddingRight: 1,
+        paddingTop: 20,
+        paddingBottom: 20,
+        paddingLeft: 20,
+        paddingRight: 20,
         overflow: 'hidden',
         textAlign: 'center',
         borderColor:'#ffffff',
         backgroundColor:'#b0e0e6',
     },
     heading2: {
-        fontSize: 50,
+        fontSize: 30,
         marginTop: 30,
         borderWidth: 4,
         borderRadius: 10,
         marginLeft: 2,
         marginRight: 2,
-        paddingTop: 10,
-        paddingLeft: 1,
-        paddingRight: 1,
+        paddingTop: 20,
+        paddingBottom: 20,
+        paddingLeft: 20,
+        paddingRight: 20,
         overflow: 'hidden',
         textAlign: 'center',
         borderColor:'#ffffff',
         backgroundColor:'#87ceeb',
     },
     heading3: {
-        fontSize: 50,
+        fontSize: 30,
         marginTop: 30,
         borderWidth: 4,
         borderRadius: 10,
         marginLeft: 2,
         marginRight: 2,
-        paddingTop: 10,
-        paddingLeft: 1,
-        paddingRight: 1,
+        paddingTop: 20,
+        paddingBottom: 20,
+        paddingLeft: 20,
+        paddingRight: 20,
         overflow: 'hidden',
         textAlign: 'center',
         borderColor:'#ffffff',
