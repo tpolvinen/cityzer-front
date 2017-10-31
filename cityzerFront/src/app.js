@@ -60,7 +60,7 @@ class App extends Component {
 //sataa
         } else {
             this.imgSrc = require('./img/cloudrainthree.png')
-//Sataa paljon
+//Sataa paljon vettä
         }
         console.log(imgSrc);
         return imgSrc;
