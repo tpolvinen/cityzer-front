@@ -92,10 +92,14 @@ class App extends Component {
         const url = 'http://128.199.61.201/api/weather.json';
         axios.get(url)
             .then(response => {
-                this.setState({
-                    json: response.data
+                if (this.state.rain == null) {
+                    this.setState({
+                        json: response.data,
+                        rain: response.data.precipitation_amount_353,
+                        temperature: this.KtoC(response.data.air_temperature_4)
                     });
-                console.log(this.state);
+                    console.log(this.state);
+                }
             });
     }
 
