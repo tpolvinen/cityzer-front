@@ -172,6 +172,7 @@ class App extends Component {
                 />
 
                 {/*Flex table*/}
+            <View style={{flex: 1, flexDirection: 'row'}}>
             <Text style={styles.infoText}>
                 {I18n.t('temp')}{'\n'}
                 <Text style={styles.info}>
