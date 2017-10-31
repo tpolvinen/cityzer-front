@@ -186,10 +186,7 @@ class App extends Component {
                     </Text>
                 </View>
 
-            <Text>
-                error: {this.state.error}
 
-            </Text>
                 {/*Timestamp*/}
                 <Text style={styles.timestamp}>
                     12:00
