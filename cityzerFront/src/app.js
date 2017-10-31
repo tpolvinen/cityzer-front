@@ -40,7 +40,7 @@ class App extends Component {
         const kelvinToCelsius = require('kelvin-to-celsius');
         let temp = parseFloat(kelvin);
         console.log(temp);
-        //temp = kelvinToCelsius(temp);
+        temp = kelvinToCelsius(temp);
         console.log(temp);
         //let temps = toString(temp);
         return temp.toString();
@@ -91,13 +91,12 @@ class App extends Component {
             }
     }
     urlCall() {
-        const url = 'http://128.199.61.201:8080/cityzer-0.0.1-SNAPSHOT/api/getWeather?time=0&lat=60.0&lon=20.0';
+        const url = 'http://128.199.61.201/api/weather.json';
         axios.get(url)
             .then(response => {
                 this.setState({
-                    json: response.data,
-                    rain: parseFloat(response.data.precipitation_amount_353).toFixed(2),
-                    temperature: this.KtoC((response.data.air_temperature_4).toFixed(2))});
+                    json: response.data
+                    });
                 console.log(this.state);
             });
     }
