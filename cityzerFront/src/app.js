@@ -6,13 +6,13 @@ import {
     Text,
     View,
     TouchableOpacity,
-    AppState
+    AppState,
+    Platform
 } from 'react-native';
 import axios from 'axios';
 import I18n from 'react-native-i18n'
 
 class App extends Component {
-
 
     constructor(props){
         super(props);
@@ -66,19 +66,21 @@ class App extends Component {
         return imgSrc;
     }
 
-
     getWeather(i) {
-        const rain = parseFloat(this.state.json.precipitation_amount_353_1h).toFixed(2);
+        this.urlCall()
+        const rain = parseFloat(this.state.json.precipitation_amount_353).toFixed(2);
+        const rain1 = parseFloat(this.state.json.precipitation_amount_353_1h).toFixed(2);
         const rain2 = parseFloat(this.state.json.precipitation_amount_353_2h).toFixed(2);
         const rain3 = parseFloat(this.state.json.precipitation_amount_353_3h).toFixed(2);
         let temperature = '';
         let imgSrc = '';
             switch (i) {
+                case '0':
+                    return this.setState({rain: rain, imgSrc: this.weatherState(rain), temperature: this.KtoC(this.state.json.air_temperature_4)});
                 case '1':
-                    return this.setState({rain: rain, imgSrc: this.weatherState(rain), temperature: this.KtoC(this.state.json.air_temperature_4_1h)});
+                    return this.setState({rain: rain, imgSrc: this.weatherState(rain1), temperature: this.KtoC(this.state.json.air_temperature_4_1h)});
                 case '2':
                     let temperature = this.KtoC(this.state.json.air_temperature_4_2h);
-                    console.log(typeof temperature +' '+ temperature);
                     return (this.setState({rain: rain2, imgSrc: this.weatherState(rain2), temperature: temperature}));
                 case '3':
                     return this.setState({rain: rain3, imgSrc: this.weatherState(rain3), temperature: this.KtoC(this.state.json.air_temperature_4_3h)});
@@ -86,11 +88,20 @@ class App extends Component {
                     this.setState({rain: parseFloat(this.state.json.precipitation_amount_353).toFixed(2), temperature: this.KtoC(this.state.json.air_temperature_4), imgSrc: this.weatherState(parseFloat(this.state.json.precipitation_amount_353).toFixed(2))});
             }
     }
+    urlCall() {
+        const url = 'http://128.199.61.201/api/weather.json';
+        axios.get(url)
+            .then(response => {
+                this.setState({
+                    json: response.data
+                    });
+                console.log(this.state);
+            });
+    }
 
     componentDidMount() {
         this.imgSrc = require('./img/sun.png');
         AppState.addEventListener('change', this._handleAppStateChange);
-        console.log(typeof this.state.imgSrc)
         navigator.geolocation.getCurrentPosition(
             (position) => {
                // this.setState({ lon: position.coords.longitude, lat: position.coords.latitude });
@@ -105,15 +116,7 @@ class App extends Component {
             { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
         );
 
-        const url1 = 'http://128.199.61.201/api/weather.json';
-        axios.get(url1)
-            .then(response => {
-                this.setState({
-                    json: response.data,
-                    rain: parseFloat(response.data.precipitation_amount_353).toFixed(2),
-                    temperature: this.KtoC(response.data.air_temperature_4)});
-                console.log(this.state);
-            });
+        this.urlCall();
 
 
     }
@@ -141,11 +144,9 @@ class App extends Component {
         console.log(this.state.appState + ' ' + this.state.address);
     }
 
-
     render() {
 
         return (
-
 
         <View style={styles.container}>
 
@@ -159,15 +160,12 @@ class App extends Component {
                      {this.state.suburb}
                 </Text>
 
-
-
                 {/*main picture*/}
                 <Image
                     style={styles.mainImage}
                     source={this.imgSrc}
 
                 />
-
 
                 {/*Flex table*/}
                 <View style={{flex: 1, flexDirection: 'row'}}>
@@ -178,8 +176,6 @@ class App extends Component {
                             {this.state.temperature}°C
                         </Text>
                     </Text>
-
-
 
                     <Text style={styles.infoText}>
                         {I18n.t('rain')}{'\n'}
@@ -201,7 +197,7 @@ class App extends Component {
 
 
                 <View style={{flex: 1, flexDirection: 'row'}}>
-                <TouchableOpacity onPress={this.getWeather.bind(this, '_')}>
+                <TouchableOpacity onPress={this.getWeather.bind(this, '0')}>
                     <Text style={styles.heading1}>
                         {I18n.t('now')}
                     </Text>
@@ -228,11 +224,7 @@ class App extends Component {
                     </Text>
                     </TouchableOpacity>
                 </View>
-
-
-
             </View>
-
         );
     }
 }
@@ -249,15 +241,18 @@ I18n.translations = {
         temp: 'Lämpötila',
         rain: 'Sade',
         now: 'Sää nyt'
+    },
+    sv: {
+        temp: 'Temperatur',
+        rain: 'Regn',
+        now: 'Väder nu'
     }
 }
-
-
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: 20,
+        marginTop: (Platform.OS === 'ios') ? 20 : 0,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#DAECF8',
@@ -319,45 +314,48 @@ const styles = StyleSheet.create({
         height: 50,
     },
     heading1: {
-        fontSize: 50,
+        fontSize: 30,
         marginTop: 30,
         borderWidth: 4,
         borderRadius: 10,
         marginLeft: 2,
         marginRight: 2,
-        paddingTop: 10,
-        paddingLeft: 1,
-        paddingRight: 1,
+        paddingTop: 20,
+        paddingBottom: 20,
+        paddingLeft: 20,
+        paddingRight: 20,
         overflow: 'hidden',
         textAlign: 'center',
         borderColor:'#ffffff',
         backgroundColor:'#b0e0e6',
     },
     heading2: {
-        fontSize: 50,
+        fontSize: 30,
         marginTop: 30,
         borderWidth: 4,
         borderRadius: 10,
         marginLeft: 2,
         marginRight: 2,
-        paddingTop: 10,
-        paddingLeft: 1,
-        paddingRight: 1,
+        paddingTop: 20,
+        paddingBottom: 20,
+        paddingLeft: 20,
+        paddingRight: 20,
         overflow: 'hidden',
         textAlign: 'center',
         borderColor:'#ffffff',
         backgroundColor:'#87ceeb',
     },
     heading3: {
-        fontSize: 50,
+        fontSize: 30,
         marginTop: 30,
         borderWidth: 4,
         borderRadius: 10,
         marginLeft: 2,
         marginRight: 2,
-        paddingTop: 10,
-        paddingLeft: 1,
-        paddingRight: 1,
+        paddingTop: 20,
+        paddingBottom: 20,
+        paddingLeft: 20,
+        paddingRight: 20,
         overflow: 'hidden',
         textAlign: 'center',
         borderColor:'#ffffff',
