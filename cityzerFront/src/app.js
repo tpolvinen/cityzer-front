@@ -191,10 +191,6 @@ class App extends Component {
                 </View>
 
 
-                {/*Timestamp*/}
-                <Text style={styles.timestamp}>
-                    12:00
-                </Text>
 
 
                 <View style={{flex: 1, flexDirection: 'row'}}>
