@@ -111,7 +111,8 @@ class App extends Component {
         navigator.geolocation.getCurrentPosition(
             (position) => {
                // this.setState({ lon: position.coords.longitude, lat: position.coords.latitude });
-                const url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='+this.state.lat+','+this.state.lon+'&key=AIzaSyD-VCDRI-XxI1U-oz-5ujODryCQ1zSJi0U';
+               const url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='+this.state.lat+','+this.state.lon+'&key=AIzaSyD-VCDRI-XxI1U-oz-5ujODryCQ1zSJi0U&language='+I18n.t('lang')+'&region='+I18n.t('lang');
+               // const url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='+this.state.lat+','+this.state.lon+'&key=AIzaSyD-VCDRI-XxI1U-oz-5ujODryCQ1zSJi0U&language=FI&region=FI';
                 axios.get(url)
                     //.then(response => console.log(response.data)
                     .then(response => this.setState({ address: response.data.results[0].address_components[1].long_name , addressNo: response.data.results[0].address_components[0].long_name , suburb: response.data.results[2].address_components[0].long_name})
@@ -154,7 +155,7 @@ class App extends Component {
 
         return (
 
-        <View style={[styles.container, {flex:1}, stylesScale.container]}>
+                    <View style={[styles.container, {flex:1}, stylesScale.container]}>
 
                 {/*Address and get location button*/}
                 <Text style={styles.welcome}>
@@ -162,8 +163,8 @@ class App extends Component {
                         style={[styles.location, stylesScale.location]}
                         source={{uri:'https://i.imgur.com/K67wWwj.gif'}}
                     />
-                     {this.state.address} {this.state.addressNo}{'\n'}
-                     {this.state.suburb}
+                     {' '+this.state.address} {this.state.addressNo} {'\n'}
+                     {this.state.suburb} {'\n\n'}
                 </Text>
 
                 {/*main picture*/}
@@ -238,17 +239,20 @@ I18n.translations = {
     en: {
         temp: 'Temperature',
         rain: 'Rain',
-        now: 'Weather now'
+        now: 'Weather now',
+        lang: 'FI'
     },
     fi: {
         temp: 'Lämpötila',
         rain: 'Sade',
-        now: 'Sää nyt'
+        now: 'Sää nyt',
+        lang: 'FI'
     },
     sv: {
         temp: 'Temperatur',
         rain: 'Regn',
-        now: 'Väder nu'
+        now: 'Väder nu',
+        lang: 'SV'
     }
 }
 
