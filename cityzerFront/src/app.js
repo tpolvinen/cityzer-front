@@ -150,7 +150,7 @@ class App extends Component {
                         .then(response => this.setState(
                             { address: response.data.results[0].address_components[1].long_name }));
                 },
-                (error) => this.setState({ address: "Paikannus ei onnistunut \nsää Helsingissä" }),
+                (error) => this.setState({ address: "Paikannus ei onnistunut \nSää Helsingissä" }),
                 { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
             );
         }
@@ -187,7 +187,7 @@ class App extends Component {
                     <Text style={[styles.infoText, stylesScale.infoText]}>
                         {I18n.t('temp')}{'\n'}
                         <Text style={styles.info}>
-                            {this.state.temperature}°
+                            {this.state.temperature}°C
                         </Text>
                     </Text>
 
@@ -195,7 +195,7 @@ class App extends Component {
                         {I18n.t('rain')}{'\n'}
                         {/*infoRain temporary*/}
                         <Text style={styles.infoRain}>
-                            {this.state.rain}mm/h{'\n'}
+                            {this.state.rain} mm/h{'\n'}
                         </Text>
                     </Text>
                 </View>
@@ -215,19 +215,19 @@ class App extends Component {
                 <View style={[{flex: 1, flexDirection: 'row'}, stylesScale.buttons]}>
                     <TouchableOpacity onPress={this.getWeather.bind(this, '1')}>
                         <Text style={[styles.heading1, stylesScale.heading1]}>
-                            1H
+                            1h
                         </Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={this.getWeather.bind(this, '2')}>
                     <Text style={[styles.heading2, stylesScale.heading2]}>
-                        2H
+                        2h
                     </Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={this.getWeather.bind(this, '3')}>
                     <Text style={[styles.heading3, stylesScale.heading3]}>
-                        3H
+                        3h
                     </Text>
                     </TouchableOpacity>
                 </View>
