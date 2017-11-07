@@ -7,7 +7,8 @@ import {
     View,
     TouchableOpacity,
     AppState,
-    Platform
+    Platform,
+    ImageBackground
 } from 'react-native';
 import axios from 'axios';
 import I18n from 'react-native-i18n'
@@ -29,7 +30,8 @@ class App extends Component {
             temperature: null,
             json: [],
             appState: AppState.currentState,
-            imgSrc: ''
+            imgSrc: '',
+            bgImg: ''
         };
         this.getWeather = this.getWeather.bind(this);
         this.weatherState = this.weatherState.bind(this);
@@ -41,7 +43,8 @@ class App extends Component {
         const kelvinToCelsius = require('kelvin-to-celsius');
         let temp = parseFloat(kelvin);
         console.log(temp);
-        /*temp = kelvinToCelsius(temp);*/
+        temp = kelvinToCelsius(temp);
+        temp = parseFloat(temp).toFixed(2);
         console.log(temp);
         //let temps = toString(temp);
         return temp.toString();
@@ -52,16 +55,20 @@ class App extends Component {
         let imgSrc = '';
 
         if (x <= 0.3) {
-            this.imgSrc = require('./img/sun.png')
+            this.imgSrc = require('./img/sun.png');
+            this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun.jpg');
 //Aurinkoinen sää
         } else if (x >= 0.31 && x <= 0.9) {
-            this.imgSrc = require('./img/cloudrain.png')
+            this.imgSrc = require('./img/cloudrain.png');
+            this.bgImg = require('./img/blurbag/blue-blurred-background.jpg');
 //tihkuaa
         } else if (x >= 0.91 && x <= 4.4) {
             this.imgSrc = require('./img/cloudraintwo.png')
+            this.bgImg = require('./img/blurbag/blue-blurred-background.jpg');
 //sataa
         } else {
             this.imgSrc = require('./img/cloudrainthree.png')
+            this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundDark.jpg');
 //Sataa paljon vettä
         }
         console.log(imgSrc);
@@ -154,7 +161,7 @@ class App extends Component {
     render() {
 
         return (
-
+            <ImageBackground source={this.bgImg} style={styles.backgroundImage} >
                     <View style={[styles.container, {flex:1}, stylesScale.container]}>
 
                 {/*Address and get location button*/}
@@ -194,10 +201,6 @@ class App extends Component {
                 </View>
 
 
-                {/*Timestamp*/}
-                <Text style={[styles.timestamp, stylesScale.timestamp]}>
-                    12:00
-                </Text>
 
 
                 <View style={{flex: 1, flexDirection: 'row'}}>
@@ -229,6 +232,7 @@ class App extends Component {
                     </TouchableOpacity>
                 </View>
             </View>
+    </ImageBackground>
         );
     }
 }
@@ -268,7 +272,7 @@ const stylesScale = ScaleSheet.create({
     },
     location: {
         // 82.5% of the devices width, can also be written as '82.5vw'
-        width: 5 + 'vw',
+        width: 7 + 'vw',
 
         // 57% of the devices height, can also be written as 57vh
         height: 5 + 'vh',
@@ -336,12 +340,16 @@ const stylesScale = ScaleSheet.create({
 });
 
 const styles = StyleSheet.create({
+    backgroundImage: {
+        flex: 1,
+        resizeMode: 'cover', // or 'stretch'
+    },
+
     container: {
         flex: 1,
         marginTop: (Platform.OS === 'ios') ? 20 : 0,
         alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#DAECF8',
+        justifyContent: 'center'
     },
     location: {
         width: 40,
@@ -351,6 +359,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         textAlign: 'center',
         margin: 10,
+        backgroundColor:'transparent'
     },
     timestamp: {
         fontSize: 15,
@@ -374,6 +383,7 @@ const styles = StyleSheet.create({
         marginBottom: -15,
         padding: 5,
         textAlign: 'center',
+        backgroundColor:'transparent'
     },
     infoText2: {
         fontSize: 25,
