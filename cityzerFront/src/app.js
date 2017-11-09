@@ -364,14 +364,14 @@ const stylesScale = ScaleSheet.create({
 
     },
 
-    heading4: {
+/*    heading4: {
         // 82.5% of the devices width, can also be written as '82.5vw'
         width: 30 + 'vw',
 
         // 57% of the devices height, can also be written as 57vh
 
 
-    }
+    }*/
 });
 
 const styles = StyleSheet.create({
