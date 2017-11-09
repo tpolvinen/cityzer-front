@@ -320,7 +320,7 @@ const stylesScale = ScaleSheet.create({
     buttons: {
         marginBottom: 3 +'vh'
     },
-    infoImage: {
+    infoButton: {
         // 82.5% of the devices width, can also be written as '82.5vw'
         width: 80 + 'vw',
 
