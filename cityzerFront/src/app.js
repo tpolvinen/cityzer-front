@@ -105,23 +105,24 @@ class App extends Component {
         const rain3 = parseFloat(this.state.json.precipitation_amount_353_3h).toFixed(2);
         let temperature = '';
         let imgSrc = '';
-            switch (i) {
-                case '0':
-                    return this.setState({rain: rain.replace(".", ","), imgSrc: this.weatherState(rain), temperature: this.KtoC(this.state.json.air_temperature_4).replace(".", ",")});
-                case '1':
-                    return this.setState({rain: rain1.replace(".", ","), imgSrc: this.weatherState(rain1), temperature: this.KtoC(this.state.json.air_temperature_4_1h).replace(".", ",")});
-                case '2':
-                    return (this.setState({rain: rain2.replace(".", ","), imgSrc: this.weatherState(rain2), temperature: this.KtoC(this.state.json.air_temperature_4_2h).replace(".", ",")}));
-                case '3':
-                    return this.setState({rain: rain3.replace(".", ","), imgSrc: this.weatherState(rain3), temperature: this.KtoC(this.state.json.air_temperature_4_3h).replace(".", ",")});
+        switch (i) {
+            case '0':
+                return this.setState({rain: rain, imgSrc: this.weatherState(rain), temperature: this.KtoC(this.state.json.air_temperature_4)});
+            case '1':
+                return this.setState({rain: rain1, imgSrc: this.weatherState(rain1), temperature: this.KtoC(this.state.json.air_temperature_4_1h)});
+            case '2':
+                return (this.setState({rain: rain2, imgSrc: this.weatherState(rain2), temperature: this.KtoC(this.state.json.air_temperature_4_2h)}));
+            case '3':
+                return this.setState({rain: rain3, imgSrc: this.weatherState(rain3), temperature: this.KtoC(this.state.json.air_temperature_4_3h)});
 
-                default:
-                    this.setState({rain: parseFloat(this.state.json.precipitation_amount_353).toFixed(2), temperature: this.KtoC(this.state.json.air_temperature_4), imgSrc: this.weatherState(parseFloat(this.state.json.precipitation_amount_353).toFixed(2))});
-            }
+            default:
+                this.setState({rain: parseFloat(this.state.json.precipitation_amount_353).toFixed(2), temperature: this.KtoC(this.state.json.air_temperature_4), imgSrc: this.weatherState(parseFloat(this.state.json.precipitation_amount_353).toFixed(2))});
+        }
     }
+
     urlCall() {
-        const url = 'http://193.166.9.27/~a1500903/weather.json';
-//        const url = 'http://128.199.61.201/api/weather.json';
+
+        const url = 'http://128.199.61.201/api/weather.json';
 
         axios.get(url)
             .then(response => {
@@ -240,7 +241,7 @@ class App extends Component {
                 <View>
 
                     <Text style={[styles.heading4, stylesScale.heading4,]}>
-                        Ennusteet
+                        {I18n.t('pre')}
                     </Text>
 
                 </View>
@@ -278,19 +279,23 @@ I18n.translations = {
         temp: 'Temperature',
         rain: 'Rain',
         now: 'Weather now',
-        lang: 'FI'
+        lang: 'FI',
+        pre: 'Predictions'
     },
     fi: {
         temp: 'Lämpötila',
         rain: 'Sade',
         now: 'Sää nyt',
-        lang: 'FI'
+        lang: 'FI',
+        pre: 'Ennusteet'
+
     },
     sv: {
         temp: 'Temperatur',
         rain: 'Regn',
         now: 'Väder nu',
-        lang: 'SV'
+        lang: 'SV',
+        pre: 'Prognoser'
     }
 }
 
@@ -364,7 +369,8 @@ const stylesScale = ScaleSheet.create({
 
     },
 
-/*    heading4: {
+
+  /*  heading4: {
         // 82.5% of the devices width, can also be written as '82.5vw'
         width: 30 + 'vw',
 
@@ -376,8 +382,8 @@ const stylesScale = ScaleSheet.create({
 
 const styles = StyleSheet.create({
     backgroundImage: {
-        flex: 1,
-        resizeMode: 'cover', // or 'stretch'
+        flex: 1
+//        resizeMode: 'cover', // or 'stretch'
     },
 
     container: {
