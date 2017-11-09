@@ -56,39 +56,39 @@ class App extends Component {
         if (this.state.temperature >= 0) {
             if (x <= 0.3) {
                 this.imgSrc = require('./img/sun.png');
-                this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun.jpg');
+                this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun_1280x1920.jpg');
 //Aurinkoinen sää
             } else if (x >= 0.31 && x <= 0.9) {
 
                 this.imgSrc = require('./img/cloudrain.png');
-                this.bgImg = require('./img/blurbag/blue-blurred-background.jpg');
+                this.bgImg = require('./img/blurbag/blue-blurred-background_1280x1920.jpg');
 //tihkuaa
             } else if (x >= 0.91 && x <= 4.4) {
                 this.imgSrc = require('./img/cloudraintwo.png')
-                this.bgImg = require('./img/blurbag/blue-blurred-background.jpg');
+                this.bgImg = require('./img/blurbag/darkblue-blurred-background_1280x1920.jpg');
 //sataa
             } else {
                 this.imgSrc = require('./img/cloudrainthree.png')
-                this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundDark.jpg');
+                this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundDark_1280x1920.jpg');
 //Sataa paljon vettä
             }
         }else{
             if (x <= 0.3) {
                 this.imgSrc = require('./img/sun.png');
-                this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun.jpg');
+                this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun_1280x1920.jpg');
 //Aurinkoinen sää
             } else if (x >= 0.31 && x <= 0.9) {
 
                 this.imgSrc = require('./img/cloudsnow.png');
-                this.bgImg = require('./img/blurbag/blue-blurred-background.jpg');
+                this.bgImg = require('./img/blurbag/blue-blurred-background_1280x1920.jpg');
 //Vähän lunta
             } else if (x >= 0.91 && x <= 4.4) {
                 this.imgSrc = require('./img/cloudsnowtwo.png')
-                this.bgImg = require('./img/blurbag/blue-blurred-background.jpg');
+                this.bgImg = require('./img/blurbag/blue-blurred-background_1280x1920.jpg');
 //Enemmän lunta
             } else {
                 this.imgSrc = require('./img/cloudsnowthree.png')
-                this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundDark.jpg');
+                this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundDark_1280x1920.jpg');
 //Vielä enemmän lunta
             }
         }
@@ -107,20 +107,22 @@ class App extends Component {
         let imgSrc = '';
             switch (i) {
                 case '0':
-                    return this.setState({rain: rain, imgSrc: this.weatherState(rain), temperature: this.KtoC(this.state.json.air_temperature_4)});
+                    return this.setState({rain: rain.replace(".", ","), imgSrc: this.weatherState(rain), temperature: this.KtoC(this.state.json.air_temperature_4).replace(".", ",")});
                 case '1':
-                    return this.setState({rain: rain1, imgSrc: this.weatherState(rain1), temperature: this.KtoC(this.state.json.air_temperature_4_1h)});
+                    return this.setState({rain: rain1.replace(".", ","), imgSrc: this.weatherState(rain1), temperature: this.KtoC(this.state.json.air_temperature_4_1h).replace(".", ",")});
                 case '2':
-                    return (this.setState({rain: rain2, imgSrc: this.weatherState(rain2), temperature: this.KtoC(this.state.json.air_temperature_4_2h)}));
+                    return (this.setState({rain: rain2.replace(".", ","), imgSrc: this.weatherState(rain2), temperature: this.KtoC(this.state.json.air_temperature_4_2h).replace(".", ",")}));
                 case '3':
-                    return this.setState({rain: rain3, imgSrc: this.weatherState(rain3), temperature: this.KtoC(this.state.json.air_temperature_4_3h)});
+                    return this.setState({rain: rain3.replace(".", ","), imgSrc: this.weatherState(rain3), temperature: this.KtoC(this.state.json.air_temperature_4_3h).replace(".", ",")});
 
                 default:
                     this.setState({rain: parseFloat(this.state.json.precipitation_amount_353).toFixed(2), temperature: this.KtoC(this.state.json.air_temperature_4), imgSrc: this.weatherState(parseFloat(this.state.json.precipitation_amount_353).toFixed(2))});
             }
     }
     urlCall() {
-        const url = 'http://128.199.61.201/api/weather.json';
+        const url = 'http://193.166.9.27/~a1500903/weather.json';
+//        const url = 'http://128.199.61.201/api/weather.json';
+
         axios.get(url)
             .then(response => {
                 if (this.state.rain == null) {
@@ -149,7 +151,7 @@ class App extends Component {
                     );
 
             },
-            (error) => this.setState({ address: "Paikannus ei onnistunut\nsää Helsingissä", lat:"24.940922", lon:"60.168630"}),
+            (error) => this.setState({ address: "Paikannus ei onnistunut\nSää Helsingissä", lat:"24.940922", lon:"60.168630"}),
             { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
         );
 
@@ -229,7 +231,7 @@ class App extends Component {
 
                 <View style={{flex: 1, flexDirection: 'row'}}>
                 <TouchableOpacity onPress={this.getWeather.bind(this, '0')}>
-                    <Text style={[styles.infoImage, stylesScale.infoImage]}>
+                    <Text style={[styles.infoButton, stylesScale.infoButton]}>
                         {I18n.t('now')}
                     </Text>
                 </TouchableOpacity>
@@ -328,7 +330,7 @@ const stylesScale = ScaleSheet.create({
     buttons: {
         marginBottom: 3 +'vh'
     },
-    infoImage: {
+    infoButton: {
         // 82.5% of the devices width, can also be written as '82.5vw'
         width: 80 + 'vw',
 
@@ -392,7 +394,8 @@ const styles = StyleSheet.create({
         fontSize: 20,
         textAlign: 'center',
         margin: 10,
-        backgroundColor:'transparent'
+        backgroundColor:'transparent',
+        color: '#FFFFFF',
     },
     timestamp: {
         fontSize: 15,
@@ -433,21 +436,22 @@ const styles = StyleSheet.create({
         height: 50,
     },
     infoRain: {
-        fontSize: 20,
-        color: '#FFFFFF',
-        textShadowColor:'#333333',
-        textShadowOffset: {width: 1, height: 1},
+        fontSize: 35,
+        color: '#ffffff',
+        width: 50,
+        height: 50,
     },
-    infoImage: {
-        fontSize: 25,
-        marginTop: 10,
+
+    infoButton: {
+        fontSize: 15,
+        marginTop: 30,
         marginBottom: 10,
         borderWidth: 4,
         borderRadius: 10,
         marginLeft: 2,
         marginRight: 2,
         paddingTop: 20,
-        paddingBottom: 20,
+        paddingBottom: 30,
         paddingLeft: 20,
         paddingRight: 20,
         overflow: 'hidden',
