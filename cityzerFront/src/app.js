@@ -340,7 +340,7 @@ const stylesScale = ScaleSheet.create({
         width: 80 + 'vw',
 
         // 57% of the devices height, can also be written as 57vh
-
+        height: 10 + 'vh',
     },
     heading1: {
         // 82.5% of the devices width, can also be written as '82.5vw'
@@ -399,6 +399,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         textAlign: 'center',
         margin: 10,
+        marginBottom: -20,
         backgroundColor:'transparent',
         color: '#FFFFFF',
     },
