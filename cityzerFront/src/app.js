@@ -44,7 +44,7 @@ class App extends Component {
         let temp = parseFloat(kelvin);
         console.log(temp);
         temp = kelvinToCelsius(temp);
-        temp = parseFloat(temp).toFixed(2);
+        temp = parseFloat(temp).toFixed(1);
         console.log(temp);
         //let temps = toString(temp);
         return temp.toString();
@@ -93,7 +93,6 @@ class App extends Component {
             }
         }
 
-
         console.log(imgSrc);
         return imgSrc;
     }
@@ -137,6 +136,7 @@ class App extends Component {
 
     componentDidMount() {
         this.imgSrc = require('./img/sun.png');
+        this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun.jpg');
         AppState.addEventListener('change', this._handleAppStateChange);
         navigator.geolocation.getCurrentPosition(
             (position) => {
@@ -235,23 +235,31 @@ class App extends Component {
                 </TouchableOpacity>
                 </View>
 
+                <View>
+
+                    <Text style={[styles.heading4, stylesScale.heading4,]}>
+                        Ennusteet
+                    </Text>
+
+                </View>
                 {/*Button for estimates*/}
                 <View style={[{flex: 1, flexDirection: 'row'}, stylesScale.buttons]}>
+
                     <TouchableOpacity onPress={this.getWeather.bind(this, '1')}>
                         <Text style={[styles.heading1, stylesScale.heading1]}>
-                            1h
+                            +1h
                         </Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={this.getWeather.bind(this, '2')}>
                     <Text style={[styles.heading2, stylesScale.heading2]}>
-                        2h
+                        +2h
                     </Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={this.getWeather.bind(this, '3')}>
                     <Text style={[styles.heading3, stylesScale.heading3]}>
-                        3h
+                        +3h
                     </Text>
                     </TouchableOpacity>
                 </View>
@@ -352,9 +360,16 @@ const stylesScale = ScaleSheet.create({
         // 57% of the devices height, can also be written as 57vh
 
 
+    },
+
+    /*heading4: {
+        // 82.5% of the devices width, can also be written as '82.5vw'
+        width: 30 + 'vw',
+
+        // 57% of the devices height, can also be written as 57vh
 
 
-    }
+    }*/
 });
 
 const styles = StyleSheet.create({
@@ -424,7 +439,7 @@ const styles = StyleSheet.create({
         textShadowOffset: {width: 1, height: 1},
     },
     infoImage: {
-        fontSize: 15,
+        fontSize: 25,
         marginTop: 10,
         marginBottom: 10,
         borderWidth: 4,
@@ -441,7 +456,7 @@ const styles = StyleSheet.create({
         backgroundColor:'#faf658',
     },
     heading1: {
-        fontSize: 15,
+        fontSize: 25,
         marginTop: 10,
         marginBottom: 10,
         borderWidth: 4,
@@ -458,7 +473,7 @@ const styles = StyleSheet.create({
         backgroundColor:'#e6e255',
     },
     heading2: {
-        fontSize: 15,
+        fontSize: 25,
         marginTop: 10,
         marginBottom: 10,
         borderWidth: 4,
@@ -475,7 +490,7 @@ const styles = StyleSheet.create({
         backgroundColor:'#bab643',
     },
     heading3: {
-        fontSize: 15,
+        fontSize: 25,
         marginTop: 10,
         marginBottom: 10,
         borderWidth: 4,
@@ -490,6 +505,18 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         borderColor:'#ffffff',
         backgroundColor:'#aeaa42',
+    },
+    heading4: {
+        fontSize: 30,
+        fontWeight: 'bold',
+        marginLeft: 2,
+        marginRight: 2,
+        /*paddingLeft: 30,
+        paddingRight: 30,*/
+        overflow: 'hidden',
+        textAlign: 'center',
+
+
     },
 });
 
