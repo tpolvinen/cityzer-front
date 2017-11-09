@@ -191,7 +191,7 @@ class App extends Component {
                     <View style={[styles.container, {flex:1}, stylesScale.container]}>
 
                 {/*Address and get location button*/}
-                <Text style={styles.welcome}>
+                <Text style={styles.address}>
                     <Image
                         style={[styles.location, stylesScale.location]}
                         source={{uri:'https://i.imgur.com/K67wWwj.gif'}}
@@ -395,7 +395,7 @@ const styles = StyleSheet.create({
         width: 40,
         height: 40,
     },
-    welcome: {
+    address: {
         fontSize: 20,
         textAlign: 'center',
         margin: 10,
