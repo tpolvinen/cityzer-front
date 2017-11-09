@@ -44,7 +44,7 @@ class App extends Component {
         let temp = parseFloat(kelvin);
         console.log(temp);
         temp = kelvinToCelsius(temp);
-        temp = parseFloat(temp).toFixed(2);
+        temp = parseFloat(temp).toFixed(1);
         console.log(temp);
         //let temps = toString(temp);
         return temp.toString();
@@ -93,7 +93,6 @@ class App extends Component {
             }
         }
 
-
         console.log(imgSrc);
         return imgSrc;
     }
@@ -108,20 +107,22 @@ class App extends Component {
         let imgSrc = '';
             switch (i) {
                 case '0':
-                    return this.setState({rain: rain, imgSrc: this.weatherState(rain), temperature: this.KtoC(this.state.json.air_temperature_4)});
+                    return this.setState({rain: rain.replace(".", ","), imgSrc: this.weatherState(rain), temperature: this.KtoC(this.state.json.air_temperature_4).replace(".", ",")});
                 case '1':
-                    return this.setState({rain: rain1, imgSrc: this.weatherState(rain1), temperature: this.KtoC(this.state.json.air_temperature_4_1h)});
+                    return this.setState({rain: rain1.replace(".", ","), imgSrc: this.weatherState(rain1), temperature: this.KtoC(this.state.json.air_temperature_4_1h).replace(".", ",")});
                 case '2':
-                    return (this.setState({rain: rain2, imgSrc: this.weatherState(rain2), temperature: this.KtoC(this.state.json.air_temperature_4_2h)}));
+                    return (this.setState({rain: rain2.replace(".", ","), imgSrc: this.weatherState(rain2), temperature: this.KtoC(this.state.json.air_temperature_4_2h).replace(".", ",")}));
                 case '3':
-                    return this.setState({rain: rain3, imgSrc: this.weatherState(rain3), temperature: this.KtoC(this.state.json.air_temperature_4_3h)});
+                    return this.setState({rain: rain3.replace(".", ","), imgSrc: this.weatherState(rain3), temperature: this.KtoC(this.state.json.air_temperature_4_3h).replace(".", ",")});
 
                 default:
                     this.setState({rain: parseFloat(this.state.json.precipitation_amount_353).toFixed(2), temperature: this.KtoC(this.state.json.air_temperature_4), imgSrc: this.weatherState(parseFloat(this.state.json.precipitation_amount_353).toFixed(2))});
             }
     }
     urlCall() {
-        const url = 'http://128.199.61.201/api/weather.json';
+        const url = 'http://193.166.9.27/~a1500903/weather.json';
+//        const url = 'http://128.199.61.201/api/weather.json';
+
         axios.get(url)
             .then(response => {
                 if (this.state.rain == null) {
@@ -137,6 +138,7 @@ class App extends Component {
 
     componentDidMount() {
         this.imgSrc = require('./img/sun.png');
+        this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun.jpg');
         AppState.addEventListener('change', this._handleAppStateChange);
         navigator.geolocation.getCurrentPosition(
             (position) => {
@@ -235,23 +237,31 @@ class App extends Component {
                 </TouchableOpacity>
                 </View>
 
+                <View>
+
+                    <Text style={[styles.heading4, stylesScale.heading4,]}>
+                        Ennusteet
+                    </Text>
+
+                </View>
                 {/*Button for estimates*/}
                 <View style={[{flex: 1, flexDirection: 'row'}, stylesScale.buttons]}>
+
                     <TouchableOpacity onPress={this.getWeather.bind(this, '1')}>
                         <Text style={[styles.heading1, stylesScale.heading1]}>
-                            1h
+                            +1h
                         </Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={this.getWeather.bind(this, '2')}>
                     <Text style={[styles.heading2, stylesScale.heading2]}>
-                        2h
+                        +2h
                     </Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={this.getWeather.bind(this, '3')}>
                     <Text style={[styles.heading3, stylesScale.heading3]}>
-                        3h
+                        +3h
                     </Text>
                     </TouchableOpacity>
                 </View>
@@ -320,7 +330,7 @@ const stylesScale = ScaleSheet.create({
     buttons: {
         marginBottom: 3 +'vh'
     },
-    infoImage: {
+    infoButton: {
         // 82.5% of the devices width, can also be written as '82.5vw'
         width: 80 + 'vw',
 
@@ -352,9 +362,16 @@ const stylesScale = ScaleSheet.create({
         // 57% of the devices height, can also be written as 57vh
 
 
+    },
+
+    /*heading4: {
+        // 82.5% of the devices width, can also be written as '82.5vw'
+        width: 30 + 'vw',
+
+        // 57% of the devices height, can also be written as 57vh
 
 
-    }
+    }*/
 });
 
 const styles = StyleSheet.create({
@@ -377,7 +394,8 @@ const styles = StyleSheet.create({
         fontSize: 20,
         textAlign: 'center',
         margin: 10,
-        backgroundColor:'transparent'
+        backgroundColor:'transparent',
+        color: '#FFFFFF',
     },
     timestamp: {
         fontSize: 15,
@@ -423,16 +441,17 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
     },
+
     infoButton: {
         fontSize: 15,
-        marginTop: 10,
+        marginTop: 30,
         marginBottom: 10,
         borderWidth: 4,
         borderRadius: 10,
         marginLeft: 2,
         marginRight: 2,
         paddingTop: 20,
-        paddingBottom: 20,
+        paddingBottom: 30,
         paddingLeft: 20,
         paddingRight: 20,
         overflow: 'hidden',
@@ -441,7 +460,7 @@ const styles = StyleSheet.create({
         backgroundColor:'#faf658',
     },
     heading1: {
-        fontSize: 15,
+        fontSize: 25,
         marginTop: 10,
         marginBottom: 10,
         borderWidth: 4,
@@ -458,7 +477,7 @@ const styles = StyleSheet.create({
         backgroundColor:'#e6e255',
     },
     heading2: {
-        fontSize: 15,
+        fontSize: 25,
         marginTop: 10,
         marginBottom: 10,
         borderWidth: 4,
@@ -475,7 +494,7 @@ const styles = StyleSheet.create({
         backgroundColor:'#bab643',
     },
     heading3: {
-        fontSize: 15,
+        fontSize: 25,
         marginTop: 10,
         marginBottom: 10,
         borderWidth: 4,
@@ -490,6 +509,18 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         borderColor:'#ffffff',
         backgroundColor:'#aeaa42',
+    },
+    heading4: {
+        fontSize: 30,
+        fontWeight: 'bold',
+        marginLeft: 2,
+        marginRight: 2,
+        /*paddingLeft: 30,
+        paddingRight: 30,*/
+        overflow: 'hidden',
+        textAlign: 'center',
+
+
     },
 });
 
