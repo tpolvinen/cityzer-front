@@ -56,39 +56,39 @@ class App extends Component {
         if (this.state.temperature >= 0) {
             if (x <= 0.3) {
                 this.imgSrc = require('./img/sun.png');
-                this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun.jpg');
+                this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun_1280x1920.jpg');
 //Aurinkoinen sää
             } else if (x >= 0.31 && x <= 0.9) {
 
                 this.imgSrc = require('./img/cloudrain.png');
-                this.bgImg = require('./img/blurbag/blue-blurred-background.jpg');
+                this.bgImg = require('./img/blurbag/blue-blurred-background_1280x1920.jpg');
 //tihkuaa
             } else if (x >= 0.91 && x <= 4.4) {
                 this.imgSrc = require('./img/cloudraintwo.png')
-                this.bgImg = require('./img/blurbag/blue-blurred-background.jpg');
+                this.bgImg = require('./img/blurbag/darkblue-blurred-background_1280x1920.jpg');
 //sataa
             } else {
                 this.imgSrc = require('./img/cloudrainthree.png')
-                this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundDark.jpg');
+                this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundDark_1280x1920.jpg');
 //Sataa paljon vettä
             }
         }else{
             if (x <= 0.3) {
                 this.imgSrc = require('./img/sun.png');
-                this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun.jpg');
+                this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun_1280x1920.jpg');
 //Aurinkoinen sää
             } else if (x >= 0.31 && x <= 0.9) {
 
                 this.imgSrc = require('./img/cloudsnow.png');
-                this.bgImg = require('./img/blurbag/blue-blurred-background.jpg');
+                this.bgImg = require('./img/blurbag/blue-blurred-background_1280x1920.jpg');
 //Vähän lunta
             } else if (x >= 0.91 && x <= 4.4) {
                 this.imgSrc = require('./img/cloudsnowtwo.png')
-                this.bgImg = require('./img/blurbag/blue-blurred-background.jpg');
+                this.bgImg = require('./img/blurbag/blue-blurred-background_1280x1920.jpg');
 //Enemmän lunta
             } else {
                 this.imgSrc = require('./img/cloudsnowthree.png')
-                this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundDark.jpg');
+                this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundDark_1280x1920.jpg');
 //Vielä enemmän lunta
             }
         }
@@ -149,7 +149,7 @@ class App extends Component {
                     );
 
             },
-            (error) => this.setState({ address: "Paikannus ei onnistunut\nsää Helsingissä", lat:"24.940922", lon:"60.168630"}),
+            (error) => this.setState({ address: "Paikannus ei onnistunut\nSää Helsingissä", lat:"24.940922", lon:"60.168630"}),
             { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
         );
 
