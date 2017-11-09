@@ -108,20 +108,22 @@ class App extends Component {
         let imgSrc = '';
             switch (i) {
                 case '0':
-                    return this.setState({rain: rain, imgSrc: this.weatherState(rain), temperature: this.KtoC(this.state.json.air_temperature_4)});
+                    return this.setState({rain: rain.replace(".", ","), imgSrc: this.weatherState(rain), temperature: this.KtoC(this.state.json.air_temperature_4).replace(".", ",")});
                 case '1':
-                    return this.setState({rain: rain1, imgSrc: this.weatherState(rain1), temperature: this.KtoC(this.state.json.air_temperature_4_1h)});
+                    return this.setState({rain: rain1.replace(".", ","), imgSrc: this.weatherState(rain1), temperature: this.KtoC(this.state.json.air_temperature_4_1h).replace(".", ",")});
                 case '2':
-                    return (this.setState({rain: rain2, imgSrc: this.weatherState(rain2), temperature: this.KtoC(this.state.json.air_temperature_4_2h)}));
+                    return (this.setState({rain: rain2.replace(".", ","), imgSrc: this.weatherState(rain2), temperature: this.KtoC(this.state.json.air_temperature_4_2h).replace(".", ",")}));
                 case '3':
-                    return this.setState({rain: rain3, imgSrc: this.weatherState(rain3), temperature: this.KtoC(this.state.json.air_temperature_4_3h)});
+                    return this.setState({rain: rain3.replace(".", ","), imgSrc: this.weatherState(rain3), temperature: this.KtoC(this.state.json.air_temperature_4_3h).replace(".", ",")});
 
                 default:
                     this.setState({rain: parseFloat(this.state.json.precipitation_amount_353).toFixed(2), temperature: this.KtoC(this.state.json.air_temperature_4), imgSrc: this.weatherState(parseFloat(this.state.json.precipitation_amount_353).toFixed(2))});
             }
     }
     urlCall() {
-        const url = 'http://128.199.61.201/api/weather.json';
+        const url = 'http://193.166.9.27/~a1500903/weather.json';
+//        const url = 'http://128.199.61.201/api/weather.json';
+
         axios.get(url)
             .then(response => {
                 if (this.state.rain == null) {
