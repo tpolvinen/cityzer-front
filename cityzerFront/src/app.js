@@ -418,12 +418,12 @@ const styles = StyleSheet.create({
         height: 50,
     },
     infoRain: {
-        fontSize: 20,
-        color: '#FFFFFF',
-        textShadowColor:'#333333',
-        textShadowOffset: {width: 1, height: 1},
+        fontSize: 35,
+        color: '#ffffff',
+        width: 50,
+        height: 50,
     },
-    infoImage: {
+    infoButton: {
         fontSize: 15,
         marginTop: 10,
         marginBottom: 10,
