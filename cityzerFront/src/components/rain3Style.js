@@ -5,7 +5,7 @@ var{
 } = React;
 module.exports = StyleSheet.create({
     infoButton: {
-        fontcolor: 'white',
+        color: 'white',
         fontSize: 15,
         marginTop: 30,
         marginBottom: 10,
@@ -23,7 +23,7 @@ module.exports = StyleSheet.create({
         backgroundColor:'#3e7bfa',
     },
     heading1: {
-        fontcolor: 'white',
+        color: 'white',
         fontSize: 25,
         marginTop: 10,
         marginBottom: 10,
@@ -41,7 +41,7 @@ module.exports = StyleSheet.create({
         backgroundColor:'#3b70e0',
     },
     heading2: {
-        fontcolor: 'white',
+        color: 'white',
         fontSize: 25,
         marginTop: 10,
         marginBottom: 10,
@@ -59,7 +59,7 @@ module.exports = StyleSheet.create({
         backgroundColor:'#3a65ca',
     },
     heading3: {
-        fontcolor: 'white',
+        color: 'white',
         fontSize: 25,
         marginTop: 10,
         marginBottom: 10,

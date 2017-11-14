@@ -14,9 +14,11 @@ import axios from 'axios';
 
 import I18n from 'react-native-i18n';
 import ScaleSheet from 'react-native-scalesheet';
+import rainStyle from './components/rainStyle';
 
 
 class App extends Component {
+
 
     constructor(props){
         super(props);
@@ -33,6 +35,8 @@ class App extends Component {
             appState: AppState.currentState,
             imgSrc: '',
             bgImg: '',
+            buttonStyle: require('./components/sunStyle.js') ,
+            rainState:  require('./components/rainStyle.js')
         };
         this.getWeather = this.getWeather.bind(this);
         this.weatherState = this.weatherState.bind(this);
@@ -52,25 +56,34 @@ class App extends Component {
     };
 
     weatherState(x,y) {
-        console.log(x);
+        console.log(x+ ' ' + y);
         let imgSrc = '';
         if (y >= 0) {
             if (x <= 0.3){
                 this.imgSrc = require('./img/sun.png');
                 this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun_1280x1920.jpg');
+                this.state.buttonStyle = require('./components/sunStyle');
 //Aurinkoinen sää
             } else if (x >= 0.31 && x <= 0.9) {
 
                 this.imgSrc = require('./img/cloudrain.png');
                 this.bgImg = require('./img/blurbag/blue-blurred-background_1280x1920.jpg');
+                this.state.buttonStyle = require('./components/rainStyle');
+
 //tihkuaa
             } else if (x >= 0.91 && x <= 4.4) {
                 this.imgSrc = require('./img/cloudraintwo.png');
                 this.bgImg = require('./img/blurbag/darkblue-blurred-background_1280x1920.jpg');
+                this.state.buttonStyle = require('./components/rain2Style');
+
+
 //sataa
             } else {
                 this.imgSrc = require('./img/cloudrainthree.png');
                 this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundDark_1280x1920.jpg');
+                console.log('hi')
+                this.state.buttonStyle = require('./components/rain3Style');
+
 //Sataa paljon vettä
 
             }
@@ -93,6 +106,7 @@ class App extends Component {
             } else {
                 this.imgSrc = require('./img/cloudsnowthree.png');
                 this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundDark_1280x1920.jpg');
+                this.state.buttonStyle = require('./components/rain3Style');
 //Vielä enemmän lunta
             }
         }
@@ -194,6 +208,7 @@ class App extends Component {
     render() {
 
         return (
+
             <ImageBackground source={this.bgImg} style={styles.backgroundImage} >
                     <View style={[styles.container, {flex:1}, stylesScale.container]}>
 
@@ -239,7 +254,7 @@ class App extends Component {
 
                 <View style={{flex: 1, flexDirection: 'row'}}>
                 <TouchableOpacity onPress={this.getWeather.bind(this, '0')}>
-                    <Text style={[styles.infoButton, stylesScale.infoButton]}>
+                    <Text style={[this.state.buttonStyle.infoButton, stylesScale.infoButton]}>
                         {I18n.t('now')}
                     </Text>
                 </TouchableOpacity>
@@ -256,19 +271,19 @@ class App extends Component {
                 <View style={[{flex: 1, flexDirection: 'row'}, stylesScale.buttons]}>
 
                     <TouchableOpacity onPress={this.getWeather.bind(this, '1')}>
-                        <Text style={[styles.heading1, stylesScale.heading1]}>
+                        <Text style={[this.state.buttonStyle.heading1, stylesScale.heading1]}>
                             +1h
                         </Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={this.getWeather.bind(this, '2')}>
-                    <Text style={[styles.heading2, stylesScale.heading2]}>
+                    <Text style={[this.state.buttonStyle.heading2, stylesScale.heading2]}>
                         +2h
                     </Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={this.getWeather.bind(this, '3')}>
-                    <Text style={[styles.heading3, stylesScale.heading3]}>
+                    <Text style={[this.state.buttonStyle.heading3, stylesScale.heading3]}>
                         +3h
                     </Text>
                     </TouchableOpacity>
