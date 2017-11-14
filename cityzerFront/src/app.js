@@ -50,11 +50,11 @@ class App extends Component {
         return temp.toString();
     };
 
-    weatherState(x) {
+    weatherState(x,y) {
         console.log(x);
         let imgSrc = '';
-        if (this.state.temperature >= 0) {
-            if (x <= 0.3) {
+        if (y >= 0) {
+            if (x <= 0.3){
                 this.imgSrc = require('./img/sun.png');
                 this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun_1280x1920.jpg');
 //Aurinkoinen sää
@@ -64,15 +64,18 @@ class App extends Component {
                 this.bgImg = require('./img/blurbag/blue-blurred-background_1280x1920.jpg');
 //tihkuaa
             } else if (x >= 0.91 && x <= 4.4) {
-                this.imgSrc = require('./img/cloudraintwo.png')
+                this.imgSrc = require('./img/cloudraintwo.png');
                 this.bgImg = require('./img/blurbag/darkblue-blurred-background_1280x1920.jpg');
 //sataa
             } else {
-                this.imgSrc = require('./img/cloudrainthree.png')
+                this.imgSrc = require('./img/cloudrainthree.png');
                 this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundDark_1280x1920.jpg');
 //Sataa paljon vettä
+
             }
-        }else{
+        }
+
+        else{
             if (x <= 0.3) {
                 this.imgSrc = require('./img/sun.png');
                 this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun_1280x1920.jpg');
@@ -83,11 +86,11 @@ class App extends Component {
                 this.bgImg = require('./img/blurbag/blue-blurred-background_1280x1920.jpg');
 //Vähän lunta
             } else if (x >= 0.91 && x <= 4.4) {
-                this.imgSrc = require('./img/cloudsnowtwo.png')
-                this.bgImg = require('./img/blurbag/blue-blurred-background_1280x1920.jpg');
+                this.imgSrc = require('./img/cloudsnowtwo.png');
+                this.bgImg = require('./img/blurbag/darkblue-blurred-background_1280x1920.jpg');
 //Enemmän lunta
             } else {
-                this.imgSrc = require('./img/cloudsnowthree.png')
+                this.imgSrc = require('./img/cloudsnowthree.png');
                 this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundDark_1280x1920.jpg');
 //Vielä enemmän lunta
             }
@@ -100,20 +103,23 @@ class App extends Component {
     getWeather(i) {
         this.urlCall()
         const rain = parseFloat(this.state.json.precipitation_amount_353).toFixed(2);
+        const temperature = parseFloat(this.KtoC(this.state.json.air_temperature_4));
         const rain1 = parseFloat(this.state.json.precipitation_amount_353_1h).toFixed(2);
+        const temperature1 = parseFloat(this.KtoC(this.state.json.air_temperature_4_1h));
         const rain2 = parseFloat(this.state.json.precipitation_amount_353_2h).toFixed(2);
+        const temperature2 = parseFloat(this.KtoC(this.state.json.air_temperature_4_2h));
         const rain3 = parseFloat(this.state.json.precipitation_amount_353_3h).toFixed(2);
-        let temperature = '';
+        const temperature3 = parseFloat(this.KtoC(this.state.json.air_temperature_4_3h));
         let imgSrc = '';
         switch (i) {
             case '0':
-                return this.setState({rain: rain, imgSrc: this.weatherState(rain), temperature: this.KtoC(this.state.json.air_temperature_4)});
+                return this.setState({rain: rain, imgSrc: this.weatherState(rain,temperature), temperature: this.KtoC(this.state.json.air_temperature_4)});
             case '1':
-                return this.setState({rain: rain1, imgSrc: this.weatherState(rain1), temperature: this.KtoC(this.state.json.air_temperature_4_1h)});
+                return this.setState({rain: rain1, imgSrc: this.weatherState(rain1,temperature1), temperature: this.KtoC(this.state.json.air_temperature_4_1h)});
             case '2':
-                return (this.setState({rain: rain2, imgSrc: this.weatherState(rain2), temperature: this.KtoC(this.state.json.air_temperature_4_2h)}));
+                return (this.setState({rain: rain2, imgSrc: this.weatherState(rain2,temperature2), temperature: this.KtoC(this.state.json.air_temperature_4_2h)}));
             case '3':
-                return this.setState({rain: rain3, imgSrc: this.weatherState(rain3), temperature: this.KtoC(this.state.json.air_temperature_4_3h)});
+                return this.setState({rain: rain3, imgSrc: this.weatherState(rain3,temperature3), temperature: this.KtoC(this.state.json.air_temperature_4_3h)});
 
             default:
                 this.setState({rain: parseFloat(this.state.json.precipitation_amount_353).toFixed(2), temperature: this.KtoC(this.state.json.air_temperature_4), imgSrc: this.weatherState(parseFloat(this.state.json.precipitation_amount_353).toFixed(2))});
@@ -139,7 +145,7 @@ class App extends Component {
 
     componentDidMount() {
         this.imgSrc = require('./img/sun.png');
-        this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun.jpg');
+        this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun_1280x1920.jpg');
         AppState.addEventListener('change', this._handleAppStateChange);
         navigator.geolocation.getCurrentPosition(
             (position) => {
@@ -368,6 +374,7 @@ const stylesScale = ScaleSheet.create({
 
 
     },
+
 
   /*  heading4: {
         // 82.5% of the devices width, can also be written as '82.5vw'
