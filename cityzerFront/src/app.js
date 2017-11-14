@@ -11,7 +11,8 @@ import {
     ImageBackground
 } from 'react-native';
 import axios from 'axios';
-import I18n from 'react-native-i18n'
+
+import I18n from 'react-native-i18n';
 import ScaleSheet from 'react-native-scalesheet';
 
 
@@ -31,7 +32,7 @@ class App extends Component {
             json: [],
             appState: AppState.currentState,
             imgSrc: '',
-            bgImg: ''
+            bgImg: '',
         };
         this.getWeather = this.getWeather.bind(this);
         this.weatherState = this.weatherState.bind(this);
@@ -455,7 +456,7 @@ const styles = StyleSheet.create({
         height: 50,
     },
 
-    infoButton: {
+/*    infoButton: {
         fontSize: 15,
         marginTop: 30,
         marginBottom: 10,
@@ -521,7 +522,7 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         textAlign: 'center',
         borderColor:'#ffffff',
-        backgroundColor:'#aeaa42',
+        backgroundColor:'#aeaa42',*/
     },
     heading4: {
         fontSize: 30,
