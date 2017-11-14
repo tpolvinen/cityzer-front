@@ -10,7 +10,7 @@ module.exports = StyleSheet.create({
     infoButton: {
         marginTop: 30,
         marginBottom: 10,
-        borderWidth: 4,
+        borderWidth: 2,
         borderRadius: 10,
         marginLeft: 2,
         marginRight: 2,
@@ -18,14 +18,16 @@ module.exports = StyleSheet.create({
         paddingBottom: 30,
         paddingLeft: 20,
         paddingRight: 20,
-        overflow: 'hidden',
         borderColor:'#ffffff',
         backgroundColor:'#92d5fa',
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     infotext: {
+        marginTop: 20,
         color: 'black',
         fontSize: 25,
-        textAlign: 'center'
+        textAlign: 'center',
     },
     heading1: {
         fontSize: 25,

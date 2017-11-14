@@ -144,6 +144,7 @@ class App extends Component {
     urlCall() {
 
         const url = 'http://128.199.61.201/api/weather.json';
+        //const url = 'http://128.199.61.201/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
 
         axios.get(url)
             .then(response => {
@@ -164,7 +165,7 @@ class App extends Component {
         AppState.addEventListener('change', this._handleAppStateChange);
         navigator.geolocation.getCurrentPosition(
             (position) => {
-               // this.setState({ lon: position.coords.longitude, lat: position.coords.latitude });
+                this.setState({ lon: position.coords.longitude, lat: position.coords.latitude });
                const url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='+this.state.lat+','+this.state.lon+'&key=AIzaSyD-VCDRI-XxI1U-oz-5ujODryCQ1zSJi0U&language='+I18n.t('lang')+'&region='+I18n.t('lang');
                // const url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='+this.state.lat+','+this.state.lon+'&key=AIzaSyD-VCDRI-XxI1U-oz-5ujODryCQ1zSJi0U&language=FI&region=FI';
                 axios.get(url)
@@ -362,7 +363,6 @@ const stylesScale = ScaleSheet.create({
         width: 80 + 'vw',
 
         // 57% of the devices height, can also be written as 57vh
-        height: 10 + 'vh',
     },
     heading1: {
         // 82.5% of the devices width, can also be written as '82.5vw'
