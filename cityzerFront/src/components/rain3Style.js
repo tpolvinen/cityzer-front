@@ -1,13 +1,11 @@
 'use strict';
-
 var React = require('react-native');
-
-var {
+var{
     StyleSheet,
 } = React;
-
 module.exports = StyleSheet.create({
     infoButton: {
+        color: 'white',
         fontSize: 15,
         marginTop: 30,
         marginBottom: 10,
@@ -22,9 +20,10 @@ module.exports = StyleSheet.create({
         overflow: 'hidden',
         textAlign: 'center',
         borderColor:'#ffffff',
-        backgroundColor:'#92d5fa',
+        backgroundColor:'#3e7bfa',
     },
     heading1: {
+        color: 'white',
         fontSize: 25,
         marginTop: 10,
         marginBottom: 10,
@@ -39,9 +38,10 @@ module.exports = StyleSheet.create({
         overflow: 'hidden',
         textAlign: 'center',
         borderColor:'#ffffff',
-        backgroundColor:'#91ecff',
+        backgroundColor:'#3b70e0',
     },
     heading2: {
+        color: 'white',
         fontSize: 25,
         marginTop: 10,
         marginBottom: 10,
@@ -56,9 +56,10 @@ module.exports = StyleSheet.create({
         overflow: 'hidden',
         textAlign: 'center',
         borderColor:'#ffffff',
-        backgroundColor:'#68a0d3',
+        backgroundColor:'#3a65ca',
     },
     heading3: {
+        color: 'white',
         fontSize: 25,
         marginTop: 10,
         marginBottom: 10,
@@ -72,19 +73,7 @@ module.exports = StyleSheet.create({
         paddingRight: 20,
         overflow: 'hidden',
         textAlign: 'center',
-        borderColor:'#ffffff',
-        backgroundColor:'#2c459a',
-    },
-    heading4: {
-        fontSize: 30,
-        fontWeight: 'bold',
-        marginLeft: 2,
-        marginRight: 2,
-        /*paddingLeft: 30,
-        paddingRight: 30,*/
-        overflow: 'hidden',
-        textAlign: 'center',
-        backgroundColor:'transparent',
-    },
-
+        borderColor: '#ffffff',
+        backgroundColor: '#3a5ebc',
+    }
 });

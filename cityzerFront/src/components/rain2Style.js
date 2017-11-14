@@ -1,11 +1,8 @@
 'use strict';
-
 var React = require('react-native');
-
-var {
+var{
     StyleSheet,
 } = React;
-
 module.exports = StyleSheet.create({
     infoButton: {
         fontSize: 15,
@@ -22,7 +19,7 @@ module.exports = StyleSheet.create({
         overflow: 'hidden',
         textAlign: 'center',
         borderColor:'#ffffff',
-        backgroundColor:'#92d5fa',
+        backgroundColor:'#8cfcf6',
     },
     heading1: {
         fontSize: 25,
@@ -39,7 +36,7 @@ module.exports = StyleSheet.create({
         overflow: 'hidden',
         textAlign: 'center',
         borderColor:'#ffffff',
-        backgroundColor:'#91ecff',
+        backgroundColor:'#77e6e0',
     },
     heading2: {
         fontSize: 25,
@@ -56,7 +53,7 @@ module.exports = StyleSheet.create({
         overflow: 'hidden',
         textAlign: 'center',
         borderColor:'#ffffff',
-        backgroundColor:'#68a0d3',
+        backgroundColor:'#66cbc5',
     },
     heading3: {
         fontSize: 25,
@@ -72,19 +69,7 @@ module.exports = StyleSheet.create({
         paddingRight: 20,
         overflow: 'hidden',
         textAlign: 'center',
-        borderColor:'#ffffff',
-        backgroundColor:'#2c459a',
-    },
-    heading4: {
-        fontSize: 30,
-        fontWeight: 'bold',
-        marginLeft: 2,
-        marginRight: 2,
-        /*paddingLeft: 30,
-        paddingRight: 30,*/
-        overflow: 'hidden',
-        textAlign: 'center',
-        backgroundColor:'transparent',
-    },
-
+        borderColor: '#ffffff',
+        backgroundColor: '#5db9b3',
+    }
 });
