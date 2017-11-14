@@ -522,8 +522,8 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         textAlign: 'center',
         borderColor:'#ffffff',
-        backgroundColor:'#aeaa42',*/
-    },
+        backgroundColor:'#aeaa42',
+    },*/
     heading4: {
         fontSize: 30,
         fontWeight: 'bold',

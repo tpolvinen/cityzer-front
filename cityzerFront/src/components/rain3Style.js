@@ -76,4 +76,4 @@ module.exports = StyleSheet.create({
         borderColor: '#ffffff',
         backgroundColor: '#3a5ebc',
     }
-}
+});
