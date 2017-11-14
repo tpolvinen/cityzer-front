@@ -5,8 +5,6 @@ var{
 } = React;
 module.exports = StyleSheet.create({
     infoButton: {
-        color: 'white',
-        fontSize: 15,
         marginTop: 30,
         marginBottom: 10,
         borderWidth: 4,
@@ -18,9 +16,14 @@ module.exports = StyleSheet.create({
         paddingLeft: 20,
         paddingRight: 20,
         overflow: 'hidden',
-        textAlign: 'center',
         borderColor:'#ffffff',
         backgroundColor:'#3e7bfa',
+    },
+    infotext: {
+        color: 'white',
+        fontSize: 30,
+        textAlign: 'center',
+        justifyContent: 'center'
     },
     heading1: {
         color: 'white',

@@ -8,7 +8,6 @@ var {
 
 module.exports = StyleSheet.create({
     infoButton: {
-        fontSize: 15,
         marginTop: 30,
         marginBottom: 10,
         borderWidth: 4,
@@ -20,9 +19,13 @@ module.exports = StyleSheet.create({
         paddingLeft: 20,
         paddingRight: 20,
         overflow: 'hidden',
-        textAlign: 'center',
         borderColor:'#ffffff',
         backgroundColor:'#92d5fa',
+    },
+    infotext: {
+        color: 'black',
+        fontSize: 25,
+        textAlign: 'center'
     },
     heading1: {
         fontSize: 25,
