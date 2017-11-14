@@ -253,8 +253,8 @@ class App extends Component {
 
 
                 <View style={{flex: 1, flexDirection: 'row'}}>
-                <TouchableOpacity onPress={this.getWeather.bind(this, '0')}>
-                    <Text style={[this.state.buttonStyle.infoButton, stylesScale.infoButton]}>
+                <TouchableOpacity style={this.state.buttonStyle.infoButton} onPress={this.getWeather.bind(this, '0')}>
+                    <Text style={[this.state.buttonStyle.infotext, stylesScale.infoButton]}>
                         {I18n.t('now')}
                     </Text>
                 </TouchableOpacity>
