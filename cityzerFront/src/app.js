@@ -197,7 +197,7 @@ class App extends Component {
                     <View style={[styles.container, {flex:1}, stylesScale.container]}>
 
                 {/*Address and get location button*/}
-                <Text style={styles.welcome}>
+                <Text style={styles.address}>
                     <Image
                         style={[styles.location, stylesScale.location]}
                         source={{uri:'https://i.imgur.com/K67wWwj.gif'}}
@@ -346,7 +346,7 @@ const stylesScale = ScaleSheet.create({
         width: 80 + 'vw',
 
         // 57% of the devices height, can also be written as 57vh
-
+        height: 10 + 'vh',
     },
     heading1: {
         // 82.5% of the devices width, can also be written as '82.5vw'
@@ -402,10 +402,11 @@ const styles = StyleSheet.create({
         width: 40,
         height: 40,
     },
-    welcome: {
+    address: {
         fontSize: 20,
         textAlign: 'center',
         margin: 10,
+        marginBottom: -20,
         backgroundColor:'transparent',
         color: '#FFFFFF',
     },
