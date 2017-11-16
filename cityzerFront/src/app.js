@@ -177,7 +177,7 @@ class App extends Component {
 
             },
             (error) => this.setState({ address: I18n.t('fail'), lat:"24.940922", lon:"60.168630"}),
-            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+            { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 },
         );
 
         this.urlCall();
@@ -202,7 +202,7 @@ class App extends Component {
                             { address: response.data.results[0].address_components[1].long_name }));
                 },
                 (error) => this.setState({ address: "Paikannus ei onnistunut \nSää Helsingissä" }),
-                { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+                { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 },
             );
         }
         this.setState({appState: nextAppState});
