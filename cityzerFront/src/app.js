@@ -604,7 +604,11 @@ const styles = StyleSheet.create({
         marginBottom: -30,
     },
     infoText: {
-        fontSize: 25,
+        color: '#FFFFFF',
+        textShadowColor:'black',
+        textShadowRadius: 5,
+        textShadowOffset: {width: 1, height: 1},
+        fontSize: 30,
         marginLeft: 10,
         marginRight: 10,
         marginTop: 10,
@@ -613,17 +617,9 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         backgroundColor:'transparent'
     },
-    infoText2: {
-        fontSize: 25,
-        marginLeft: 10,
-        marginRight: 10,
-        marginBottom: -15,
-        padding: 5,
-        textAlign: 'center',
-    },
     info: {
         fontSize: 35,
-        color: '#ff002f',
+        color: '#ffffff',
         width: 50,
         height: 50,
     },
@@ -703,6 +699,10 @@ const styles = StyleSheet.create({
         backgroundColor:'#aeaa42',
     },*/
     heading4: {
+        color: "#FFFFFF",
+        textShadowColor:'black',
+        textShadowRadius: 5,
+        textShadowOffset: {width: 1, height: 1},
         fontSize: 30,
         fontWeight: 'bold',
         marginLeft: 2,
@@ -711,7 +711,6 @@ const styles = StyleSheet.create({
         paddingRight: 30,*/
         overflow: 'hidden',
         textAlign: 'center',
-        backgroundColor:'transparent',
     },
 });
 

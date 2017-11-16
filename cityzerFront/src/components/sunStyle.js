@@ -23,11 +23,17 @@ infoButton: {
     infotext: {
         marginTop: 20,
         color: 'black',
-        fontSize: 25,
+        textShadowColor:'white',
+        textShadowRadius: 10,
+        textShadowOffset: {width: 1, height: 1},
+        fontSize: 30,
         textAlign: 'center',
+        marginBottom: 13,
     },
 heading1: {
-    fontSize: 25,
+        color: 'black',
+        fontSize: 30,
+        fontWeight: 'bold',
         marginTop: 10,
         marginBottom: 10,
         borderWidth: 2,
@@ -44,7 +50,9 @@ heading1: {
         backgroundColor:'#e6e255',
 },
 heading2: {
-    fontSize: 25,
+        color: 'black',
+        fontSize: 30,
+        fontWeight: 'bold',
         marginTop: 10,
         marginBottom: 10,
         borderWidth: 2,
@@ -58,10 +66,12 @@ heading2: {
         overflow: 'hidden',
         textAlign: 'center',
         borderColor:'#ffffff',
-        backgroundColor:'#bab643',
+        backgroundColor:'#e6e255',
 },
 heading3: {
-    fontSize: 25,
+    color: 'black',
+    fontSize: 30,
+    fontWeight: 'bold',
     marginTop: 10,
     marginBottom: 10,
     borderWidth: 2,
@@ -75,6 +85,6 @@ heading3: {
     overflow: 'hidden',
     textAlign: 'center',
     borderColor: '#ffffff',
-    backgroundColor: '#aeaa42',
+    backgroundColor: '#e6e255',
     }
 });
