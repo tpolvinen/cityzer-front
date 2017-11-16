@@ -156,6 +156,7 @@ class App extends Component {
                     });
                     console.log(this.state);
 
+
                 }
             });
     }
@@ -209,6 +210,8 @@ class App extends Component {
     }
 
 
+
+    //Render funktiot eri palikoille
     renderTempinfo(){
 
         if (this.state.temperature !== null){
@@ -272,10 +275,66 @@ class App extends Component {
         }
     }
 
+    renderAddress(){
+        if (this.state.address !== null){
+            return(
+                <Text style={styles.address}>
+                    <Image
+                        style={[styles.location, stylesScale.location]}
+                        source={{uri: 'https://i.imgur.com/K67wWwj.gif'}}
+                    />
+                    {' ' + this.state.address} {this.state.addressNo} {'\n'}
+                    {this.state.suburb} {'\n\n'}
+                </Text>
+            )
+        }
 
+    }
 
+    renderBtnNow(){
+        return(
+            <TouchableOpacity style={this.state.buttonStyle.infoButton}
+                              onPress={this.getWeather.bind(this, '0')}>
+                <Text style={[this.state.buttonStyle.infotext, stylesScale.infoButton]}>
+                    {I18n.t('now')}
+                </Text>
+            </TouchableOpacity>
+        )
+    }
 
+    renderBtn1(){
+        return(
+            <TouchableOpacity onPress={this.getWeather.bind(this, '1')}>
+                <Text style={[this.state.buttonStyle.heading1, stylesScale.heading1]}>
+                    +1h
+                </Text>
+            </TouchableOpacity>
 
+        )
+    }
+
+    renderBtn2(){
+        return(
+            <TouchableOpacity onPress={this.getWeather.bind(this, '2')}>
+                <Text style={[this.state.buttonStyle.heading2, stylesScale.heading2]}>
+                    +2h
+                </Text>
+            </TouchableOpacity>
+
+        )
+    }
+    renderBtn3(){
+        return(
+            <TouchableOpacity onPress={this.getWeather.bind(this, '3')}>
+                <Text style={[this.state.buttonStyle.heading3, stylesScale.heading3]}>
+                    +3h
+                </Text>
+            </TouchableOpacity>
+
+        )
+    }
+
+    
     render() {
 
             return (
@@ -284,14 +343,7 @@ class App extends Component {
                     <View style={[styles.container, {flex: 1}, stylesScale.container]}>
 
                         {/*Address and get location button*/}
-                        <Text style={styles.address}>
-                            <Image
-                                style={[styles.location, stylesScale.location]}
-                                source={{uri: 'https://i.imgur.com/K67wWwj.gif'}}
-                            />
-                            {' ' + this.state.address} {this.state.addressNo} {'\n'}
-                            {this.state.suburb} {'\n\n'}
-                        </Text>
+                        {this.renderAddress()}
                         {/*main picture*/}
                         {this.renderImg()}
 
@@ -304,12 +356,7 @@ class App extends Component {
 
 
                         <View style={{flex: 1, flexDirection: 'row'}}>
-                            <TouchableOpacity style={this.state.buttonStyle.infoButton}
-                                              onPress={this.getWeather.bind(this, '0')}>
-                                <Text style={[this.state.buttonStyle.infotext, stylesScale.infoButton]}>
-                                    {I18n.t('now')}
-                                </Text>
-                            </TouchableOpacity>
+                            {this.renderBtnNow()}
                         </View>
 
                         <View>
@@ -321,24 +368,9 @@ class App extends Component {
                         </View>
                         {/*Button for estimates*/}
                         <View style={[{flex: 1, flexDirection: 'row'}, stylesScale.buttons]}>
-
-                            <TouchableOpacity onPress={this.getWeather.bind(this, '1')}>
-                                <Text style={[this.state.buttonStyle.heading1, stylesScale.heading1]}>
-                                    +1h
-                                </Text>
-                            </TouchableOpacity>
-
-                            <TouchableOpacity onPress={this.getWeather.bind(this, '2')}>
-                                <Text style={[this.state.buttonStyle.heading2, stylesScale.heading2]}>
-                                    +2h
-                                </Text>
-                            </TouchableOpacity>
-
-                            <TouchableOpacity onPress={this.getWeather.bind(this, '3')}>
-                                <Text style={[this.state.buttonStyle.heading3, stylesScale.heading3]}>
-                                    +3h
-                                </Text>
-                            </TouchableOpacity>
+                            {this.renderBtn1()}
+                            {this.renderBtn2()}
+                            {this.renderBtn3()}
                         </View>
                     </View>
                 </ImageBackground>
