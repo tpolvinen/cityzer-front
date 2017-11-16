@@ -119,11 +119,11 @@ class App extends Component {
         this.urlCall()
         const rain = parseFloat(this.state.json.precipitation_amount_353).toFixed(2);
         const temperature = parseFloat(this.KtoC(this.state.json.air_temperature_4));
-        const rain1 = parseFloat(this.state.json.precipitation_amount_353_1h).toFixed(2);
+        const rain1 = parseFloat(this.state.json.precipitation_amount_353_1h).toFixed(0);
         const temperature1 = parseFloat(this.KtoC(this.state.json.air_temperature_4_1h));
-        const rain2 = parseFloat(this.state.json.precipitation_amount_353_2h).toFixed(2);
+        const rain2 = parseFloat(this.state.json.precipitation_amount_353_2h).toFixed(0);
         const temperature2 = parseFloat(this.KtoC(this.state.json.air_temperature_4_2h));
-        const rain3 = parseFloat(this.state.json.precipitation_amount_353_3h).toFixed(2);
+        const rain3 = parseFloat(this.state.json.precipitation_amount_353_3h).toFixed(0);
         const temperature3 = parseFloat(this.KtoC(this.state.json.air_temperature_4_3h));
         let imgSrc = '';
         switch (i) {
@@ -176,6 +176,8 @@ class App extends Component {
                     );
 
             },
+            (error) => this.setState({ address: "Paikannus ei onnistunut\nSää Helsingissä", lat:"24.940922", lon:"60.168630"}),
+            { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 },
             (error) => this.setState({ address: I18n.t('fail'), lat:"24.940922", lon:"60.168630"}),
             { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 },
         );
@@ -230,15 +232,26 @@ class App extends Component {
 
     renderRainInfo() {
         if (this.state.rain !== null) {
-    return (
-        <Text style={[styles.infoText, stylesScale.infoText]}>
-            {I18n.t('rain')}{'\n'}
-            {/*infoRain temporary*/}
-            <Text style={styles.infoRain}>
-                {this.state.rain} mm/h{'\n'}
-            </Text>
-        </Text>
-    )
+            if (this.state.temperature >= 0) {
+                return (
+                    <Text style={[styles.infoText, stylesScale.infoText]}>
+                        {I18n.t('rain')}{'\n'}
+                        {/*infoRain temporary*/}
+                        <Text style={styles.infoRain}>
+                            {this.state.rain} mm/h{'\n'}
+                        </Text>
+                    </Text>
+                )
+            }else {
+                return (
+                    <Text style={[styles.infoText, stylesScale.infoText]}>
+                        {I18n.t('snow')}{'\n'}
+                        {/*infoRain temporary*/}
+                        <Text style={styles.infoRain}>
+                            {this.state.rain} cm/h{'\n'}
+                        </Text>
+                    </Text>)
+            }
 }
 
     }
@@ -400,7 +413,8 @@ I18n.translations = {
         now: 'Weather now',
         lang: 'FI',
         pre: 'Predictions',
-        fail: 'GPS Not found \n Weather in Helsinki'
+        fail: 'GPS Not found \n Weather in Helsinki',
+        snow: 'Snow'
     },
     fi: {
         temp: 'Lämpötila',
@@ -408,7 +422,8 @@ I18n.translations = {
         now: 'Sää nyt',
         lang: 'FI',
         pre: 'Ennusteet',
-        fail: 'Paikannus ei onnistunut \n Sää Helsingissä'
+        fail: 'Paikannus ei onnistunut \n Sää Helsingissä',
+        snow: 'Lunta'
     },
     sv: {
         temp: 'Temperatur',
@@ -416,7 +431,8 @@ I18n.translations = {
         now: 'Väder nu',
         lang: 'SV',
         pre: 'Prognoser',
-        fail: 'Lokaliseringen mislyckades \n Vädret i Helsingfors'
+        fail: 'Lokaliseringen mislyckades \n Vädret i Helsingfors',
+        snow: 'Snö'
     }
 }
 
