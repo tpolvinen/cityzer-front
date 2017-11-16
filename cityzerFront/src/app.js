@@ -211,7 +211,7 @@ class App extends Component {
 
     renderTempinfo(){
 
-        if (this.state.temperature === null){
+        if (this.state.temperature !== null){
 
             return(
             <Text style={[styles.infoText, stylesScale.infoText]}>
@@ -226,7 +226,7 @@ class App extends Component {
     }
 
     renderRainInfo() {
-        if ((this.state.rain === null)) {
+        if (this.state.rain !== null) {
     return (
         <Text style={[styles.infoText, stylesScale.infoText]}>
             {I18n.t('rain')}{'\n'}
@@ -240,8 +240,22 @@ class App extends Component {
 
     }
 
+    renderIfNull(){
+        if (this.state.temperature === null){
+            if (this.state.rain === null) {
+                return(
+                        <Text>
+                            Information not available
+                        </Text>
+                )
+            }
+        }
+
+    }
+
+
     renderImg(){
-        if (this.state.rain === null){
+        if (this.state.rain !== null){
             return(
                 <Image
                     style={styles.mainImage}
@@ -285,6 +299,7 @@ class App extends Component {
                         <View style={{flex: 1, flexDirection: 'row'}}>
                             {this.renderTempinfo()}
                             {this.renderRainInfo()}
+                            {this.renderIfNull()}
                         </View>
 
 
