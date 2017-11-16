@@ -58,7 +58,7 @@ class App extends Component {
     weatherState(x,y) {
         console.log(x+ ' ' + y);
         let imgSrc = '';
-        if (y >= 0) {
+        if (y > 2) {
             if (x <= 0.3){
                 this.imgSrc = require('./img/sun.png');
                 this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun_1280x1920.jpg');
@@ -81,14 +81,35 @@ class App extends Component {
             } else {
                 this.imgSrc = require('./img/cloudrainthree.png');
                 this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundDark_1280x1920.jpg');
-                console.log('hi')
                 this.state.buttonStyle = require('./components/rain3Style');
 
 //Sataa paljon vettä
 
             }
         }
+        else if(y > 0 && y <= 2) {
+            if (x <= 0.3) {
+                this.imgSrc = require('./img/sun.png');
+                this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun_1280x1920.jpg');
+                this.state.buttonStyle = require('./components/sunStyle');
 
+            } else if (x >= 0.31 && x <= 0.9) {
+
+                this.imgSrc = require('./img/cloudsnowrain.png');
+                this.bgImg = require('./img/blurbag/blue-blurred-background_1280x1920.jpg');
+                this.state.buttonStyle = require('./components/rainStyle');
+
+            } else if (x >= 0.91 && x <= 4.4) {
+                this.imgSrc = require('./img/cloudsnowraintwo.png');
+                this.bgImg = require('./img/blurbag/darkblue-blurred-background_1280x1920.jpg');
+                this.state.buttonStyle = require('./components/rain2Style');
+
+            } else {
+                this.imgSrc = require('./img/suncloudsnowrainthree.png');
+                this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundDark_1280x1920.jpg');
+                this.state.buttonStyle = require('./components/rain3Style');
+            }
+        }
         else{
             if (x <= 0.3) {
                 this.imgSrc = require('./img/sun.png');
@@ -117,13 +138,13 @@ class App extends Component {
 
     getWeather(i) {
         this.urlCall()
-        const rain = parseFloat(this.state.json.precipitation_amount_353).toFixed(2);
+        const rain = parseFloat(this.state.json.precipitation_amount_353).toFixed(1);
         const temperature = parseFloat(this.KtoC(this.state.json.air_temperature_4));
-        const rain1 = parseFloat(this.state.json.precipitation_amount_353_1h).toFixed(2);
+        const rain1 = parseFloat(this.state.json.precipitation_amount_353_1h).toFixed(1);
         const temperature1 = parseFloat(this.KtoC(this.state.json.air_temperature_4_1h));
-        const rain2 = parseFloat(this.state.json.precipitation_amount_353_2h).toFixed(2);
+        const rain2 = parseFloat(this.state.json.precipitation_amount_353_2h).toFixed(1);
         const temperature2 = parseFloat(this.KtoC(this.state.json.air_temperature_4_2h));
-        const rain3 = parseFloat(this.state.json.precipitation_amount_353_3h).toFixed(2);
+        const rain3 = parseFloat(this.state.json.precipitation_amount_353_3h).toFixed(1);
         const temperature3 = parseFloat(this.KtoC(this.state.json.air_temperature_4_3h));
         let imgSrc = '';
         switch (i) {
@@ -176,8 +197,10 @@ class App extends Component {
                     );
 
             },
+            (error) => this.setState({ address: "Paikannus ei onnistunut\nSää Helsingissä", lat:"24.940922", lon:"60.168630"}),
+            { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 },
             (error) => this.setState({ address: I18n.t('fail'), lat:"24.940922", lon:"60.168630"}),
-            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+            { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 },
         );
 
         this.urlCall();
@@ -202,7 +225,7 @@ class App extends Component {
                             { address: response.data.results[0].address_components[1].long_name }));
                 },
                 (error) => this.setState({ address: "Paikannus ei onnistunut \nSää Helsingissä" }),
-                { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+                { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 },
             );
         }
         this.setState({appState: nextAppState});
