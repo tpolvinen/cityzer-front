@@ -58,7 +58,7 @@ class App extends Component {
     weatherState(x,y) {
         console.log(x+ ' ' + y);
         let imgSrc = '';
-        if (y >= 0) {
+        if (y > 2) {
             if (x <= 0.3){
                 this.imgSrc = require('./img/sun.png');
                 this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun_1280x1920.jpg');
@@ -81,14 +81,35 @@ class App extends Component {
             } else {
                 this.imgSrc = require('./img/cloudrainthree.png');
                 this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundDark_1280x1920.jpg');
-                console.log('hi')
                 this.state.buttonStyle = require('./components/rain3Style');
 
 //Sataa paljon vettä
 
             }
         }
+        else if(y > 0 && y <= 2) {
+            if (x <= 0.3) {
+                this.imgSrc = require('./img/sun.png');
+                this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun_1280x1920.jpg');
+                this.state.buttonStyle = require('./components/sunStyle');
 
+            } else if (x >= 0.31 && x <= 0.9) {
+
+                this.imgSrc = require('./img/cloudsnowrain.png');
+                this.bgImg = require('./img/blurbag/blue-blurred-background_1280x1920.jpg');
+                this.state.buttonStyle = require('./components/rainStyle');
+
+            } else if (x >= 0.91 && x <= 4.4) {
+                this.imgSrc = require('./img/cloudsnowraintwo.png');
+                this.bgImg = require('./img/blurbag/darkblue-blurred-background_1280x1920.jpg');
+                this.state.buttonStyle = require('./components/rain2Style');
+
+            } else {
+                this.imgSrc = require('./img/suncloudsnowrainthree.png');
+                this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundDark_1280x1920.jpg');
+                this.state.buttonStyle = require('./components/rain3Style');
+            }
+        }
         else{
             if (x <= 0.3) {
                 this.imgSrc = require('./img/sun.png');
