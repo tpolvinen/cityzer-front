@@ -117,7 +117,7 @@ class App extends Component {
 
     getWeather(i) {
         this.urlCall()
-        const rain = parseFloat(this.state.json.precipitation_amount_353).toFixed(2);
+        const rain = parseFloat(this.state.json.precipitation_amount_353).toFixed(0);
         const temperature = parseFloat(this.KtoC(this.state.json.air_temperature_4));
         const rain1 = parseFloat(this.state.json.precipitation_amount_353_1h).toFixed(0);
         const temperature1 = parseFloat(this.KtoC(this.state.json.air_temperature_4_1h));
