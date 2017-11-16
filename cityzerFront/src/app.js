@@ -117,13 +117,13 @@ class App extends Component {
 
     getWeather(i) {
         this.urlCall()
-        const rain = parseFloat(this.state.json.precipitation_amount_353).toFixed(0);
+        const rain = parseFloat(this.state.json.precipitation_amount_353).toFixed(1);
         const temperature = parseFloat(this.KtoC(this.state.json.air_temperature_4));
-        const rain1 = parseFloat(this.state.json.precipitation_amount_353_1h).toFixed(0);
+        const rain1 = parseFloat(this.state.json.precipitation_amount_353_1h).toFixed(1);
         const temperature1 = parseFloat(this.KtoC(this.state.json.air_temperature_4_1h));
-        const rain2 = parseFloat(this.state.json.precipitation_amount_353_2h).toFixed(0);
+        const rain2 = parseFloat(this.state.json.precipitation_amount_353_2h).toFixed(1);
         const temperature2 = parseFloat(this.KtoC(this.state.json.air_temperature_4_2h));
-        const rain3 = parseFloat(this.state.json.precipitation_amount_353_3h).toFixed(0);
+        const rain3 = parseFloat(this.state.json.precipitation_amount_353_3h).toFixed(1);
         const temperature3 = parseFloat(this.KtoC(this.state.json.air_temperature_4_3h));
         let imgSrc = '';
         switch (i) {
