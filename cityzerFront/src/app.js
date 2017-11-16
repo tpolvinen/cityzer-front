@@ -164,7 +164,7 @@ class App extends Component {
 
     urlCall() {
 
-        const url = 'http://128.199.61.201/api/weather.json';
+        const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
         //const url = 'http://128.199.61.201/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
 
         axios.get(url)
@@ -253,7 +253,7 @@ class App extends Component {
 
     renderRainInfo() {
         if (this.state.rain !== null) {
-            if (this.state.temperature >= 0) {
+            if (this.state.temperature > 2 && this.state.rain > 0.2) {
                 return (
                     <Text style={[styles.infoText, stylesScale.infoText]}>
                         {I18n.t('rain')}{'\n'}
@@ -263,13 +263,34 @@ class App extends Component {
                         </Text>
                     </Text>
                 )
-            }else {
+            }
+            else if (this.state.temperature  >= 0 && this.state.temperature <= 2 && this.state.rain > 0.2) {
+                return (
+                    <Text style={[styles.infoText, stylesScale.infoText]}>
+                        {I18n.t('sleet')}{'\n'}
+                        {/*infoRain temporary*/}
+                        <Text style={styles.infoRain}>
+                            {this.state.rain} mm/h{'\n'}
+                        </Text>
+                    </Text>
+                )
+            }else if (this.state.temperature  <0 && this.state.rain > 0.2) {
                 return (
                     <Text style={[styles.infoText, stylesScale.infoText]}>
                         {I18n.t('snow')}{'\n'}
                         {/*infoRain temporary*/}
                         <Text style={styles.infoRain}>
                             {this.state.rain} cm/h{'\n'}
+                        </Text>
+                    </Text>)
+            }
+            else {
+                return (
+                    <Text style={[styles.infoText, stylesScale.infoText]}>
+                        {I18n.t('dry')}{'\n'}
+                        {/*infoRain temporary*/}
+                        <Text style={styles.infoRain}>
+                            {this.state.rain} mm/h{'\n'}
                         </Text>
                     </Text>)
             }
@@ -435,7 +456,10 @@ I18n.translations = {
         lang: 'FI',
         pre: 'Predictions',
         fail: 'GPS Not found \n Weather in Helsinki',
-        snow: 'Snow'
+        snow: 'Snow',
+        sleet: 'Sleet',
+        dry: 'Dry'
+
     },
     fi: {
         temp: 'Lämpötila',
@@ -444,7 +468,9 @@ I18n.translations = {
         lang: 'FI',
         pre: 'Ennusteet',
         fail: 'Paikannus ei onnistunut \n Sää Helsingissä',
-        snow: 'Lunta'
+        snow: 'Lunta',
+        sleet: 'Räntää',
+        dry: 'Poutaa'
     },
     sv: {
         temp: 'Temperatur',
@@ -453,7 +479,9 @@ I18n.translations = {
         lang: 'SV',
         pre: 'Prognoser',
         fail: 'Lokaliseringen mislyckades \n Vädret i Helsingfors',
-        snow: 'Snö'
+        snow: 'Snö',
+        sleet: 'Slask',
+        dry: 'Uppehåll'
     }
 }
 
