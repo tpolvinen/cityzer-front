@@ -143,7 +143,7 @@ class App extends Component {
 
     urlCall() {
 
-        const url = 'http://128.199.61.201/api/weather.json';
+        const url = 'http://128.199.61.201/api/weather.json.x';
         //const url = 'http://128.199.61.201/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
 
         axios.get(url)
@@ -155,6 +155,7 @@ class App extends Component {
                         temperature: this.KtoC(response.data.air_temperature_4)
                     });
                     console.log(this.state);
+
                 }
             });
     }
@@ -179,6 +180,7 @@ class App extends Component {
         );
 
         this.urlCall();
+
 
 
     }
@@ -206,92 +208,123 @@ class App extends Component {
         console.log(this.state.appState + ' ' + this.state.address);
     }
 
-    render() {
 
-        return (
+    renderTempinfo(){
 
-            <ImageBackground source={this.bgImg} style={styles.backgroundImage} >
-                    <View style={[styles.container, {flex:1}, stylesScale.container]}>
-
-                {/*Address and get location button*/}
-                <Text style={styles.address}>
-                    <Image
-                        style={[styles.location, stylesScale.location]}
-                        source={{uri:'https://i.imgur.com/K67wWwj.gif'}}
-                    />
-                     {' '+this.state.address} {this.state.addressNo} {'\n'}
-                     {this.state.suburb} {'\n\n'}
+        if (this.state.temperature === null){
+            return(
+            <Text style={[styles.infoText, stylesScale.infoText]}>
+                {I18n.t('temp')}{'\n'}
+                <Text style={styles.info}>
+                    {this.state.temperature}°C
                 </Text>
+            </Text>
+            )
+        }
 
-                {/*main picture*/}
+    }
+
+    renderRainInfo() {
+        if (this.state.rain === null) {
+            return (
+                <Text style={[styles.infoText, stylesScale.infoText]}>
+                    {I18n.t('rain')}{'\n'}
+                    {/*infoRain temporary*/}
+                    <Text style={styles.infoRain}>
+                        {this.state.rain} mm/h{'\n'}
+                    </Text>
+                </Text>
+            )
+        }
+
+    }
+
+    renderImg(){
+        if (this.state.rain === null){
+            return(
                 <Image
                     style={styles.mainImage}
                     source={this.imgSrc}
-
                 />
+            )
+        }else {
+            return(
+                <Image
+                    style={styles.mainImage}
+                    source={require('./img/lines.png')}
+                />
+            )
+        }
+    }
 
-                {/*Flex table*/}
 
-                <View style={{flex: 1, flexDirection: 'row'}}>
-                    <Text style={[styles.infoText, stylesScale.infoText]}>
-                        {I18n.t('temp')}{'\n'}
-                        <Text style={styles.info}>
-                            {this.state.temperature}°C
+    render() {
+
+            return (
+
+                <ImageBackground source={this.bgImg} style={styles.backgroundImage}>
+                    <View style={[styles.container, {flex: 1}, stylesScale.container]}>
+
+                        {/*Address and get location button*/}
+                        <Text style={styles.address}>
+                            <Image
+                                style={[styles.location, stylesScale.location]}
+                                source={{uri: 'https://i.imgur.com/K67wWwj.gif'}}
+                            />
+                            {' ' + this.state.address} {this.state.addressNo} {'\n'}
+                            {this.state.suburb} {'\n\n'}
                         </Text>
-                    </Text>
+                        {/*main picture*/}
+                        {this.renderImg()}
 
-                    <Text style={[styles.infoText, stylesScale.infoText]}>
-                        {I18n.t('rain')}{'\n'}
-                        {/*infoRain temporary*/}
-                        <Text style={styles.infoRain}>
-                            {this.state.rain} mm/h{'\n'}
-                        </Text>
-                    </Text>
-                </View>
+                        {/*Flex table*/}
+                        <View style={{flex: 1, flexDirection: 'row'}}>
+                            {this.renderTempinfo()}
+                            {this.renderRainInfo()}
+                        </View>
 
 
+                        <View style={{flex: 1, flexDirection: 'row'}}>
+                            <TouchableOpacity style={this.state.buttonStyle.infoButton}
+                                              onPress={this.getWeather.bind(this, '0')}>
+                                <Text style={[this.state.buttonStyle.infotext, stylesScale.infoButton]}>
+                                    {I18n.t('now')}
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
 
+                        <View>
 
+                            <Text style={[styles.heading4, stylesScale.heading4,]}>
+                                {I18n.t('pre')}
+                            </Text>
 
-                <View style={{flex: 1, flexDirection: 'row'}}>
-                <TouchableOpacity style={this.state.buttonStyle.infoButton} onPress={this.getWeather.bind(this, '0')}>
-                    <Text style={[this.state.buttonStyle.infotext, stylesScale.infoButton]}>
-                        {I18n.t('now')}
-                    </Text>
-                </TouchableOpacity>
-                </View>
+                        </View>
+                        {/*Button for estimates*/}
+                        <View style={[{flex: 1, flexDirection: 'row'}, stylesScale.buttons]}>
 
-                <View>
+                            <TouchableOpacity onPress={this.getWeather.bind(this, '1')}>
+                                <Text style={[this.state.buttonStyle.heading1, stylesScale.heading1]}>
+                                    +1h
+                                </Text>
+                            </TouchableOpacity>
 
-                    <Text style={[styles.heading4, stylesScale.heading4,]}>
-                        {I18n.t('pre')}
-                    </Text>
+                            <TouchableOpacity onPress={this.getWeather.bind(this, '2')}>
+                                <Text style={[this.state.buttonStyle.heading2, stylesScale.heading2]}>
+                                    +2h
+                                </Text>
+                            </TouchableOpacity>
 
-                </View>
-                {/*Button for estimates*/}
-                <View style={[{flex: 1, flexDirection: 'row'}, stylesScale.buttons]}>
+                            <TouchableOpacity onPress={this.getWeather.bind(this, '3')}>
+                                <Text style={[this.state.buttonStyle.heading3, stylesScale.heading3]}>
+                                    +3h
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </ImageBackground>
+            );
 
-                    <TouchableOpacity onPress={this.getWeather.bind(this, '1')}>
-                        <Text style={[this.state.buttonStyle.heading1, stylesScale.heading1]}>
-                            +1h
-                        </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress={this.getWeather.bind(this, '2')}>
-                    <Text style={[this.state.buttonStyle.heading2, stylesScale.heading2]}>
-                        +2h
-                    </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress={this.getWeather.bind(this, '3')}>
-                    <Text style={[this.state.buttonStyle.heading3, stylesScale.heading3]}>
-                        +3h
-                    </Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-    </ImageBackground>
-        );
     }
 }
 
