@@ -334,39 +334,39 @@ class App extends Component {
         )
     }
 
-    
+    renderPred(){
+        return(
+            <Text style={[styles.heading4, stylesScale.heading4,]}>
+                {I18n.t('pre')}
+            </Text>
+        )
+    }
+
     render() {
 
             return (
 
                 <ImageBackground source={this.bgImg} style={styles.backgroundImage}>
                     <View style={[styles.container, {flex: 1}, stylesScale.container]}>
-
-                        {/*Address and get location button*/}
-                        {this.renderAddress()}
+                        {/*Address and location */}
+                            {this.renderAddress()}
                         {/*main picture*/}
-                        {this.renderImg()}
-
-                        {/*Flex table*/}
+                            {this.renderImg()}
+                        {/*Weather info*/}
                         <View style={{flex: 1, flexDirection: 'row'}}>
                             {this.renderTempinfo()}
                             {this.renderRainInfo()}
                             {this.renderIfNull()}
                         </View>
-
-
+                        {/*weathernow button*/}
                         <View style={{flex: 1, flexDirection: 'row'}}>
                             {this.renderBtnNow()}
                         </View>
-
+                        {/*Predictions text*/}
                         <View>
-
-                            <Text style={[styles.heading4, stylesScale.heading4,]}>
-                                {I18n.t('pre')}
-                            </Text>
-
+                            {this.renderPred()}
                         </View>
-                        {/*Button for estimates*/}
+                        {/*+1,+2,+3 buttons*/}
                         <View style={[{flex: 1, flexDirection: 'row'}, stylesScale.buttons]}>
                             {this.renderBtn1()}
                             {this.renderBtn2()}
