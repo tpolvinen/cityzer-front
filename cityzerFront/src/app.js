@@ -230,15 +230,26 @@ class App extends Component {
 
     renderRainInfo() {
         if (this.state.rain !== null) {
-    return (
-        <Text style={[styles.infoText, stylesScale.infoText]}>
-            {I18n.t('rain')}{'\n'}
-            {/*infoRain temporary*/}
-            <Text style={styles.infoRain}>
-                {this.state.rain} mm/h{'\n'}
-            </Text>
-        </Text>
-    )
+            if (this.state.temperature >= 0) {
+                return (
+                    <Text style={[styles.infoText, stylesScale.infoText]}>
+                        {I18n.t('rain')}{'\n'}
+                        {/*infoRain temporary*/}
+                        <Text style={styles.infoRain}>
+                            {this.state.rain} mm/h{'\n'}
+                        </Text>
+                    </Text>
+                )
+            }else {
+                return (
+                    <Text style={[styles.infoText, stylesScale.infoText]}>
+                        {I18n.t('snow')}{'\n'}
+                        {/*infoRain temporary*/}
+                        <Text style={styles.infoRain}>
+                            {this.state.rain} cm/h{'\n'}
+                        </Text>
+                    </Text>)
+            }
 }
 
     }
@@ -400,7 +411,8 @@ I18n.translations = {
         now: 'Weather now',
         lang: 'FI',
         pre: 'Predictions',
-        fail: 'GPS Not found \n Weather in Helsinki'
+        fail: 'GPS Not found \n Weather in Helsinki',
+        snow: 'Snow'
     },
     fi: {
         temp: 'Lämpötila',
@@ -408,7 +420,8 @@ I18n.translations = {
         now: 'Sää nyt',
         lang: 'FI',
         pre: 'Ennusteet',
-        fail: 'Paikannus ei onnistunut \n Sää Helsingissä'
+        fail: 'Paikannus ei onnistunut \n Sää Helsingissä',
+        snow: 'Lunta'
     },
     sv: {
         temp: 'Temperatur',
@@ -416,7 +429,8 @@ I18n.translations = {
         now: 'Väder nu',
         lang: 'SV',
         pre: 'Prognoser',
-        fail: 'Lokaliseringen mislyckades \n Vädret i Helsingfors'
+        fail: 'Lokaliseringen mislyckades \n Vädret i Helsingfors',
+        snow: 'Snö'
     }
 }
 
