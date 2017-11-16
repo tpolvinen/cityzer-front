@@ -287,6 +287,16 @@ class App extends Component {
                     {this.state.suburb} {'\n\n'}
                 </Text>
             )
+        }else{
+            return(
+            <Text style={styles.address}>
+                <Image
+                    style={[styles.location, stylesScale.location]}
+                    source={{uri: 'https://i.imgur.com/K67wWwj.gif'}}
+                />
+                  {'\n\n\n\n'}
+            </Text>
+            )
         }
 
     }
@@ -348,11 +358,13 @@ class App extends Component {
 
                 <ImageBackground source={this.bgImg} style={styles.backgroundImage}>
                     <View style={[styles.container, {flex: 1}, stylesScale.container]}>
+
                         {/*Address and location */}
                             {this.renderAddress()}
                         {/*main picture*/}
                             {this.renderImg()}
                         {/*Weather info*/}
+
                         <View style={{flex: 1, flexDirection: 'row'}}>
                             {this.renderTempinfo()}
                             {this.renderRainInfo()}
