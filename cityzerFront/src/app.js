@@ -176,7 +176,7 @@ class App extends Component {
                     );
 
             },
-            (error) => this.setState({ address: "Paikannus ei onnistunut\nSää Helsingissä", lat:"24.940922", lon:"60.168630"}),
+            (error) => this.setState({ address: I18n.t('fail'), lat:"24.940922", lon:"60.168630"}),
             { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
         );
 
@@ -196,7 +196,7 @@ class App extends Component {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
                     this.setState({ lon: position.coords.longitude, lat: position.coords.latitude });
-                    const url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='+this.state.lat+','+this.state.lon+'&key=AIzaSyD-VCDRI-XxI1U-oz-5ujODryCQ1zSJi0U';
+                    const url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='+this.state.lat+','+this.state.lon+'&key=AIzaSyD-VCDRI-XxI1U-oz-5ujODryCQ1zSJi0U&language='+I18n.t('lang')+'&region='+I18n.t('lang');
                     axios.get(url)
                         .then(response => this.setState(
                             { address: response.data.results[0].address_components[1].long_name }));
@@ -399,22 +399,24 @@ I18n.translations = {
         rain: 'Rain',
         now: 'Weather now',
         lang: 'FI',
-        pre: 'Predictions'
+        pre: 'Predictions',
+        fail: 'GPS Not found \n Weather in Helsinki'
     },
     fi: {
         temp: 'Lämpötila',
         rain: 'Sade',
         now: 'Sää nyt',
         lang: 'FI',
-        pre: 'Ennusteet'
-
+        pre: 'Ennusteet',
+        fail: 'Paikannus ei onnistunut \n Sää Helsingissä'
     },
     sv: {
         temp: 'Temperatur',
         rain: 'Regn',
         now: 'Väder nu',
         lang: 'SV',
-        pre: 'Prognoser'
+        pre: 'Prognoser',
+        fail: 'Lokaliseringen mislyckades \n Vädret i Helsingfors'
     }
 }
 
