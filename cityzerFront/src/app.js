@@ -143,7 +143,7 @@ class App extends Component {
 
     urlCall() {
 
-        const url = 'http://128.199.61.201/api/weather.json.x';
+        const url = 'http://128.199.61.201/api/weather.json';
         //const url = 'http://128.199.61.201/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
 
         axios.get(url)
@@ -212,6 +212,7 @@ class App extends Component {
     renderTempinfo(){
 
         if (this.state.temperature === null){
+
             return(
             <Text style={[styles.infoText, stylesScale.infoText]}>
                 {I18n.t('temp')}{'\n'}
@@ -225,17 +226,17 @@ class App extends Component {
     }
 
     renderRainInfo() {
-        if (this.state.rain === null) {
-            return (
-                <Text style={[styles.infoText, stylesScale.infoText]}>
-                    {I18n.t('rain')}{'\n'}
-                    {/*infoRain temporary*/}
-                    <Text style={styles.infoRain}>
-                        {this.state.rain} mm/h{'\n'}
-                    </Text>
-                </Text>
-            )
-        }
+        if ((this.state.rain === null)) {
+    return (
+        <Text style={[styles.infoText, stylesScale.infoText]}>
+            {I18n.t('rain')}{'\n'}
+            {/*infoRain temporary*/}
+            <Text style={styles.infoRain}>
+                {this.state.rain} mm/h{'\n'}
+            </Text>
+        </Text>
+    )
+}
 
     }
 
@@ -256,6 +257,9 @@ class App extends Component {
             )
         }
     }
+
+
+
 
 
     render() {
