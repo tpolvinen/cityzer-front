@@ -8,10 +8,11 @@ import {
     TouchableOpacity,
     AppState,
     Platform,
-    ImageBackground
+    ImageBackground,
+    TextInput
 } from 'react-native';
 import axios from 'axios';
-
+import Geocoder from 'react-native-geocoding';
 import I18n from 'react-native-i18n';
 import ScaleSheet from 'react-native-scalesheet';
 import rainStyle from './components/rainStyle';
@@ -36,7 +37,8 @@ class App extends Component {
             imgSrc: '',
             bgImg: '',
             buttonStyle: require('./components/sunStyle.js') ,
-            rainState:  require('./components/rainStyle.js')
+            rainState:  require('./components/rainStyle.js'),
+            text: ''
         };
         this.getWeather = this.getWeather.bind(this);
         this.weatherState = this.weatherState.bind(this);
@@ -135,9 +137,23 @@ class App extends Component {
         console.log(imgSrc);
         return imgSrc;
     }
+    getAddress() {
+        Geocoder.setApiKey('AIzaSyD-VCDRI-XxI1U-oz-5ujODryCQ1zSJi0U'); // use a valid API key
+        Geocoder.getFromLocation(this.state.text).then(
+            json => {
+                var location = json.results[0].geometry.location;
+                this.setState({lat: location.lat, lon: location.lng});
+                this.urlCall()
+                this.setState({address: json.results[0].address_components[1].long_name, addressNo: json.results[0].address_components[0].long_name, suburb: json.results[0].address_components[3].long_name});
+            },
+            error => {
+                console.log(error);
+            }
+        );
+    }
 
     getWeather(i) {
-        this.urlCall()
+
         const rain = parseFloat(this.state.json.precipitation_amount_353).toFixed(1);
         const temperature = parseFloat(this.KtoC(this.state.json.air_temperature_4));
         const rain1 = parseFloat(this.state.json.precipitation_amount_353_1h).toFixed(1);
@@ -158,29 +174,38 @@ class App extends Component {
                 return this.setState({rain: rain3, imgSrc: this.weatherState(rain3,temperature3), temperature: this.KtoC(this.state.json.air_temperature_4_3h)});
 
             default:
-                this.setState({rain: parseFloat(this.state.json.precipitation_amount_353).toFixed(2), temperature: this.KtoC(this.state.json.air_temperature_4), imgSrc: this.weatherState(parseFloat(this.state.json.precipitation_amount_353).toFixed(2))});
+                this.setState({rain: parseFloat(this.state.json.precipitation_amount_353).toFixed(1), temperature: this.KtoC(this.state.json.air_temperature_4), imgSrc: this.weatherState(parseFloat(this.state.json.precipitation_amount_353).toFixed(1))});
         }
     }
 
     urlCall() {
 
-        /*const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;*/
-        const url = 'http://128.199.61.201/api/weather.json';
+
+
+        //const url = 'http://128.199.61.201/api/weather.json';
+        const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
+
+
 
         axios.get(url)
             .then(response => {
                 if (this.state.rain == null) {
                     this.setState({
                         json: response.data,
-                        rain: response.data.precipitation_amount_353,
+                        rain: response.data.precipitation_amount_353.toFixed(1),
                         temperature: this.KtoC(response.data.air_temperature_4)
                     });
                     console.log(this.state);
+                    this.getWeather(this.state.rain);
 
 
                 }
+            })
+            .catch(error => {
+                alert(error.response)
             });
     }
+
 
     componentDidMount() {
         this.imgSrc = require('./img/sun.png');
@@ -197,7 +222,7 @@ class App extends Component {
                     );
 
             },
-            (error) => this.setState({ address: "Paikannus ei onnistunut\nSää Helsingissä", lat:"24.940922", lon:"60.168630"}),
+            (error) => this.setState({ address: "Paikannus ei onnistunut\nSää Helsingissä", lat:"24.940922", lon:"60.168630", addressNo: null, suburb: null}),
             { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 },
             (error) => this.setState({ address: I18n.t('fail'), lat:"24.940922", lon:"60.168630"}),
             { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 },
@@ -243,9 +268,18 @@ class App extends Component {
             <Text style={[styles.infoText, stylesScale.infoText]}>
                 {I18n.t('temp')}{'\n'}
                 <Text style={styles.info}>
-                    {this.state.temperature}°C
+                    {this.state.temperature.replace(".", ",")}°C
                 </Text>
             </Text>
+            )
+        }else{
+            return(
+                <Text style={[styles.infoText, stylesScale.infoText]}>
+                    {I18n.t('temp')}{'\n'}
+                    <Text style={styles.info}>
+                        °C
+                    </Text>
+                </Text>
             )
         }
 
@@ -259,7 +293,7 @@ class App extends Component {
                         {I18n.t('rain')}{'\n'}
                         {/*infoRain temporary*/}
                         <Text style={styles.infoRain}>
-                            {this.state.rain} mm/h{'\n'}
+                            {this.state.rain.replace(".", ",")} mm/h{'\n'}
                         </Text>
                     </Text>
                 )
@@ -270,7 +304,7 @@ class App extends Component {
                         {I18n.t('sleet')}{'\n'}
                         {/*infoRain temporary*/}
                         <Text style={styles.infoRain}>
-                            {this.state.rain} mm/h{'\n'}
+                            {this.state.rain.replace(".", ",")} mm/h{'\n'}
                         </Text>
                     </Text>
                 )
@@ -280,7 +314,7 @@ class App extends Component {
                         {I18n.t('snow')}{'\n'}
                         {/*infoRain temporary*/}
                         <Text style={styles.infoRain}>
-                            {this.state.rain} cm/h{'\n'}
+                            {this.state.rain.replace(".", ",")} cm/h{'\n'}
                         </Text>
                     </Text>)
             }
@@ -290,15 +324,27 @@ class App extends Component {
                         {I18n.t('dry')}{'\n'}
                         {/*infoRain temporary*/}
                         <Text style={styles.infoRain}>
-                            {this.state.rain} mm/h{'\n'}
+                            {this.state.rain.replace(".", ",")} mm/h{'\n'}
                         </Text>
                     </Text>)
             }
-}
+        }else{
+
+            return(
+                <Text style={[styles.infoText, stylesScale.infoText]}>
+                    {I18n.t('sleet')}{'\n'}
+                    {/*infoRain temporary*/}
+                    <Text style={styles.infoRain}>
+                         mm/h{'\n'}
+                    </Text>
+                </Text>
+            )
+
+        }
 
     }
 
-    renderIfNull(){
+    /*renderIfNull(){
         if (this.state.temperature === null){
             if (this.state.rain === null) {
                 return(
@@ -309,7 +355,7 @@ class App extends Component {
             }
         }
 
-    }
+    }*/
 
 
     renderImg(){
@@ -414,16 +460,26 @@ class App extends Component {
                 <ImageBackground source={this.bgImg} style={styles.backgroundImage}>
                     <View style={[styles.container, {flex: 1}, stylesScale.container]}>
 
+                        <TextInput
+                            style={{height: 40, width:200 , borderColor: 'gray', borderWidth: 1}}
+                            onChangeText={(text) => this.setState({text})}
+                            value={this.state.text}
+                        />
+                        <TouchableOpacity onPress={this.getAddress.bind(this)}>
+                            <Text style={styles.heading4}>Etsi</Text>
+                        </TouchableOpacity>
+
                         {/*Address and location */}
                             {this.renderAddress()}
                         {/*main picture*/}
                             {this.renderImg()}
                         {/*Weather info*/}
 
+
                         <View style={{flex: 1, flexDirection: 'row'}}>
                             {this.renderTempinfo()}
                             {this.renderRainInfo()}
-                            {this.renderIfNull()}
+                            {/*{this.renderIfNull()}*/}
                         </View>
                         {/*weathernow button*/}
                         <View style={{flex: 1, flexDirection: 'row'}}>
@@ -439,6 +495,7 @@ class App extends Component {
                             {this.renderBtn2()}
                             {this.renderBtn3()}
                         </View>
+
                     </View>
                 </ImageBackground>
             );
