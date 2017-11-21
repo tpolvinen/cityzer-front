@@ -482,6 +482,7 @@ class App extends Component {
             return (
 
                 <ImageBackground source={this.bgImg} style={styles.backgroundImage}>
+
                     <View style={[styles.container, {flex: 1, flexDirection: 'column'}]}>
 
 
@@ -493,6 +494,7 @@ class App extends Component {
 
 
                         <View style={{flex: 1}}>
+
                             {this.renderImg()}
                         </View>
 
@@ -579,9 +581,28 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
+    addressRow: {
+        marginTop: 20,
+    },
     location: {
         width: 40,
         height: 40,
+        marginRight: 10,
+    },
+    addressInput: {
+        height: 40,
+        width:200,
+        borderRadius: 3,
+        borderColor:'#ffffff',
+        backgroundColor: 'white',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    searchButton: {
+        height: 40,
+        width: 40,
+        backgroundColor: 'rgba(0,0,0,0)',
+        marginLeft: 10,
     },
     address: {
         fontSize: 20,
