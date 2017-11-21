@@ -460,14 +460,16 @@ class App extends Component {
                 <ImageBackground source={this.bgImg} style={styles.backgroundImage}>
                     <View style={[styles.container, {flex: 1}, stylesScale.container]}>
 
-                        <TextInput
-                            style={{height: 40, width:200 , borderColor: 'gray', borderWidth: 1}}
-                            onChangeText={(text) => this.setState({text})}
-                            value={this.state.text}
-                        />
-                        <TouchableOpacity onPress={this.getAddress.bind(this)}>
-                            <Text>{I18n.t('search')}</Text>
-                        </TouchableOpacity>
+                        <View style={{flex: 1, flexDirection: 'row'}}>
+                            <TextInput
+                                style={{height: 40, width:200 , borderColor: 'gray', borderWidth: 1}}
+                                onChangeText={(text) => this.setState({text})}
+                                value={this.state.text}
+                            />
+                            <TouchableOpacity onPress={this.getAddress.bind(this)}>
+                                <Image source={require('./img/haku.png')} style={{height: 45, width: 45, backgroundColor: 'rgba(0,0,0,0)'}} />
+                            </TouchableOpacity>
+                        </View>
 
                         {/*Address and location */}
                             {this.renderAddress()}
