@@ -60,9 +60,18 @@ class App extends Component {
     weatherState(x,y) {
         console.log(x+ ' ' + y);
         let imgSrc = '';
+        var time = new Date().getHours().toLocaleString();
+        time = parseInt(time);
+
+        console.log(time);
+
         if (y > 2) {
             if (x <= 0.3){
-                this.imgSrc = require('./img/sun.png');
+                if (time > 21 && time <= 5){
+                    this.imgSrc = require('./img/moon.png');}
+                else {
+                    this.imgSrc = require('./img/sun.png');
+                }
                 this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun_1280x1920.jpg');
                 this.state.buttonStyle = require('./components/sunStyle');
 //Aurinkoinen sää
@@ -91,9 +100,14 @@ class App extends Component {
         }
         else if(y > 0 && y <= 2) {
             if (x <= 0.3) {
-                this.imgSrc = require('./img/sun.png');
+                if (time > 21 && time <= 5){
+                    this.imgSrc = require('./img/moon.png');}
+                else {
+                    this.imgSrc = require('./img/sun.png');
+                }
                 this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun_1280x1920.jpg');
                 this.state.buttonStyle = require('./components/sunStyle');
+
 
             } else if (x >= 0.31 && x <= 0.9) {
 
@@ -114,7 +128,11 @@ class App extends Component {
         }
         else{
             if (x <= 0.3) {
-                this.imgSrc = require('./img/sun.png');
+                if (time > 21 && time <= 5){
+                    this.imgSrc = require('./img/moon.png');}
+                else {
+                    this.imgSrc = require('./img/sun.png');
+                }
                 this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun_1280x1920.jpg');
 //Aurinkoinen sää
             } else if (x >= 0.31 && x <= 0.9) {
@@ -208,7 +226,7 @@ class App extends Component {
 
 
     componentDidMount() {
-        this.imgSrc = require('./img/sun.png');
+        /*this.imgSrc = require('./img/sun.png');*/
         this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun_1280x1920.jpg');
         AppState.addEventListener('change', this._handleAppStateChange);
         navigator.geolocation.getCurrentPosition(
