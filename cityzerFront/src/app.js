@@ -171,6 +171,7 @@ class App extends Component {
     }
 
     getWeather(i) {
+        this.urlCall()
         console.log(this.state.json);
         const rain = parseFloat(this.state.json.precipitation_amount_353).toFixed(1);
         const temperature = parseFloat(this.KtoC(this.state.json.air_temperature_4));
@@ -212,7 +213,7 @@ class App extends Component {
                         temperature: this.KtoC(response.data.air_temperature_4)
                     });
                     console.log(this.state);
-                    this.getWeather(this.state.rain);
+
 
 
                 }
@@ -224,7 +225,7 @@ class App extends Component {
 
 
     componentDidMount() {
-        /*this.imgSrc = require('./img/sun.png');*/
+        this.imgSrc = require('./img/sun.png');
         this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun_1280x1920.jpg');
         AppState.addEventListener('change', this._handleAppStateChange);
         navigator.geolocation.getCurrentPosition(
