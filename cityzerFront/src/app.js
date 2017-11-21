@@ -479,8 +479,12 @@ class App extends Component {
                 <ImageBackground source={this.bgImg} style={styles.backgroundImage}>
                     <View style={[styles.container, {flex: 1}, stylesScale.container]}>
 
-                        <View style={{flex: 1, flexDirection: 'row'}}>
+                        <View style={[styles.addressRow, {flex: 1, flexDirection: 'row'}]}>
 
+                            <Image
+                                style={[styles.location, stylesScale.location]}
+                                source={{uri: 'https://i.imgur.com/K67wWwj.gif'}}
+                            />
                             <TextInput
                                 style={styles.addressInput}
                                 onChangeText={(text) => this.setState({text})}
@@ -662,9 +666,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
+    addressRow: {
+        marginTop: 20,
+    },
     location: {
         width: 40,
         height: 40,
+        marginRight: 10,
     },
     addressInput: {
         height: 40,
@@ -676,9 +684,10 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     searchButton: {
-        height: 45,
-        width: 45,
+        height: 40,
+        width: 40,
         backgroundColor: 'rgba(0,0,0,0)',
+        marginLeft: 10,
     },
     address: {
         fontSize: 20,
