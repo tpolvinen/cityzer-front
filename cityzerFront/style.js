@@ -18,8 +18,8 @@ var myStyles = React.StyleSheet.create({
     welcome: {
         fontSize: 20,
         textAlign: 'center',
-        paddingLeft: 10,
-        paddingRight: 10,
+        /*paddingLeft: 10,
+        paddingRight: 10,*/
         marginTop: 10,
         marginBottom: 20,
     },
@@ -44,19 +44,19 @@ var myStyles = React.StyleSheet.create({
     },
     infoText: {
         fontSize: 25,
-        marginLeft: 10,
+        /*marginLeft: 10,
         marginRight: 10,
-        marginTop: 10,
-        marginBottom: -15,
-        padding: 5,
+        marginTop: 10,*/
+        /*marginBottom: -15,*/
+        /*padding: 5,*/
         textAlign: 'center',
     },
     infoText2: {
         fontSize: 25,
-        marginLeft: 10,
+        /*marginLeft: 10,
         marginRight: 10,
-        marginBottom: -15,
-        padding: 5,
+        marginBottom: -15,*/
+        /*padding: 5,*/
         textAlign: 'center',
     },
     info: {
@@ -72,8 +72,8 @@ var myStyles = React.StyleSheet.create({
         textShadowOffset: {width: 1, height: 1},
     },
     infoImage: {
-        width: 50,
-        height: 50,
+        /*width: 50,
+        height: 50,*/
     },
     forecastFlex: {
         flex: 1,
