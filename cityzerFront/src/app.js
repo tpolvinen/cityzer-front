@@ -487,10 +487,9 @@ class App extends Component {
                                 value={this.state.text}
                             />
                             <TouchableOpacity onPress={this.getAddress.bind(this)}>
-                                <Image source={require('./img/haku.png')} style={{height: 45, width: 45, backgroundColor: 'rgba(0,0,0,0)'}} />
+                                <Image source={require('./img/haku.png')} style={styles.searchButton} />
                             </TouchableOpacity>
                         </View>
-                        
 
                         {/*Address and location */}
                         {this.renderAddress()}
@@ -675,6 +674,11 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    searchButton: {
+        height: 45,
+        width: 45,
+        backgroundColor: 'rgba(0,0,0,0)',
     },
     address: {
         fontSize: 20,
