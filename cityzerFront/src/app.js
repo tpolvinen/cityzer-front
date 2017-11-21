@@ -137,7 +137,7 @@ class App extends Component {
     }
 
     getWeather(i) {
-        this.urlCall()
+
         const rain = parseFloat(this.state.json.precipitation_amount_353).toFixed(1);
         const temperature = parseFloat(this.KtoC(this.state.json.air_temperature_4));
         const rain1 = parseFloat(this.state.json.precipitation_amount_353_1h).toFixed(1);
@@ -158,7 +158,7 @@ class App extends Component {
                 return this.setState({rain: rain3, imgSrc: this.weatherState(rain3,temperature3), temperature: this.KtoC(this.state.json.air_temperature_4_3h)});
 
             default:
-                this.setState({rain: parseFloat(this.state.json.precipitation_amount_353).toFixed(2), temperature: this.KtoC(this.state.json.air_temperature_4), imgSrc: this.weatherState(parseFloat(this.state.json.precipitation_amount_353).toFixed(2))});
+                this.setState({rain: parseFloat(this.state.json.precipitation_amount_353).toFixed(1), temperature: this.KtoC(this.state.json.air_temperature_4), imgSrc: this.weatherState(parseFloat(this.state.json.precipitation_amount_353).toFixed(1))});
         }
     }
 
@@ -172,10 +172,11 @@ class App extends Component {
                 if (this.state.rain == null) {
                     this.setState({
                         json: response.data,
-                        rain: response.data.precipitation_amount_353,
+                        rain: response.data.precipitation_amount_353.toFixed(1),
                         temperature: this.KtoC(response.data.air_temperature_4)
                     });
                     console.log(this.state);
+                    this.getWeather(this.state.rain);
 
 
                 }
@@ -197,7 +198,7 @@ class App extends Component {
                     );
 
             },
-            (error) => this.setState({ address: "Paikannus ei onnistunut\nSää Helsingissä", lat:"24.940922", lon:"60.168630"}),
+            (error) => this.setState({ address: "Paikannus ei onnistunut\nSää Helsingissä", lat:"24.940922", lon:"60.168630", addressNo: null, suburb: null}),
             { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 },
             (error) => this.setState({ address: I18n.t('fail'), lat:"24.940922", lon:"60.168630"}),
             { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 },
@@ -247,6 +248,15 @@ class App extends Component {
                 </Text>
             </Text>
             )
+        }else{
+            return(
+                <Text style={[styles.infoText, stylesScale.infoText]}>
+                    {I18n.t('temp')}{'\n'}
+                    <Text style={styles.info}>
+                        °C
+                    </Text>
+                </Text>
+            )
         }
 
     }
@@ -294,11 +304,23 @@ class App extends Component {
                         </Text>
                     </Text>)
             }
-}
+        }else{
+
+            return(
+                <Text style={[styles.infoText, stylesScale.infoText]}>
+                    {I18n.t('sleet')}{'\n'}
+                    {/*infoRain temporary*/}
+                    <Text style={styles.infoRain}>
+                         mm/h{'\n'}
+                    </Text>
+                </Text>
+            )
+
+        }
 
     }
 
-    renderIfNull(){
+    /*renderIfNull(){
         if (this.state.temperature === null){
             if (this.state.rain === null) {
                 return(
@@ -309,7 +331,7 @@ class App extends Component {
             }
         }
 
-    }
+    }*/
 
 
     renderImg(){
@@ -423,7 +445,7 @@ class App extends Component {
                         <View style={{flex: 1, flexDirection: 'row'}}>
                             {this.renderTempinfo()}
                             {this.renderRainInfo()}
-                            {this.renderIfNull()}
+                            {/*{this.renderIfNull()}*/}
                         </View>
                         {/*weathernow button*/}
                         <View style={{flex: 1, flexDirection: 'row'}}>
