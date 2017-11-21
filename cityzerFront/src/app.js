@@ -244,7 +244,7 @@ class App extends Component {
             <Text style={[styles.infoText, stylesScale.infoText]}>
                 {I18n.t('temp')}{'\n'}
                 <Text style={styles.info}>
-                    {this.state.temperature}°C
+                    {this.state.temperature.replace(".", ",")}°C
                 </Text>
             </Text>
             )
@@ -269,7 +269,7 @@ class App extends Component {
                         {I18n.t('rain')}{'\n'}
                         {/*infoRain temporary*/}
                         <Text style={styles.infoRain}>
-                            {this.state.rain} mm/h{'\n'}
+                            {this.state.rain.replace(".", ",")} mm/h{'\n'}
                         </Text>
                     </Text>
                 )
@@ -280,7 +280,7 @@ class App extends Component {
                         {I18n.t('sleet')}{'\n'}
                         {/*infoRain temporary*/}
                         <Text style={styles.infoRain}>
-                            {this.state.rain} mm/h{'\n'}
+                            {this.state.rain.replace(".", ",")} mm/h{'\n'}
                         </Text>
                     </Text>
                 )
@@ -290,7 +290,7 @@ class App extends Component {
                         {I18n.t('snow')}{'\n'}
                         {/*infoRain temporary*/}
                         <Text style={styles.infoRain}>
-                            {this.state.rain} cm/h{'\n'}
+                            {this.state.rain.replace(".", ",")} cm/h{'\n'}
                         </Text>
                     </Text>)
             }
@@ -300,7 +300,7 @@ class App extends Component {
                         {I18n.t('dry')}{'\n'}
                         {/*infoRain temporary*/}
                         <Text style={styles.infoRain}>
-                            {this.state.rain} mm/h{'\n'}
+                            {this.state.rain.replace(".", ",")} mm/h{'\n'}
                         </Text>
                     </Text>)
             }
