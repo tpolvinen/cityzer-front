@@ -153,7 +153,7 @@ class App extends Component {
     }
 
     getWeather(i) {
-
+        console.log(this.state.json);
         const rain = parseFloat(this.state.json.precipitation_amount_353).toFixed(1);
         const temperature = parseFloat(this.KtoC(this.state.json.air_temperature_4));
         const rain1 = parseFloat(this.state.json.precipitation_amount_353_1h).toFixed(1);
@@ -466,7 +466,7 @@ class App extends Component {
                             value={this.state.text}
                         />
                         <TouchableOpacity onPress={this.getAddress.bind(this)}>
-                            <Text style={styles.heading4}>Etsi</Text>
+                            <Text>{I18n.t('search')}</Text>
                         </TouchableOpacity>
 
                         {/*Address and location */}
@@ -515,7 +515,8 @@ I18n.translations = {
         fail: 'GPS Not found \n Weather in Helsinki',
         snow: 'Snow',
         sleet: 'Sleet',
-        dry: 'Dry'
+        dry: 'Dry',
+        search: 'Search'
 
     },
     fi: {
@@ -527,7 +528,8 @@ I18n.translations = {
         fail: 'Paikannus ei onnistunut \n Sää Helsingissä',
         snow: 'Lunta',
         sleet: 'Räntää',
-        dry: 'Poutaa'
+        dry: 'Poutaa',
+        search: 'Etsi'
     },
     sv: {
         temp: 'Temperatur',
@@ -538,7 +540,8 @@ I18n.translations = {
         fail: 'Lokaliseringen mislyckades \n Vädret i Helsingfors',
         snow: 'Snö',
         sleet: 'Slask',
-        dry: 'Uppehåll'
+        dry: 'Uppehåll',
+        search: 'Söka'
     }
 }
 
@@ -624,7 +627,9 @@ const stylesScale = ScaleSheet.create({
 
 const styles = StyleSheet.create({
     backgroundImage: {
-        flex: 1
+        flex: 1,
+        // width: undefined,
+        // height: undefined
 //        resizeMode: 'cover', // or 'stretch'
     },
 
@@ -757,6 +762,7 @@ const styles = StyleSheet.create({
     },*/
     heading4: {
         color: "#FFFFFF",
+        backgroundColor:'rgba(0,0,0,0)',
         textShadowColor:'black',
         textShadowRadius: 5,
         textShadowOffset: {width: 1, height: 1},
