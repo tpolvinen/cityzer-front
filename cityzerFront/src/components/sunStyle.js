@@ -6,13 +6,13 @@ var{
 module.exports = StyleSheet.create({
 infoButton: {
         marginTop: 30,
-        marginBottom: 10,
+        marginBottom: 20,
         borderWidth: 2,
         borderRadius: 10,
         marginLeft: 2,
         marginRight: 2,
-        paddingTop: 20,
-        paddingBottom: 30,
+        paddingTop: 40,
+        paddingBottom: 10,
         paddingLeft: 20,
         paddingRight: 20,
         borderColor:'#ffffff',

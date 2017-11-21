@@ -200,8 +200,10 @@ class App extends Component {
     urlCall() {
 
 
-        //const url = 'http://128.199.61.201/api/weather.json';
-        const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
+
+        const url = 'http://128.199.61.201/api/weather.json';
+       //const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
+
 
 
         axios.get(url)
@@ -219,7 +221,7 @@ class App extends Component {
                 }
             })
             .catch(error => {
-                alert(error.response)
+                console.log(error.response)
             });
     }
 
@@ -477,14 +479,16 @@ class App extends Component {
                 <ImageBackground source={this.bgImg} style={styles.backgroundImage}>
                     <View style={[styles.container, {flex: 1}, stylesScale.container]}>
 
-                        <TextInput
-                            style={{height: 40, width:200 , borderColor: 'gray', borderWidth: 1}}
-                            onChangeText={(text) => this.setState({text})}
-                            value={this.state.text}
-                        />
-                        <TouchableOpacity onPress={this.getAddress.bind(this)}>
-                            <Text>{I18n.t('search')}</Text>
-                        </TouchableOpacity>
+                        <View style={{flex: 1, flexDirection: 'row'}}>
+                            <TextInput
+                                style={{height: 40, width:200 , borderColor: 'gray', borderWidth: 1}}
+                                onChangeText={(text) => this.setState({text})}
+                                value={this.state.text}
+                            />
+                            <TouchableOpacity onPress={this.getAddress.bind(this)}>
+                                <Image source={require('./img/haku.png')} style={{height: 45, width: 45, backgroundColor: 'rgba(0,0,0,0)'}} />
+                            </TouchableOpacity>
+                        </View>
 
                         {/*Address and location */}
                             {this.renderAddress()}
@@ -504,6 +508,7 @@ class App extends Component {
                         </View>
                         {/*Predictions text*/}
                         <View>
+
                             {this.renderPred()}
                         </View>
                         {/*+1,+2,+3 buttons*/}
@@ -596,7 +601,7 @@ const stylesScale = ScaleSheet.create({
         height: 1 + 'vh',
     },
     buttons: {
-        marginBottom: 3 +'vh'
+        marginBottom: 7 +'vh'
     },
     infoButton: {
         // 82.5% of the devices width, can also be written as '82.5vw'
@@ -691,8 +696,7 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         marginRight: 10,
         marginTop: 10,
-        marginBottom: -15,
-        padding: 5,
+        marginBottom: -50,
         textAlign: 'center',
         backgroundColor:'transparent'
     },
@@ -783,7 +787,7 @@ const styles = StyleSheet.create({
         textShadowColor:'black',
         textShadowRadius: 5,
         textShadowOffset: {width: 1, height: 1},
-        fontSize: 30,
+        fontSize: 40,
         fontWeight: 'bold',
         marginLeft: 2,
         marginRight: 2,
