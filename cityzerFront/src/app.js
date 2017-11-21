@@ -224,8 +224,8 @@ class App extends Component {
 
 
     componentDidMount() {
-        /*this.imgSrc = require('./img/sun.png');
-        this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun_1280x1920.jpg');*/
+        /*this.imgSrc = require('./img/sun.png');*/
+        this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun_1280x1920.jpg');
         AppState.addEventListener('change', this._handleAppStateChange);
         navigator.geolocation.getCurrentPosition(
             (position) => {
