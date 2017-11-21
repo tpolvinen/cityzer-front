@@ -8,10 +8,11 @@ import {
     TouchableOpacity,
     AppState,
     Platform,
-    ImageBackground
+    ImageBackground,
+    TextInput
 } from 'react-native';
 import axios from 'axios';
-
+import Geocoder from 'react-native-geocoding';
 import I18n from 'react-native-i18n';
 import ScaleSheet from 'react-native-scalesheet';
 import rainStyle from './components/rainStyle';
@@ -36,7 +37,8 @@ class App extends Component {
             imgSrc: '',
             bgImg: '',
             buttonStyle: require('./components/sunStyle.js') ,
-            rainState:  require('./components/rainStyle.js')
+            rainState:  require('./components/rainStyle.js'),
+            text: ''
         };
         this.getWeather = this.getWeather.bind(this);
         this.weatherState = this.weatherState.bind(this);
@@ -153,9 +155,23 @@ class App extends Component {
         console.log(imgSrc);
         return imgSrc;
     }
+    getAddress() {
+        Geocoder.setApiKey('AIzaSyD-VCDRI-XxI1U-oz-5ujODryCQ1zSJi0U'); // use a valid API key
+        Geocoder.getFromLocation(this.state.text).then(
+            json => {
+                var location = json.results[0].geometry.location;
+                this.setState({lat: location.lat, lon: location.lng});
+                this.urlCall()
+                this.setState({address: json.results[0].address_components[1].long_name, addressNo: json.results[0].address_components[0].long_name, suburb: json.results[0].address_components[3].long_name});
+            },
+            error => {
+                console.log(error);
+            }
+        );
+    }
 
     getWeather(i) {
-
+        console.log(this.state.json);
         const rain = parseFloat(this.state.json.precipitation_amount_353).toFixed(1);
         const temperature = parseFloat(this.KtoC(this.state.json.air_temperature_4));
         const rain1 = parseFloat(this.state.json.precipitation_amount_353_1h).toFixed(1);
@@ -182,8 +198,10 @@ class App extends Component {
 
     urlCall() {
 
-        const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
+
         //const url = 'http://128.199.61.201/api/weather.json';
+        const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
+
 
         axios.get(url)
             .then(response => {
@@ -198,8 +216,12 @@ class App extends Component {
 
 
                 }
+            })
+            .catch(error => {
+                alert(error.response)
             });
     }
+
 
     componentDidMount() {
         /*this.imgSrc = require('./img/sun.png');
@@ -262,7 +284,7 @@ class App extends Component {
             <Text style={[styles.infoText, stylesScale.infoText]}>
                 {I18n.t('temp')}{'\n'}
                 <Text style={styles.info}>
-                    {this.state.temperature}°C
+                    {this.state.temperature.replace(".", ",")}°C
                 </Text>
             </Text>
             )
@@ -287,7 +309,7 @@ class App extends Component {
                         {I18n.t('rain')}{'\n'}
                         {/*infoRain temporary*/}
                         <Text style={styles.infoRain}>
-                            {this.state.rain} mm/h{'\n'}
+                            {this.state.rain.replace(".", ",")} mm/h{'\n'}
                         </Text>
                     </Text>
                 )
@@ -298,7 +320,7 @@ class App extends Component {
                         {I18n.t('sleet')}{'\n'}
                         {/*infoRain temporary*/}
                         <Text style={styles.infoRain}>
-                            {this.state.rain} mm/h{'\n'}
+                            {this.state.rain.replace(".", ",")} mm/h{'\n'}
                         </Text>
                     </Text>
                 )
@@ -308,7 +330,7 @@ class App extends Component {
                         {I18n.t('snow')}{'\n'}
                         {/*infoRain temporary*/}
                         <Text style={styles.infoRain}>
-                            {this.state.rain} cm/h{'\n'}
+                            {this.state.rain.replace(".", ",")} cm/h{'\n'}
                         </Text>
                     </Text>)
             }
@@ -318,7 +340,7 @@ class App extends Component {
                         {I18n.t('dry')}{'\n'}
                         {/*infoRain temporary*/}
                         <Text style={styles.infoRain}>
-                            {this.state.rain} mm/h{'\n'}
+                            {this.state.rain.replace(".", ",")} mm/h{'\n'}
                         </Text>
                     </Text>)
             }
@@ -454,11 +476,21 @@ class App extends Component {
                 <ImageBackground source={this.bgImg} style={styles.backgroundImage}>
                     <View style={[styles.container, {flex: 1}, stylesScale.container]}>
 
+                        <TextInput
+                            style={{height: 40, width:200 , borderColor: 'gray', borderWidth: 1}}
+                            onChangeText={(text) => this.setState({text})}
+                            value={this.state.text}
+                        />
+                        <TouchableOpacity onPress={this.getAddress.bind(this)}>
+                            <Text>{I18n.t('search')}</Text>
+                        </TouchableOpacity>
+
                         {/*Address and location */}
                             {this.renderAddress()}
                         {/*main picture*/}
                             {this.renderImg()}
                         {/*Weather info*/}
+
 
                         <View style={{flex: 1, flexDirection: 'row'}}>
                             {this.renderTempinfo()}
@@ -479,6 +511,7 @@ class App extends Component {
                             {this.renderBtn2()}
                             {this.renderBtn3()}
                         </View>
+
                     </View>
                 </ImageBackground>
             );
@@ -498,7 +531,8 @@ I18n.translations = {
         fail: 'GPS Not found \n Weather in Helsinki',
         snow: 'Snow',
         sleet: 'Sleet',
-        dry: 'Dry'
+        dry: 'Dry',
+        search: 'Search'
 
     },
     fi: {
@@ -510,7 +544,8 @@ I18n.translations = {
         fail: 'Paikannus ei onnistunut \n Sää Helsingissä',
         snow: 'Lunta',
         sleet: 'Räntää',
-        dry: 'Poutaa'
+        dry: 'Poutaa',
+        search: 'Etsi'
     },
     sv: {
         temp: 'Temperatur',
@@ -521,7 +556,8 @@ I18n.translations = {
         fail: 'Lokaliseringen mislyckades \n Vädret i Helsingfors',
         snow: 'Snö',
         sleet: 'Slask',
-        dry: 'Uppehåll'
+        dry: 'Uppehåll',
+        search: 'Söka'
     }
 }
 
@@ -607,7 +643,9 @@ const stylesScale = ScaleSheet.create({
 
 const styles = StyleSheet.create({
     backgroundImage: {
-        flex: 1
+        flex: 1,
+        // width: undefined,
+        // height: undefined
 //        resizeMode: 'cover', // or 'stretch'
     },
 
@@ -740,6 +778,7 @@ const styles = StyleSheet.create({
     },*/
     heading4: {
         color: "#FFFFFF",
+        backgroundColor:'rgba(0,0,0,0)',
         textShadowColor:'black',
         textShadowRadius: 5,
         textShadowOffset: {width: 1, height: 1},
