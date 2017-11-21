@@ -11,6 +11,7 @@
     "kelvin-to-celsius": "^1.0.0",
     "react": "16.0.0-alpha.12",
     "react-native": "0.48.3",
+    "react-native-geocoding": "^0.2.0",
     "react-native-i18n": "^2.0.7",
     "react-native-preload-images": "^1.0.2",
     "react-native-scalesheet": "^1.0.1",

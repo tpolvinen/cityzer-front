@@ -60,7 +60,7 @@ class App extends Component {
     weatherState(x,y) {
         console.log(x+ ' ' + y);
         let imgSrc = '';
-        if (y >= 0) {
+        if (y > 2) {
             if (x <= 0.3){
                 this.imgSrc = require('./img/sun.png');
                 this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun_1280x1920.jpg');
@@ -83,14 +83,35 @@ class App extends Component {
             } else {
                 this.imgSrc = require('./img/cloudrainthree.png');
                 this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundDark_1280x1920.jpg');
-                console.log('hi')
                 this.state.buttonStyle = require('./components/rain3Style');
 
 //Sataa paljon vettä
 
             }
         }
+        else if(y > 0 && y <= 2) {
+            if (x <= 0.3) {
+                this.imgSrc = require('./img/sun.png');
+                this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun_1280x1920.jpg');
+                this.state.buttonStyle = require('./components/sunStyle');
 
+            } else if (x >= 0.31 && x <= 0.9) {
+
+                this.imgSrc = require('./img/cloudsnowrain.png');
+                this.bgImg = require('./img/blurbag/blue-blurred-background_1280x1920.jpg');
+                this.state.buttonStyle = require('./components/rainStyle');
+
+            } else if (x >= 0.91 && x <= 4.4) {
+                this.imgSrc = require('./img/cloudsnowraintwo.png');
+                this.bgImg = require('./img/blurbag/darkblue-blurred-background_1280x1920.jpg');
+                this.state.buttonStyle = require('./components/rain2Style');
+
+            } else {
+                this.imgSrc = require('./img/suncloudsnowrainthree.png');
+                this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundDark_1280x1920.jpg');
+                this.state.buttonStyle = require('./components/rain3Style');
+            }
+        }
         else{
             if (x <= 0.3) {
                 this.imgSrc = require('./img/sun.png');
@@ -132,14 +153,14 @@ class App extends Component {
     }
 
     getWeather(i) {
-        this.urlCall()
-        const rain = parseFloat(this.state.json.precipitation_amount_353).toFixed(2);
+
+        const rain = parseFloat(this.state.json.precipitation_amount_353).toFixed(1);
         const temperature = parseFloat(this.KtoC(this.state.json.air_temperature_4));
-        const rain1 = parseFloat(this.state.json.precipitation_amount_353_1h).toFixed(0);
+        const rain1 = parseFloat(this.state.json.precipitation_amount_353_1h).toFixed(1);
         const temperature1 = parseFloat(this.KtoC(this.state.json.air_temperature_4_1h));
-        const rain2 = parseFloat(this.state.json.precipitation_amount_353_2h).toFixed(0);
+        const rain2 = parseFloat(this.state.json.precipitation_amount_353_2h).toFixed(1);
         const temperature2 = parseFloat(this.KtoC(this.state.json.air_temperature_4_2h));
-        const rain3 = parseFloat(this.state.json.precipitation_amount_353_3h).toFixed(0);
+        const rain3 = parseFloat(this.state.json.precipitation_amount_353_3h).toFixed(1);
         const temperature3 = parseFloat(this.KtoC(this.state.json.air_temperature_4_3h));
         let imgSrc = '';
         switch (i) {
@@ -153,24 +174,27 @@ class App extends Component {
                 return this.setState({rain: rain3, imgSrc: this.weatherState(rain3,temperature3), temperature: this.KtoC(this.state.json.air_temperature_4_3h)});
 
             default:
-                this.setState({rain: parseFloat(this.state.json.precipitation_amount_353).toFixed(2), temperature: this.KtoC(this.state.json.air_temperature_4), imgSrc: this.weatherState(parseFloat(this.state.json.precipitation_amount_353).toFixed(2))});
+                this.setState({rain: parseFloat(this.state.json.precipitation_amount_353).toFixed(1), temperature: this.KtoC(this.state.json.air_temperature_4), imgSrc: this.weatherState(parseFloat(this.state.json.precipitation_amount_353).toFixed(1))});
         }
     }
 
     urlCall() {
 
+
         //const url = 'http://128.199.61.201/api/weather.json';
         const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
+
 
         axios.get(url)
             .then(response => {
                 if (this.state.rain == null) {
                     this.setState({
                         json: response.data,
-                        rain: response.data.precipitation_amount_353,
+                        rain: response.data.precipitation_amount_353.toFixed(1),
                         temperature: this.KtoC(response.data.air_temperature_4)
                     });
                     console.log(this.state);
+                    this.getWeather(this.state.rain);
 
 
                 }
@@ -196,10 +220,10 @@ class App extends Component {
                     );
 
             },
-            (error) => this.setState({ address: "Paikannus ei onnistunut\nSää Helsingissä", lat:"24.940922", lon:"60.168630"}),
+            (error) => this.setState({ address: "Paikannus ei onnistunut\nSää Helsingissä", lat:"24.940922", lon:"60.168630", addressNo: null, suburb: null}),
             { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 },
             (error) => this.setState({ address: I18n.t('fail'), lat:"24.940922", lon:"60.168630"}),
-            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+            { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 },
         );
 
         this.urlCall();
@@ -246,13 +270,22 @@ class App extends Component {
                 </Text>
             </Text>
             )
+        }else{
+            return(
+                <Text style={[styles.infoText, stylesScale.infoText]}>
+                    {I18n.t('temp')}{'\n'}
+                    <Text style={styles.info}>
+                        °C
+                    </Text>
+                </Text>
+            )
         }
 
     }
 
     renderRainInfo() {
         if (this.state.rain !== null) {
-            if (this.state.temperature >= 0) {
+            if (this.state.temperature > 2 && this.state.rain > 0.2) {
                 return (
                     <Text style={[styles.infoText, stylesScale.infoText]}>
                         {I18n.t('rain')}{'\n'}
@@ -262,7 +295,18 @@ class App extends Component {
                         </Text>
                     </Text>
                 )
-            }else {
+            }
+            else if (this.state.temperature  >= 0 && this.state.temperature <= 2 && this.state.rain > 0.2) {
+                return (
+                    <Text style={[styles.infoText, stylesScale.infoText]}>
+                        {I18n.t('sleet')}{'\n'}
+                        {/*infoRain temporary*/}
+                        <Text style={styles.infoRain}>
+                            {this.state.rain} mm/h{'\n'}
+                        </Text>
+                    </Text>
+                )
+            }else if (this.state.temperature  <0 && this.state.rain > 0.2) {
                 return (
                     <Text style={[styles.infoText, stylesScale.infoText]}>
                         {I18n.t('snow')}{'\n'}
@@ -272,11 +316,33 @@ class App extends Component {
                         </Text>
                     </Text>)
             }
-}
+            else {
+                return (
+                    <Text style={[styles.infoText, stylesScale.infoText]}>
+                        {I18n.t('dry')}{'\n'}
+                        {/*infoRain temporary*/}
+                        <Text style={styles.infoRain}>
+                            {this.state.rain} mm/h{'\n'}
+                        </Text>
+                    </Text>)
+            }
+        }else{
+
+            return(
+                <Text style={[styles.infoText, stylesScale.infoText]}>
+                    {I18n.t('sleet')}{'\n'}
+                    {/*infoRain temporary*/}
+                    <Text style={styles.infoRain}>
+                         mm/h{'\n'}
+                    </Text>
+                </Text>
+            )
+
+        }
 
     }
 
-    renderIfNull(){
+    /*renderIfNull(){
         if (this.state.temperature === null){
             if (this.state.rain === null) {
                 return(
@@ -287,7 +353,7 @@ class App extends Component {
             }
         }
 
-    }
+    }*/
 
 
     renderImg(){
@@ -411,7 +477,7 @@ class App extends Component {
                         <View style={{flex: 1, flexDirection: 'row'}}>
                             {this.renderTempinfo()}
                             {this.renderRainInfo()}
-                            {this.renderIfNull()}
+                            {/*{this.renderIfNull()}*/}
                         </View>
                         {/*weathernow button*/}
                         <View style={{flex: 1, flexDirection: 'row'}}>
@@ -445,7 +511,10 @@ I18n.translations = {
         lang: 'FI',
         pre: 'Predictions',
         fail: 'GPS Not found \n Weather in Helsinki',
-        snow: 'Snow'
+        snow: 'Snow',
+        sleet: 'Sleet',
+        dry: 'Dry'
+
     },
     fi: {
         temp: 'Lämpötila',
@@ -454,7 +523,9 @@ I18n.translations = {
         lang: 'FI',
         pre: 'Ennusteet',
         fail: 'Paikannus ei onnistunut \n Sää Helsingissä',
-        snow: 'Lunta'
+        snow: 'Lunta',
+        sleet: 'Räntää',
+        dry: 'Poutaa'
     },
     sv: {
         temp: 'Temperatur',
@@ -463,7 +534,9 @@ I18n.translations = {
         lang: 'SV',
         pre: 'Prognoser',
         fail: 'Lokaliseringen mislyckades \n Vädret i Helsingfors',
-        snow: 'Snö'
+        snow: 'Snö',
+        sleet: 'Slask',
+        dry: 'Uppehåll'
     }
 }
 
@@ -586,7 +659,11 @@ const styles = StyleSheet.create({
         marginBottom: -30,
     },
     infoText: {
-        fontSize: 25,
+        color: '#FFFFFF',
+        textShadowColor:'black',
+        textShadowRadius: 5,
+        textShadowOffset: {width: 1, height: 1},
+        fontSize: 30,
         marginLeft: 10,
         marginRight: 10,
         marginTop: 10,
@@ -595,17 +672,9 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         backgroundColor:'transparent'
     },
-    infoText2: {
-        fontSize: 25,
-        marginLeft: 10,
-        marginRight: 10,
-        marginBottom: -15,
-        padding: 5,
-        textAlign: 'center',
-    },
     info: {
         fontSize: 35,
-        color: '#ff002f',
+        color: '#ffffff',
         width: 50,
         height: 50,
     },
@@ -685,6 +754,10 @@ const styles = StyleSheet.create({
         backgroundColor:'#aeaa42',
     },*/
     heading4: {
+        color: "#FFFFFF",
+        textShadowColor:'black',
+        textShadowRadius: 5,
+        textShadowOffset: {width: 1, height: 1},
         fontSize: 30,
         fontWeight: 'bold',
         marginLeft: 2,
@@ -693,7 +766,6 @@ const styles = StyleSheet.create({
         paddingRight: 30,*/
         overflow: 'hidden',
         textAlign: 'center',
-        backgroundColor:'transparent',
     },
 });
 
