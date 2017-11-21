@@ -8,10 +8,11 @@ import {
     TouchableOpacity,
     AppState,
     Platform,
-    ImageBackground
+    ImageBackground,
+    TextInput
 } from 'react-native';
 import axios from 'axios';
-
+import Geocoder from 'react-native-geocoding';
 import I18n from 'react-native-i18n';
 import ScaleSheet from 'react-native-scalesheet';
 import rainStyle from './components/rainStyle';
@@ -36,7 +37,8 @@ class App extends Component {
             imgSrc: '',
             bgImg: '',
             buttonStyle: require('./components/sunStyle.js') ,
-            rainState:  require('./components/rainStyle.js')
+            rainState:  require('./components/rainStyle.js'),
+            text: ''
         };
         this.getWeather = this.getWeather.bind(this);
         this.weatherState = this.weatherState.bind(this);
@@ -114,6 +116,20 @@ class App extends Component {
         console.log(imgSrc);
         return imgSrc;
     }
+    getAddress() {
+        Geocoder.setApiKey('AIzaSyD-VCDRI-XxI1U-oz-5ujODryCQ1zSJi0U'); // use a valid API key
+        Geocoder.getFromLocation(this.state.text).then(
+            json => {
+                var location = json.results[0].geometry.location;
+                this.setState({lat: location.lat, lon: location.lng});
+                this.urlCall()
+                this.setState({address: json.results[0].address_components[1].long_name, addressNo: json.results[0].address_components[0].long_name, suburb: json.results[0].address_components[3].long_name});
+            },
+            error => {
+                console.log(error);
+            }
+        );
+    }
 
     getWeather(i) {
         this.urlCall()
@@ -143,8 +159,8 @@ class App extends Component {
 
     urlCall() {
 
-        const url = 'http://128.199.61.201/api/weather.json';
-        //const url = 'http://128.199.61.201/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
+        //const url = 'http://128.199.61.201/api/weather.json';
+        const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
 
         axios.get(url)
             .then(response => {
@@ -158,8 +174,12 @@ class App extends Component {
 
 
                 }
+            })
+            .catch(error => {
+                alert(error.response)
             });
     }
+
 
     componentDidMount() {
         this.imgSrc = require('./img/sun.png');
@@ -372,11 +392,21 @@ class App extends Component {
                 <ImageBackground source={this.bgImg} style={styles.backgroundImage}>
                     <View style={[styles.container, {flex: 1}, stylesScale.container]}>
 
+                        <TextInput
+                            style={{height: 40, width:200 , borderColor: 'gray', borderWidth: 1}}
+                            onChangeText={(text) => this.setState({text})}
+                            value={this.state.text}
+                        />
+                        <TouchableOpacity onPress={this.getAddress.bind(this)}>
+                            <Text style={styles.heading4}>Etsi</Text>
+                        </TouchableOpacity>
+
                         {/*Address and location */}
                             {this.renderAddress()}
                         {/*main picture*/}
                             {this.renderImg()}
                         {/*Weather info*/}
+
 
                         <View style={{flex: 1, flexDirection: 'row'}}>
                             {this.renderTempinfo()}
@@ -397,6 +427,7 @@ class App extends Component {
                             {this.renderBtn2()}
                             {this.renderBtn3()}
                         </View>
+
                     </View>
                 </ImageBackground>
             );
