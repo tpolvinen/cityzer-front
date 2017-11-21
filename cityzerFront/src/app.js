@@ -60,9 +60,18 @@ class App extends Component {
     weatherState(x,y) {
         console.log(x+ ' ' + y);
         let imgSrc = '';
+        var time = new Date().getHours().toLocaleString();
+        time = parseInt(time);
+
+        console.log(time);
+
         if (y > 2) {
             if (x <= 0.3){
-                this.imgSrc = require('./img/sun.png');
+                if (time > 21 && time <= 5){
+                    this.imgSrc = require('./img/moon.png');}
+                else {
+                    this.imgSrc = require('./img/sun.png');
+                }
                 this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun_1280x1920.jpg');
                 this.state.buttonStyle = require('./components/sunStyle');
 //Aurinkoinen sää
@@ -91,9 +100,14 @@ class App extends Component {
         }
         else if(y > 0 && y <= 2) {
             if (x <= 0.3) {
-                this.imgSrc = require('./img/sun.png');
+                if (time > 21 && time <= 5){
+                    this.imgSrc = require('./img/moon.png');}
+                else {
+                    this.imgSrc = require('./img/sun.png');
+                }
                 this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun_1280x1920.jpg');
                 this.state.buttonStyle = require('./components/sunStyle');
+
 
             } else if (x >= 0.31 && x <= 0.9) {
 
@@ -114,7 +128,11 @@ class App extends Component {
         }
         else{
             if (x <= 0.3) {
-                this.imgSrc = require('./img/sun.png');
+                if (time > 21 && time <= 5){
+                    this.imgSrc = require('./img/moon.png');}
+                else {
+                    this.imgSrc = require('./img/sun.png');
+                }
                 this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun_1280x1920.jpg');
 //Aurinkoinen sää
             } else if (x >= 0.31 && x <= 0.9) {
@@ -181,8 +199,10 @@ class App extends Component {
     urlCall() {
 
 
-        //const url = 'http://128.199.61.201/api/weather.json';
-        const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
+
+        const url = 'http://128.199.61.201/api/weather.json';
+       //const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
+
 
 
         axios.get(url)
@@ -206,7 +226,7 @@ class App extends Component {
 
 
     componentDidMount() {
-        this.imgSrc = require('./img/sun.png');
+        /*this.imgSrc = require('./img/sun.png');*/
         this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun_1280x1920.jpg');
         AppState.addEventListener('change', this._handleAppStateChange);
         navigator.geolocation.getCurrentPosition(
@@ -458,14 +478,16 @@ class App extends Component {
                 <ImageBackground source={this.bgImg} style={styles.backgroundImage}>
                     <View style={[styles.container, {flex: 1}, stylesScale.container]}>
 
-                        <TextInput
-                            style={{height: 40, width:200 , borderColor: 'gray', borderWidth: 1}}
-                            onChangeText={(text) => this.setState({text})}
-                            value={this.state.text}
-                        />
-                        <TouchableOpacity onPress={this.getAddress.bind(this)}>
-                            <Text>{I18n.t('search')}</Text>
-                        </TouchableOpacity>
+                        <View style={{flex: 1, flexDirection: 'row'}}>
+                            <TextInput
+                                style={{height: 40, width:200 , borderColor: 'gray', borderWidth: 1}}
+                                onChangeText={(text) => this.setState({text})}
+                                value={this.state.text}
+                            />
+                            <TouchableOpacity onPress={this.getAddress.bind(this)}>
+                                <Image source={require('./img/haku.png')} style={{height: 45, width: 45, backgroundColor: 'rgba(0,0,0,0)'}} />
+                            </TouchableOpacity>
+                        </View>
 
                         {/*Address and location */}
                             {this.renderAddress()}
