@@ -182,8 +182,8 @@ class App extends Component {
 
 
 
-        //const url = 'http://128.199.61.201/api/weather.json';
-        const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
+        const url = 'http://128.199.61.201/api/weather.json';
+       //const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
 
 
 
