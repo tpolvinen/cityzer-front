@@ -171,6 +171,7 @@ class App extends Component {
     }
 
     getWeather(i) {
+        this.urlCall()
         console.log(this.state.json);
         const rain = parseFloat(this.state.json.precipitation_amount_353).toFixed(1);
         const temperature = parseFloat(this.KtoC(this.state.json.air_temperature_4));
@@ -199,8 +200,10 @@ class App extends Component {
     urlCall() {
 
 
-        //const url = 'http://128.199.61.201/api/weather.json';
-        const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
+
+        const url = 'http://128.199.61.201/api/weather.json';
+       //const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
+
 
 
         axios.get(url)
@@ -212,19 +215,19 @@ class App extends Component {
                         temperature: this.KtoC(response.data.air_temperature_4)
                     });
                     console.log(this.state);
-                    this.getWeather(this.state.rain);
+
 
 
                 }
             })
             .catch(error => {
-                alert(error.response)
+                console.log(error.response)
             });
     }
 
 
     componentDidMount() {
-        /*this.imgSrc = require('./img/sun.png');*/
+        this.imgSrc = require('./img/sun.png');
         this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun_1280x1920.jpg');
         AppState.addEventListener('change', this._handleAppStateChange);
         navigator.geolocation.getCurrentPosition(
@@ -478,22 +481,19 @@ class App extends Component {
 
                         <View style={{flex: 1, flexDirection: 'row'}}>
 
-                            <TouchableOpacity onPress={this.getAddress.bind(this)}>
-                                <Text>{I18n.t('search')}</Text>
-                            </TouchableOpacity>
-                            {/*Address and location */}
-                            {this.renderAddress()}
                             <TextInput
                                 style={styles.addressInput}
                                 onChangeText={(text) => this.setState({text})}
                                 value={this.state.text}
                             />
-
+                            <TouchableOpacity onPress={this.getAddress.bind(this)}>
+                                <Image source={require('./img/haku.png')} style={{height: 45, width: 45, backgroundColor: 'rgba(0,0,0,0)'}} />
+                            </TouchableOpacity>
                         </View>
+                        
 
-
-
-
+                        {/*Address and location */}
+                        {this.renderAddress()}
                         {/*main picture*/}
                             {this.renderImg()}
                         {/*Weather info*/}
@@ -510,6 +510,7 @@ class App extends Component {
                         </View>
                         {/*Predictions text*/}
                         <View>
+
                             {this.renderPred()}
                         </View>
                         {/*+1,+2,+3 buttons*/}
@@ -602,7 +603,7 @@ const stylesScale = ScaleSheet.create({
         height: 1 + 'vh',
     },
     buttons: {
-        marginBottom: 3 +'vh'
+        marginBottom: 7 +'vh'
     },
     infoButton: {
         // 82.5% of the devices width, can also be written as '82.5vw'
@@ -706,8 +707,7 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         marginRight: 10,
         marginTop: 10,
-        marginBottom: -15,
-        padding: 5,
+        marginBottom: -50,
         textAlign: 'center',
         backgroundColor:'transparent'
     },
@@ -798,7 +798,7 @@ const styles = StyleSheet.create({
         textShadowColor:'black',
         textShadowRadius: 5,
         textShadowOffset: {width: 1, height: 1},
-        fontSize: 30,
+        fontSize: 40,
         fontWeight: 'bold',
         marginLeft: 2,
         marginRight: 2,
