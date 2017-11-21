@@ -476,17 +476,24 @@ class App extends Component {
                 <ImageBackground source={this.bgImg} style={styles.backgroundImage}>
                     <View style={[styles.container, {flex: 1}, stylesScale.container]}>
 
-                        <TextInput
-                            style={{height: 40, width:200 , borderColor: 'gray', borderWidth: 1}}
-                            onChangeText={(text) => this.setState({text})}
-                            value={this.state.text}
-                        />
-                        <TouchableOpacity onPress={this.getAddress.bind(this)}>
-                            <Text>{I18n.t('search')}</Text>
-                        </TouchableOpacity>
+                        <View style={{flex: 1, flexDirection: 'row'}}>
 
-                        {/*Address and location */}
+                            <TouchableOpacity onPress={this.getAddress.bind(this)}>
+                                <Text>{I18n.t('search')}</Text>
+                            </TouchableOpacity>
+                            {/*Address and location */}
                             {this.renderAddress()}
+                            <TextInput
+                                style={styles.addressInput}
+                                onChangeText={(text) => this.setState({text})}
+                                value={this.state.text}
+                            />
+
+                        </View>
+
+
+
+
                         {/*main picture*/}
                             {this.renderImg()}
                         {/*Weather info*/}
@@ -658,6 +665,15 @@ const styles = StyleSheet.create({
     location: {
         width: 40,
         height: 40,
+    },
+    addressInput: {
+        height: 40,
+        width:200,
+        borderRadius: 3,
+        borderColor:'#ffffff',
+        backgroundColor: 'white',
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     address: {
         fontSize: 20,
