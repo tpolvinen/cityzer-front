@@ -200,7 +200,7 @@ class App extends Component {
                 }
             })
             .catch(error => {
-                alert(error.response)
+                console.log(error.response)
             });
     }
 
@@ -485,6 +485,7 @@ class App extends Component {
                         </View>
                         {/*Predictions text*/}
                         <View>
+
                             {this.renderPred()}
                         </View>
                         {/*+1,+2,+3 buttons*/}
@@ -577,7 +578,7 @@ const stylesScale = ScaleSheet.create({
         height: 1 + 'vh',
     },
     buttons: {
-        marginBottom: 3 +'vh'
+        marginBottom: 7 +'vh'
     },
     infoButton: {
         // 82.5% of the devices width, can also be written as '82.5vw'
@@ -672,8 +673,7 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         marginRight: 10,
         marginTop: 10,
-        marginBottom: -15,
-        padding: 5,
+        marginBottom: -50,
         textAlign: 'center',
         backgroundColor:'transparent'
     },
@@ -764,7 +764,7 @@ const styles = StyleSheet.create({
         textShadowColor:'black',
         textShadowRadius: 5,
         textShadowOffset: {width: 1, height: 1},
-        fontSize: 30,
+        fontSize: 40,
         fontWeight: 'bold',
         marginLeft: 2,
         marginRight: 2,
