@@ -11,10 +11,6 @@ module.exports = StyleSheet.create({
         borderRadius: 10,
         marginLeft: 2,
         marginRight: 2,
-        /*paddingTop: 40,
-        paddingBottom: 10,
-        paddingLeft: 20,
-        paddingRight: 20,*/
         borderColor:'#ffffff',
         backgroundColor:'#faf658',
         justifyContent: 'center',
