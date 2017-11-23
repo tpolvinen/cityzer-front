@@ -420,6 +420,7 @@ class App extends Component {
 
     renderBtn1(){
         return(
+
             <TouchableOpacity onPress={this.getWeather.bind(this, '1')}>
                 <Text style={this.state.buttonStyle.heading1}>
                     +1h
@@ -452,9 +453,12 @@ class App extends Component {
 
     renderPred(){
         return(
-            <Text style={styles.heading4}>
-                {I18n.t('pre')}
-            </Text>
+            <View>
+                <Text style={[styles.heading4, stylesScale.heading4,]}>
+                    {I18n.t('pre')}
+                </Text>
+            </View>
+
         )
     }
 
@@ -465,6 +469,7 @@ class App extends Component {
                     style={{height: 40, width:200 , borderColor: 'gray', borderWidth: 1}}
                     onChangeText={(text) => this.setState({text})}
                     value={this.state.text}
+                    onSubmitEditing={this.getAddress.bind(this)}
                 />
                 <TouchableOpacity onPress={this.getAddress.bind(this)}>
                     <Image source={require('./img/haku.png')} style={{height: 45, width: 45, backgroundColor: 'rgba(0,0,0,0)'}} />
@@ -491,11 +496,8 @@ class App extends Component {
                         {this.renderSearch()}
 
 
-                        <View style={{flex: 1}}>
 
-                            {this.renderImg()}
-                        </View>
-
+                        {this.renderImg()}
 
                         <View style={{flex: 1, flexDirection:'row'}}>
                             {this.renderTempinfo()}
@@ -564,6 +566,85 @@ I18n.translations = {
     }
 }
 
+const stylesScale = ScaleSheet.create({
+    container: {
+        // 82.5% of the devices width, can also be written as '82.5vw'
+        width: 100 + 'vw',
+
+        // 57% of the devices height, can also be written as 57vh
+        height: 100 + 'vh',
+
+
+    },
+    location: {
+        // 82.5% of the devices width, can also be written as '82.5vw'
+        width: 7 + 'vw',
+
+        // 57% of the devices height, can also be written as 57vh
+        height: 5 + 'vh',
+    },
+    mainImage: {
+        // 82.5% of the devices width, can also be written as '82.5vw'
+        width: 25 + 'vw',
+
+        // 57% of the devices height, can also be written as 57vh
+        height: 25 + 'vh',
+    },
+
+
+    timestamp: {
+        // 82.5% of the devices width, can also be written as '82.5vw'
+        width: 1 + 'vw',
+
+        // 57% of the devices height, can also be written as 57vh
+        height: 1 + 'vh',
+    },
+    buttons: {
+        marginBottom: 7 +'vh'
+    },
+    infoButton: {
+        // 82.5% of the devices width, can also be written as '82.5vw'
+        width: 80 + 'vw',
+
+        // 57% of the devices height, can also be written as 57vh
+    },
+    heading1: {
+        // 82.5% of the devices width, can also be written as '82.5vw'
+
+        // 57% of the devices height, can also be written as 57vh
+
+
+
+    },
+    heading2: {
+        // 82.5% of the devices width, can also be written as '82.5vw'
+        width: 30 + 'vw',
+
+        // 57% of the devices height, can also be written as 57vh
+
+
+
+    },
+    heading3: {
+        // 82.5% of the devices width, can also be written as '82.5vw'
+        width: 30 + 'vw',
+
+        // 57% of the devices height, can also be written as 57vh
+
+
+    },
+
+
+  /*  heading4: {
+        // 82.5% of the devices width, can also be written as '82.5vw'
+        width: 30 + 'vw',
+
+        // 57% of the devices height, can also be written as 57vh
+
+
+    }*/
+});
+
 
 const styles = StyleSheet.create({
     backgroundImage: {
@@ -619,8 +700,8 @@ const styles = StyleSheet.create({
         textShadowRadius: 4,
     },
     mainImage: {
-        width: 130,
-        height: 130,
+        width: 200,
+        height: 200,
         borderWidth: 3,
         borderColor: '#FFFFFF',
         /*marginTop: -70,
@@ -640,13 +721,13 @@ const styles = StyleSheet.create({
         backgroundColor:'transparent'
     },
     info: {
-        fontSize: 35,
+        fontSize: 30,
         color: '#ffffff',
         width: 50,
         height: 50,
     },
     infoRain: {
-        fontSize: 35,
+        fontSize: 30,
         color: '#ffffff',
         width: 50,
         height: 50,
