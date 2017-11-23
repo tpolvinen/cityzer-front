@@ -400,7 +400,7 @@ class App extends Component {
                 <Text style={styles.address}>
                     <Image
                         style={[styles.location, stylesScale.location]}
-                        source={{uri: 'https://i.imgur.com/K67wWwj.gif'}}
+                        source={require('./img/pin.gif')}
                     />
                     {' ' + this.state.address} {this.state.addressNo} {'\n'}
                     {this.state.suburb} {'\n\n'}
@@ -411,7 +411,7 @@ class App extends Component {
             <Text style={styles.address}>
                 <Image
                     style={[styles.location, stylesScale.location]}
-                    source={{uri: 'https://i.imgur.com/K67wWwj.gif'}}
+                    source={require('./img/pin.gif')}
                 />
                   {'\n\n\n\n'}
             </Text>
@@ -575,13 +575,13 @@ const stylesScale = ScaleSheet.create({
 
 
     },
-    location: {
+  /*  location: {
         // 82.5% of the devices width, can also be written as '82.5vw'
-        width: 7 + 'vw',
+        width: 15 + 'vw',
 
         // 57% of the devices height, can also be written as 57vh
-        height: 5 + 'vh',
-    },
+        height: 15 + 'vh',
+    },*/
     mainImage: {
         // 82.5% of the devices width, can also be written as '82.5vw'
         width: 25 + 'vw',
@@ -660,8 +660,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     location: {
-        width: 40,
-        height: 40,
+        width: 100,
+        height: 100,
     },
     address: {
         fontSize: 20,
@@ -789,11 +789,12 @@ const styles = StyleSheet.create({
         fontSize: 30,
         fontWeight: 'bold',
         marginLeft: 2,
+        paddingTop: 10,
         marginRight: 2,
         /*paddingLeft: 30,
         paddingRight: 30,*/
         overflow: 'hidden',
-        textAlign: 'center',
+        textAlign: 'center'
     },
 });
 
