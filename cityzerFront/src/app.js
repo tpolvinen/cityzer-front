@@ -171,6 +171,7 @@ class App extends Component {
     }
 
     getWeather(i) {
+        this.urlCall()
         console.log(this.state.json);
         const rain = parseFloat(this.state.json.precipitation_amount_353).toFixed(1);
         const temperature = parseFloat(this.KtoC(this.state.json.air_temperature_4));
@@ -200,8 +201,8 @@ class App extends Component {
 
 
 
-        const url = 'http://128.199.61.201/api/weather.json';
-       //const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
+        //const url = 'http://128.199.61.201/api/weather.json';
+        const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
 
 
 
@@ -214,28 +215,28 @@ class App extends Component {
                         temperature: this.KtoC(response.data.air_temperature_4)
                     });
                     console.log(this.state);
-                    this.getWeather(this.state.rain);
+
 
 
                 }
             })
             .catch(error => {
-                alert(error.response)
+                console.log(error.response)
             });
     }
 
 
     componentDidMount() {
-        /*this.imgSrc = require('./img/sun.png');*/
+        this.imgSrc = require('./img/sun.png');
         this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun_1280x1920.jpg');
         AppState.addEventListener('change', this._handleAppStateChange);
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 this.setState({ lon: position.coords.longitude, lat: position.coords.latitude });
-               const url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='+this.state.lat+','+this.state.lon+'&key=AIzaSyD-VCDRI-XxI1U-oz-5ujODryCQ1zSJi0U&language='+I18n.t('lang')+'&region='+I18n.t('lang');
-               // const url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='+this.state.lat+','+this.state.lon+'&key=AIzaSyD-VCDRI-XxI1U-oz-5ujODryCQ1zSJi0U&language=FI&region=FI';
+                const url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='+this.state.lat+','+this.state.lon+'&key=AIzaSyD-VCDRI-XxI1U-oz-5ujODryCQ1zSJi0U&language='+I18n.t('lang')+'&region='+I18n.t('lang');
+                // const url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='+this.state.lat+','+this.state.lon+'&key=AIzaSyD-VCDRI-XxI1U-oz-5ujODryCQ1zSJi0U&language=FI&region=FI';
                 axios.get(url)
-                    //.then(response => console.log(response.data)
+                //.then(response => console.log(response.data)
                     .then(response => this.setState({ address: response.data.results[0].address_components[1].long_name , addressNo: response.data.results[0].address_components[0].long_name , suburb: response.data.results[2].address_components[0].long_name})
                     );
 
@@ -283,16 +284,16 @@ class App extends Component {
         if (this.state.temperature !== null){
 
             return(
-            <Text style={[styles.infoText, stylesScale.infoText]}>
-                {I18n.t('temp')}{'\n'}
-                <Text style={styles.info}>
-                    {this.state.temperature.replace(".", ",")}°C
+                <Text style={styles.infoText}>
+                    {I18n.t('temp')}{'\n'}
+                    <Text style={styles.info}>
+                        {this.state.temperature.replace(".", ",")}°C
+                    </Text>
                 </Text>
-            </Text>
             )
         }else{
             return(
-                <Text style={[styles.infoText, stylesScale.infoText]}>
+                <Text style={styles.infoText}>
                     {I18n.t('temp')}{'\n'}
                     <Text style={styles.info}>
                         °C
@@ -307,7 +308,7 @@ class App extends Component {
         if (this.state.rain !== null) {
             if (this.state.temperature > 2 && this.state.rain > 0.2) {
                 return (
-                    <Text style={[styles.infoText, stylesScale.infoText]}>
+                    <Text style={styles.infoText}>
                         {I18n.t('rain')}{'\n'}
                         {/*infoRain temporary*/}
                         <Text style={styles.infoRain}>
@@ -318,7 +319,7 @@ class App extends Component {
             }
             else if (this.state.temperature  >= 0 && this.state.temperature <= 2 && this.state.rain > 0.2) {
                 return (
-                    <Text style={[styles.infoText, stylesScale.infoText]}>
+                    <Text style={styles.infoText}>
                         {I18n.t('sleet')}{'\n'}
                         {/*infoRain temporary*/}
                         <Text style={styles.infoRain}>
@@ -328,7 +329,7 @@ class App extends Component {
                 )
             }else if (this.state.temperature  <0 && this.state.rain > 0.2) {
                 return (
-                    <Text style={[styles.infoText, stylesScale.infoText]}>
+                    <Text style={styles.infoText}>
                         {I18n.t('snow')}{'\n'}
                         {/*infoRain temporary*/}
                         <Text style={styles.infoRain}>
@@ -338,7 +339,7 @@ class App extends Component {
             }
             else {
                 return (
-                    <Text style={[styles.infoText, stylesScale.infoText]}>
+                    <Text style={styles.infoText}>
                         {I18n.t('dry')}{'\n'}
                         {/*infoRain temporary*/}
                         <Text style={styles.infoRain}>
@@ -349,11 +350,11 @@ class App extends Component {
         }else{
 
             return(
-                <Text style={[styles.infoText, stylesScale.infoText]}>
+                <Text style={styles.infoText}>
                     {I18n.t('sleet')}{'\n'}
                     {/*infoRain temporary*/}
                     <Text style={styles.infoRain}>
-                         mm/h{'\n'}
+                        mm/h{'\n'}
                     </Text>
                 </Text>
             )
@@ -362,18 +363,6 @@ class App extends Component {
 
     }
 
-    /*renderIfNull(){
-        if (this.state.temperature === null){
-            if (this.state.rain === null) {
-                return(
-                        <Text>
-                            Information not available
-                        </Text>
-                )
-            }
-        }
-
-    }*/
 
 
     renderImg(){
@@ -399,8 +388,8 @@ class App extends Component {
             return(
                 <Text style={styles.address}>
                     <Image
-                        style={[styles.location, stylesScale.location]}
-                        source={require('./img/pin.gif')}
+                        style={styles.location}
+                        source={{uri: 'https://i.imgur.com/K67wWwj.gif'}}
                     />
                     {' ' + this.state.address} {this.state.addressNo} {'\n'}
                     {this.state.suburb} {'\n\n'}
@@ -408,13 +397,13 @@ class App extends Component {
             )
         }else{
             return(
-            <Text style={styles.address}>
-                <Image
-                    style={[styles.location, stylesScale.location]}
-                    source={require('./img/pin.gif')}
-                />
-                  {'\n\n\n\n'}
-            </Text>
+                <Text style={styles.address}>
+                    <Image
+                        style={styles.location}
+                        source={{uri: 'https://i.imgur.com/K67wWwj.gif'}}
+                    />
+                    {'\n\n\n\n'}
+                </Text>
             )
         }
 
@@ -424,7 +413,7 @@ class App extends Component {
         return(
             <TouchableOpacity style={this.state.buttonStyle.infoButton}
                               onPress={this.getWeather.bind(this, '0')}>
-                <Text style={[this.state.buttonStyle.infotext, stylesScale.infoButton]}>
+                <Text style={this.state.buttonStyle.infotext}>
                     {I18n.t('now')}
                 </Text>
             </TouchableOpacity>
@@ -433,8 +422,9 @@ class App extends Component {
 
     renderBtn1(){
         return(
+
             <TouchableOpacity onPress={this.getWeather.bind(this, '1')}>
-                <Text style={[this.state.buttonStyle.heading1, stylesScale.heading1]}>
+                <Text style={this.state.buttonStyle.heading1}>
                     +1h
                 </Text>
             </TouchableOpacity>
@@ -445,7 +435,7 @@ class App extends Component {
     renderBtn2(){
         return(
             <TouchableOpacity onPress={this.getWeather.bind(this, '2')}>
-                <Text style={[this.state.buttonStyle.heading2, stylesScale.heading2]}>
+                <Text style={this.state.buttonStyle.heading2}>
                     +2h
                 </Text>
             </TouchableOpacity>
@@ -455,7 +445,7 @@ class App extends Component {
     renderBtn3(){
         return(
             <TouchableOpacity onPress={this.getWeather.bind(this, '3')}>
-                <Text style={[this.state.buttonStyle.heading3, stylesScale.heading3]}>
+                <Text style={this.state.buttonStyle.heading3}>
                     +3h
                 </Text>
             </TouchableOpacity>
@@ -465,60 +455,73 @@ class App extends Component {
 
     renderPred(){
         return(
-            <Text style={[styles.heading4, stylesScale.heading4,]}>
-                {I18n.t('pre')}
-            </Text>
+            <View>
+                <Text style={[styles.heading4, stylesScale.heading4,]}>
+                    {I18n.t('pre')}
+                </Text>
+            </View>
+
         )
     }
 
+    renderSearch(){
+        return(
+            <View style={{flex: 1, flexDirection: 'row'}}>
+                <TextInput
+                    style={{height: 40, width:200 , borderColor: 'gray', borderWidth: 1}}
+                    onChangeText={(text) => this.setState({text})}
+                    value={this.state.text}
+                    onSubmitEditing={this.getAddress.bind(this)}
+                />
+                <TouchableOpacity onPress={this.getAddress.bind(this)}>
+                    <Image source={require('./img/haku.png')} style={{height: 45, width: 45, backgroundColor: 'rgba(0,0,0,0)'}} />
+                </TouchableOpacity>
+            </View>
+        )
+
+    }
+
+
     render() {
 
-            return (
+        return (
 
-                <ImageBackground source={this.bgImg} style={styles.backgroundImage}>
-                    <View style={[styles.container, {flex: 1}, stylesScale.container]}>
+            <ImageBackground source={this.bgImg} style={styles.backgroundImage}>
+
+                <View style={[styles.container, {flex: 1, flexDirection: 'column'}]}>
+
+
+                    <View style={{flex: 1}}>
+                        {this.renderAddress()}
+                    </View>
+
+                    {this.renderSearch()}
+
+
+
+                    {this.renderImg()}
+
+                    <View style={{flex: 1, flexDirection:'row'}}>
+                        {this.renderTempinfo()}
+                        {this.renderRainInfo()}
+                    </View>
+
+                    <View style={{flex: 1}}>
+                        {this.renderBtnNow()}
+                    </View>
+
+                    <View style={{flex: 1, flexDirection:'column'}}>
+                        {this.renderPred()}
 
                         <View style={{flex: 1, flexDirection: 'row'}}>
-                            <TextInput
-                                style={{height: 40, width:200 , borderColor: 'gray', borderWidth: 1}}
-                                onChangeText={(text) => this.setState({text})}
-                                value={this.state.text}
-                            />
-                            <TouchableOpacity onPress={this.getAddress.bind(this)}>
-                                <Image source={require('./img/haku.png')} style={{height: 45, width: 45, backgroundColor: 'rgba(0,0,0,0)'}} />
-                            </TouchableOpacity>
-                        </View>
-
-                        {/*Address and location */}
-                            {this.renderAddress()}
-                        {/*main picture*/}
-                            {this.renderImg()}
-                        {/*Weather info*/}
-
-
-                        <View style={{flex: 1, flexDirection: 'row'}}>
-                            {this.renderTempinfo()}
-                            {this.renderRainInfo()}
-                            {/*{this.renderIfNull()}*/}
-                        </View>
-                        {/*weathernow button*/}
-                        <View style={{flex: 1, flexDirection: 'row'}}>
-                            {this.renderBtnNow()}
-                        </View>
-                        {/*Predictions text*/}
-                        <View>
-                            {this.renderPred()}
-                        </View>
-                        {/*+1,+2,+3 buttons*/}
-                        <View style={[{flex: 1, flexDirection: 'row'}, stylesScale.buttons]}>
                             {this.renderBtn1()}
                             {this.renderBtn2()}
                             {this.renderBtn3()}
                         </View>
-
                     </View>
-                </ImageBackground>
-            );
+                </View>
+            </ImageBackground>
+        );
 
     }
 }
@@ -575,13 +578,13 @@ const stylesScale = ScaleSheet.create({
 
 
     },
-  /*  location: {
+    location: {
         // 82.5% of the devices width, can also be written as '82.5vw'
-        width: 15 + 'vw',
+        width: 7 + 'vw',
 
         // 57% of the devices height, can also be written as 57vh
-        height: 15 + 'vh',
-    },*/
+        height: 5 + 'vh',
+    },
     mainImage: {
         // 82.5% of the devices width, can also be written as '82.5vw'
         width: 25 + 'vw',
@@ -599,7 +602,7 @@ const stylesScale = ScaleSheet.create({
         height: 1 + 'vh',
     },
     buttons: {
-        marginBottom: 3 +'vh'
+        marginBottom: 7 +'vh'
     },
     infoButton: {
         // 82.5% of the devices width, can also be written as '82.5vw'
@@ -609,7 +612,6 @@ const stylesScale = ScaleSheet.create({
     },
     heading1: {
         // 82.5% of the devices width, can also be written as '82.5vw'
-        width: 30 + 'vw',
 
         // 57% of the devices height, can also be written as 57vh
 
@@ -635,15 +637,13 @@ const stylesScale = ScaleSheet.create({
     },
 
 
-  /*  heading4: {
-        // 82.5% of the devices width, can also be written as '82.5vw'
-        width: 30 + 'vw',
-
-        // 57% of the devices height, can also be written as 57vh
-
-
-    }*/
+    /*  heading4: {
+          // 82.5% of the devices width, can also be written as '82.5vw'
+          width: 30 + 'vw',
+          // 57% of the devices height, can also be written as 57vh
+      }*/
 });
+
 
 const styles = StyleSheet.create({
     backgroundImage: {
@@ -659,9 +659,28 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
+    addressRow: {
+        marginTop: 20,
+    },
     location: {
-        width: 100,
-        height: 100,
+        width: 40,
+        height: 40,
+        marginRight: 10,
+    },
+    addressInput: {
+        height: 40,
+        width:200,
+        borderRadius: 3,
+        borderColor:'#ffffff',
+        backgroundColor: 'white',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    searchButton: {
+        height: 40,
+        width: 40,
+        backgroundColor: 'rgba(0,0,0,0)',
+        marginLeft: 10,
     },
     address: {
         fontSize: 20,
@@ -680,10 +699,12 @@ const styles = StyleSheet.create({
         textShadowRadius: 4,
     },
     mainImage: {
-        width: 300,
-        height: 300,
-        marginTop: -70,
-        marginBottom: -30,
+        width: 200,
+        height: 200,
+        borderWidth: 3,
+        borderColor: '#FFFFFF',
+        /*marginTop: -70,
+        marginBottom: -30,*/
     },
     infoText: {
         color: '#FFFFFF',
@@ -694,25 +715,24 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         marginRight: 10,
         marginTop: 10,
-        marginBottom: -15,
-        padding: 5,
+        marginBottom: -50,
         textAlign: 'center',
         backgroundColor:'transparent'
     },
     info: {
-        fontSize: 35,
+        fontSize: 30,
         color: '#ffffff',
         width: 50,
         height: 50,
     },
     infoRain: {
-        fontSize: 35,
+        fontSize: 30,
         color: '#ffffff',
         width: 50,
         height: 50,
     },
 
-/*    infoButton: {
+    infoButton: {
         fontSize: 15,
         marginTop: 30,
         marginBottom: 10,
@@ -720,10 +740,10 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginLeft: 2,
         marginRight: 2,
-        paddingTop: 20,
+        /*paddingTop: 20,
         paddingBottom: 30,
         paddingLeft: 20,
-        paddingRight: 20,
+        paddingRight: 20,*/
         overflow: 'hidden',
         textAlign: 'center',
         borderColor:'#ffffff',
@@ -737,10 +757,10 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginLeft: 2,
         marginRight: 2,
-        paddingTop: 20,
+        /*paddingTop: 20,
         paddingBottom: 20,
         paddingLeft: 20,
-        paddingRight: 20,
+        paddingRight: 20,*/
         overflow: 'hidden',
         textAlign: 'center',
         borderColor:'#ffffff',
@@ -754,10 +774,10 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginLeft: 2,
         marginRight: 2,
-        paddingTop: 20,
+        /*paddingTop: 20,
         paddingBottom: 20,
         paddingLeft: 20,
-        paddingRight: 20,
+        paddingRight: 20,*/
         overflow: 'hidden',
         textAlign: 'center',
         borderColor:'#ffffff',
@@ -771,30 +791,29 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginLeft: 2,
         marginRight: 2,
-        paddingTop: 20,
+        /*paddingTop: 20,
         paddingBottom: 20,
         paddingLeft: 20,
-        paddingRight: 20,
+        paddingRight: 20,*/
         overflow: 'hidden',
         textAlign: 'center',
         borderColor:'#ffffff',
         backgroundColor:'#aeaa42',
-    },*/
+    },
     heading4: {
         color: "#FFFFFF",
         backgroundColor:'rgba(0,0,0,0)',
         textShadowColor:'black',
-        textShadowRadius: 5,
+        //textShadowRadius: 5,
         textShadowOffset: {width: 1, height: 1},
-        fontSize: 30,
+        fontSize: 20,
         fontWeight: 'bold',
         marginLeft: 2,
-        paddingTop: 10,
         marginRight: 2,
         /*paddingLeft: 30,
         paddingRight: 30,*/
         overflow: 'hidden',
-        textAlign: 'center'
+        textAlign: 'center',
     },
 });
 
