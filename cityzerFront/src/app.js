@@ -38,7 +38,7 @@ class App extends Component {
             bgImg: '',
             buttonStyle: require('./components/sunStyle.js') ,
             rainState:  require('./components/rainStyle.js'),
-            text: ''
+            text: ',kjh,jh'
         };
         this.getWeather = this.getWeather.bind(this);
         this.weatherState = this.weatherState.bind(this);
@@ -433,7 +433,7 @@ class App extends Component {
 
     renderBtn1(){
         return(
-            <TouchableOpacity onPress={this.getWeather.bind(this, '1')}>
+            <TouchableOpacity style={this.state.buttonStyle.btn1} onPress={this.getWeather.bind(this, '1')}>
                 <Text style={[this.state.buttonStyle.heading1, stylesScale.heading1]}>
                     +1h
                 </Text>
@@ -465,9 +465,11 @@ class App extends Component {
 
     renderPred(){
         return(
-            <Text style={[styles.heading4, stylesScale.heading4,]}>
-                {I18n.t('pre')}
-            </Text>
+            <View>
+                <Text style={[styles.heading4, stylesScale.heading4,]}>
+                    {I18n.t('pre')}
+                </Text>
+            </View>
         )
     }
 
@@ -476,11 +478,11 @@ class App extends Component {
             return (
 
                 <ImageBackground source={this.bgImg} style={styles.backgroundImage}>
-                    <View style={[styles.container, {flex: 1}, stylesScale.container]}>
+                    <View style={[styles.container, {flex: 1, flexDirection: 'column'}, stylesScale.container]}>
 
                         <View style={{flex: 1, flexDirection: 'row'}}>
                             <TextInput
-                                style={{height: 40, width:200 , borderColor: 'gray', borderWidth: 1}}
+                                style={{color: 'white',fontSize: 30, height: 40, width:200 , borderColor: 'gray', borderWidth: 1}}
                                 onChangeText={(text) => this.setState({text})}
                                 value={this.state.text}
                             />
@@ -496,13 +498,13 @@ class App extends Component {
                         {/*Weather info*/}
 
 
-                        <View style={{flex: 1, flexDirection: 'row'}}>
+                        <View style={{flex: 1, flexDirection: 'column'}}>
                             {this.renderTempinfo()}
                             {this.renderRainInfo()}
                             {/*{this.renderIfNull()}*/}
                         </View>
                         {/*weathernow button*/}
-                        <View style={{flex: 1, flexDirection: 'row'}}>
+                        <View style={{flex: 1, flexDirection: 'column'}}>
                             {this.renderBtnNow()}
                         </View>
                         {/*Predictions text*/}
@@ -511,7 +513,7 @@ class App extends Component {
                             {this.renderPred()}
                         </View>
                         {/*+1,+2,+3 buttons*/}
-                        <View style={[{flex: 1, flexDirection: 'row'}, stylesScale.buttons]}>
+                        <View style={[{flex: 1, flexDirection: 'row', margin: 0, padding: 0}, stylesScale.buttons]}>
                             {this.renderBtn1()}
                             {this.renderBtn2()}
                             {this.renderBtn3()}
@@ -610,7 +612,6 @@ const stylesScale = ScaleSheet.create({
     },
     heading1: {
         // 82.5% of the devices width, can also be written as '82.5vw'
-        width: 30 + 'vw',
 
         // 57% of the devices height, can also be written as 57vh
 
@@ -786,7 +787,7 @@ const styles = StyleSheet.create({
         textShadowColor:'black',
         textShadowRadius: 5,
         textShadowOffset: {width: 1, height: 1},
-        fontSize: 40,
+        fontSize: 30,
         fontWeight: 'bold',
         marginLeft: 2,
         marginRight: 2,

@@ -34,21 +34,19 @@ heading1: {
         color: 'black',
         fontSize: 30,
         fontWeight: 'bold',
+        textAlign: 'center',
+
+},
+    btn1: {
         marginTop: 10,
-        marginBottom: 10,
         borderWidth: 2,
         borderRadius: 10,
         marginLeft: 2,
         marginRight: 2,
-        paddingTop: 20,
-        paddingBottom: 20,
-        paddingLeft: 20,
-        paddingRight: 20,
-        overflow: 'hidden',
-        textAlign: 'center',
+
         borderColor:'#ffffff',
-        backgroundColor:'#e6e255',
-},
+        backgroundColor:'#e6e255'
+    },
 heading2: {
         color: 'black',
         fontSize: 30,
