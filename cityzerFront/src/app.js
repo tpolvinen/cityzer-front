@@ -38,7 +38,7 @@ class App extends Component {
             bgImg: '',
             buttonStyle: require('./components/sunStyle.js') ,
             rainState:  require('./components/rainStyle.js'),
-            text: ',kjh,jh'
+            text: ''
         };
         this.getWeather = this.getWeather.bind(this);
         this.weatherState = this.weatherState.bind(this);
@@ -471,6 +471,7 @@ class App extends Component {
                     style={{height: 40, width:200 , borderColor: 'gray', borderWidth: 1}}
                     onChangeText={(text) => this.setState({text})}
                     value={this.state.text}
+                    onSubmitEditing={this.getAddress.bind(this)}
                 />
                 <TouchableOpacity onPress={this.getAddress.bind(this)}>
                     <Image source={require('./img/haku.png')} style={{height: 45, width: 45, backgroundColor: 'rgba(0,0,0,0)'}} />
@@ -497,11 +498,8 @@ class App extends Component {
                         {this.renderSearch()}
 
 
-                        <View style={{flex: 1}}>
 
-                            {this.renderImg()}
-                        </View>
-
+                        {this.renderImg()}
 
                         <View style={{flex: 1, flexDirection:'row'}}>
                             {this.renderTempinfo()}
@@ -704,8 +702,8 @@ const styles = StyleSheet.create({
         textShadowRadius: 4,
     },
     mainImage: {
-        width: 130,
-        height: 130,
+        width: 200,
+        height: 200,
         borderWidth: 3,
         borderColor: '#FFFFFF',
         /*marginTop: -70,
