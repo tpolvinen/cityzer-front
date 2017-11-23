@@ -65,39 +65,40 @@ class App extends Component {
 
         console.log(time);
 
+        // yli +2°C, sade tulee vetenä
         if (y > 2) {
+
+            // ei sadetta
             if (x <= 0.3){
                 if (time > 21 && time <= 5){
                     this.imgSrc = require('./img/moon.png');}
                 else {
                     this.imgSrc = require('./img/sun.png');
                 }
-                this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun_1280x1920.jpg');
+                this.bgImg = require('./img/blurbag/light_blue.jpg');
                 this.state.buttonStyle = require('./components/sunStyle');
-//Aurinkoinen sää
-            } else if (x >= 0.31 && x <= 0.9) {
 
+            } else if (x >= 0.31 && x <= 0.9) {
+                // tihkuaa
                 this.imgSrc = require('./img/cloudrain.png');
-                this.bgImg = require('./img/blurbag/blue-blurred-background_1280x1920.jpg');
+                this.bgImg = require('./img/blurbag/light_blue.jpg');
                 this.state.buttonStyle = require('./components/rainStyle');
 
-//tihkuaa
             } else if (x >= 0.91 && x <= 4.4) {
+                // sataa
                 this.imgSrc = require('./img/cloudraintwo.png');
-                this.bgImg = require('./img/blurbag/darkblue-blurred-background_1280x1920.jpg');
+                this.bgImg = require('./img/blurbag/blue.jpg');
                 this.state.buttonStyle = require('./components/rain2Style');
 
-
-//sataa
+                // sataa paljon
             } else {
                 this.imgSrc = require('./img/cloudrainthree.png');
-                this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundDark_1280x1920.jpg');
+                this.bgImg = require('./img/blurbag/dark_blue.jpg');
                 this.state.buttonStyle = require('./components/rain3Style');
-
-//Sataa paljon vettä
-
             }
         }
+
+        // 0 ja +2°C välissä, loskaa
         else if(y > 0 && y <= 2) {
             if (x <= 0.3) {
                 if (time > 21 && time <= 5){
@@ -105,27 +106,28 @@ class App extends Component {
                 else {
                     this.imgSrc = require('./img/sun.png');
                 }
-                this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun_1280x1920.jpg');
+                this.bgImg = require('./img/blurbag/light_blue.jpg');
                 this.state.buttonStyle = require('./components/sunStyle');
-
 
             } else if (x >= 0.31 && x <= 0.9) {
 
                 this.imgSrc = require('./img/cloudsnowrain.png');
-                this.bgImg = require('./img/blurbag/blue-blurred-background_1280x1920.jpg');
+                this.bgImg = require('./img/blurbag/light_blue.jpg');
                 this.state.buttonStyle = require('./components/rainStyle');
 
             } else if (x >= 0.91 && x <= 4.4) {
                 this.imgSrc = require('./img/cloudsnowraintwo.png');
-                this.bgImg = require('./img/blurbag/darkblue-blurred-background_1280x1920.jpg');
+                this.bgImg = require('./img/blurbag/blue.jpg');
                 this.state.buttonStyle = require('./components/rain2Style');
 
             } else {
-                this.imgSrc = require('./img/suncloudsnowrainthree.png');
-                this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundDark_1280x1920.jpg');
+                this.imgSrc = require('./img/cloudsnowrainthree.png');
+                this.bgImg = require('./img/blurbag/dark_blue.jpg');
                 this.state.buttonStyle = require('./components/rain3Style');
             }
         }
+
+        // alle 0, lunta
         else{
             if (x <= 0.3) {
                 if (time > 21 && time <= 5){
@@ -133,20 +135,20 @@ class App extends Component {
                 else {
                     this.imgSrc = require('./img/sun.png');
                 }
-                this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun_1280x1920.jpg');
+                this.bgImg = require('./img/blurbag/light_blue.jpg');
 //Aurinkoinen sää
             } else if (x >= 0.31 && x <= 0.9) {
 
                 this.imgSrc = require('./img/cloudsnow.png');
-                this.bgImg = require('./img/blurbag/blue-blurred-background_1280x1920.jpg');
+                this.bgImg = require('./img/blurbag/light_blue.jpg');
 //Vähän lunta
             } else if (x >= 0.91 && x <= 4.4) {
                 this.imgSrc = require('./img/cloudsnowtwo.png');
-                this.bgImg = require('./img/blurbag/darkblue-blurred-background_1280x1920.jpg');
+                this.bgImg = require('./img/blurbag/blue.jpg');
 //Enemmän lunta
             } else {
                 this.imgSrc = require('./img/cloudsnowthree.png');
-                this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundDark_1280x1920.jpg');
+                this.bgImg = require('./img/blurbag/dark_blue.jpg');
                 this.state.buttonStyle = require('./components/rain3Style');
 //Vielä enemmän lunta
             }
@@ -199,12 +201,8 @@ class App extends Component {
 
     urlCall() {
 
-
-
-        //const url = 'http://128.199.61.201/api/weather.json';
+        // const url = 'http://128.199.61.201/api/weather.json';
         const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
-
-
 
         axios.get(url)
             .then(response => {
@@ -228,7 +226,7 @@ class App extends Component {
 
     componentDidMount() {
         this.imgSrc = require('./img/sun.png');
-        this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun_1280x1920.jpg');
+        this.bgImg = require('./img/blurbag/light_blue.jpg');
         AppState.addEventListener('change', this._handleAppStateChange);
         navigator.geolocation.getCurrentPosition(
             (position) => {
