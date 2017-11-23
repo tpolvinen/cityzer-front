@@ -9,7 +9,9 @@ import {
     AppState,
     Platform,
     ImageBackground,
-    TextInput
+    TextInput,
+    LayoutAnimation,
+    Animated
 } from 'react-native';
 import axios from 'axios';
 import Geocoder from 'react-native-geocoding';
@@ -38,7 +40,9 @@ class App extends Component {
             bgImg: '',
             buttonStyle: require('./components/sunStyle.js') ,
             rainState:  require('./components/rainStyle.js'),
-            text: ''
+            text: '',
+            fadeAnim: new Animated.Value(0),
+            op: 1
         };
         this.getWeather = this.getWeather.bind(this);
         this.weatherState = this.weatherState.bind(this);
@@ -57,14 +61,15 @@ class App extends Component {
         return temp.toString();
     };
 
+
+
     weatherState(x,y) {
-        console.log(x+ ' ' + y);
+
         let imgSrc = '';
         var time = new Date().getHours().toLocaleString();
         time = parseInt(time);
 
-        console.log(time);
-
+        LayoutAnimation.easeInEaseOut();
         if (y > 2) {
             if (x <= 0.3){
                 if (time > 21 && time <= 5){
@@ -201,8 +206,8 @@ class App extends Component {
 
 
 
-        //const url = 'http://128.199.61.201/api/weather.json';
-        const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
+        const url = 'http://128.199.61.201/api/weather.json';
+        //const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
 
 
 
@@ -252,6 +257,8 @@ class App extends Component {
 
 
     }
+
+
 
     componentWillUnmount() {
         AppState.removeEventListener('change', this._handleAppStateChange);
@@ -375,7 +382,7 @@ class App extends Component {
             )
         }else {
             return(
-                <Image
+                <Animated.Image
                     style={styles.mainImage}
                     source={require('./img/lines.png')}
                 />
@@ -483,10 +490,10 @@ class App extends Component {
 
 
     render() {
-
+        let { fadeAnim } = this.state
             return (
 
-                <ImageBackground source={this.bgImg} style={styles.backgroundImage}>
+                <ImageBackground source={this.bgImg} style={styles.backgroundImage} >
 
                     <View style={[styles.container, {flex: 1, flexDirection: 'column'}]}>
 
