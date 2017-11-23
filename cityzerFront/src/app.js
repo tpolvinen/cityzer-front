@@ -60,9 +60,18 @@ class App extends Component {
     weatherState(x,y) {
         console.log(x+ ' ' + y);
         let imgSrc = '';
+        var time = new Date().getHours().toLocaleString();
+        time = parseInt(time);
+
+        console.log(time);
+
         if (y > 2) {
             if (x <= 0.3){
-                this.imgSrc = require('./img/sun.png');
+                if (time > 21 && time <= 5){
+                    this.imgSrc = require('./img/moon.png');}
+                else {
+                    this.imgSrc = require('./img/sun.png');
+                }
                 this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun_1280x1920.jpg');
                 this.state.buttonStyle = require('./components/sunStyle');
 //Aurinkoinen sää
@@ -91,9 +100,14 @@ class App extends Component {
         }
         else if(y > 0 && y <= 2) {
             if (x <= 0.3) {
-                this.imgSrc = require('./img/sun.png');
+                if (time > 21 && time <= 5){
+                    this.imgSrc = require('./img/moon.png');}
+                else {
+                    this.imgSrc = require('./img/sun.png');
+                }
                 this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun_1280x1920.jpg');
                 this.state.buttonStyle = require('./components/sunStyle');
+
 
             } else if (x >= 0.31 && x <= 0.9) {
 
@@ -114,7 +128,11 @@ class App extends Component {
         }
         else{
             if (x <= 0.3) {
-                this.imgSrc = require('./img/sun.png');
+                if (time > 21 && time <= 5){
+                    this.imgSrc = require('./img/moon.png');}
+                else {
+                    this.imgSrc = require('./img/sun.png');
+                }
                 this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun_1280x1920.jpg');
 //Aurinkoinen sää
             } else if (x >= 0.31 && x <= 0.9) {
@@ -153,7 +171,8 @@ class App extends Component {
     }
 
     getWeather(i) {
-
+        this.urlCall()
+        console.log(this.state.json);
         const rain = parseFloat(this.state.json.precipitation_amount_353).toFixed(1);
         const temperature = parseFloat(this.KtoC(this.state.json.air_temperature_4));
         const rain1 = parseFloat(this.state.json.precipitation_amount_353_1h).toFixed(1);
@@ -181,8 +200,10 @@ class App extends Component {
     urlCall() {
 
 
+
         //const url = 'http://128.199.61.201/api/weather.json';
         const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
+
 
 
         axios.get(url)
@@ -194,13 +215,13 @@ class App extends Component {
                         temperature: this.KtoC(response.data.air_temperature_4)
                     });
                     console.log(this.state);
-                    this.getWeather(this.state.rain);
+
 
 
                 }
             })
             .catch(error => {
-                alert(error.response)
+                console.log(error.response)
             });
     }
 
@@ -263,7 +284,7 @@ class App extends Component {
         if (this.state.temperature !== null){
 
             return(
-            <Text style={[styles.infoText, stylesScale.infoText]}>
+            <Text style={styles.infoText}>
                 {I18n.t('temp')}{'\n'}
                 <Text style={styles.info}>
                     {this.state.temperature.replace(".", ",")}°C
@@ -272,7 +293,7 @@ class App extends Component {
             )
         }else{
             return(
-                <Text style={[styles.infoText, stylesScale.infoText]}>
+                <Text style={styles.infoText}>
                     {I18n.t('temp')}{'\n'}
                     <Text style={styles.info}>
                         °C
@@ -287,7 +308,7 @@ class App extends Component {
         if (this.state.rain !== null) {
             if (this.state.temperature > 2 && this.state.rain > 0.2) {
                 return (
-                    <Text style={[styles.infoText, stylesScale.infoText]}>
+                    <Text style={styles.infoText}>
                         {I18n.t('rain')}{'\n'}
                         {/*infoRain temporary*/}
                         <Text style={styles.infoRain}>
@@ -298,7 +319,7 @@ class App extends Component {
             }
             else if (this.state.temperature  >= 0 && this.state.temperature <= 2 && this.state.rain > 0.2) {
                 return (
-                    <Text style={[styles.infoText, stylesScale.infoText]}>
+                    <Text style={styles.infoText}>
                         {I18n.t('sleet')}{'\n'}
                         {/*infoRain temporary*/}
                         <Text style={styles.infoRain}>
@@ -308,7 +329,7 @@ class App extends Component {
                 )
             }else if (this.state.temperature  <0 && this.state.rain > 0.2) {
                 return (
-                    <Text style={[styles.infoText, stylesScale.infoText]}>
+                    <Text style={styles.infoText}>
                         {I18n.t('snow')}{'\n'}
                         {/*infoRain temporary*/}
                         <Text style={styles.infoRain}>
@@ -318,7 +339,7 @@ class App extends Component {
             }
             else {
                 return (
-                    <Text style={[styles.infoText, stylesScale.infoText]}>
+                    <Text style={styles.infoText}>
                         {I18n.t('dry')}{'\n'}
                         {/*infoRain temporary*/}
                         <Text style={styles.infoRain}>
@@ -329,7 +350,7 @@ class App extends Component {
         }else{
 
             return(
-                <Text style={[styles.infoText, stylesScale.infoText]}>
+                <Text style={styles.infoText}>
                     {I18n.t('sleet')}{'\n'}
                     {/*infoRain temporary*/}
                     <Text style={styles.infoRain}>
@@ -342,18 +363,6 @@ class App extends Component {
 
     }
 
-    /*renderIfNull(){
-        if (this.state.temperature === null){
-            if (this.state.rain === null) {
-                return(
-                        <Text>
-                            Information not available
-                        </Text>
-                )
-            }
-        }
-
-    }*/
 
 
     renderImg(){
@@ -379,7 +388,7 @@ class App extends Component {
             return(
                 <Text style={styles.address}>
                     <Image
-                        style={[styles.location, stylesScale.location]}
+                        style={styles.location}
                         source={{uri: 'https://i.imgur.com/K67wWwj.gif'}}
                     />
                     {' ' + this.state.address} {this.state.addressNo} {'\n'}
@@ -390,7 +399,7 @@ class App extends Component {
             return(
             <Text style={styles.address}>
                 <Image
-                    style={[styles.location, stylesScale.location]}
+                    style={styles.location}
                     source={{uri: 'https://i.imgur.com/K67wWwj.gif'}}
                 />
                   {'\n\n\n\n'}
@@ -404,7 +413,7 @@ class App extends Component {
         return(
             <TouchableOpacity style={this.state.buttonStyle.infoButton}
                               onPress={this.getWeather.bind(this, '0')}>
-                <Text style={[this.state.buttonStyle.infotext, stylesScale.infoButton]}>
+                <Text style={this.state.buttonStyle.infotext}>
                     {I18n.t('now')}
                 </Text>
             </TouchableOpacity>
@@ -414,7 +423,7 @@ class App extends Component {
     renderBtn1(){
         return(
             <TouchableOpacity onPress={this.getWeather.bind(this, '1')}>
-                <Text style={[this.state.buttonStyle.heading1, stylesScale.heading1]}>
+                <Text style={this.state.buttonStyle.heading1}>
                     +1h
                 </Text>
             </TouchableOpacity>
@@ -425,7 +434,7 @@ class App extends Component {
     renderBtn2(){
         return(
             <TouchableOpacity onPress={this.getWeather.bind(this, '2')}>
-                <Text style={[this.state.buttonStyle.heading2, stylesScale.heading2]}>
+                <Text style={this.state.buttonStyle.heading2}>
                     +2h
                 </Text>
             </TouchableOpacity>
@@ -435,7 +444,7 @@ class App extends Component {
     renderBtn3(){
         return(
             <TouchableOpacity onPress={this.getWeather.bind(this, '3')}>
-                <Text style={[this.state.buttonStyle.heading3, stylesScale.heading3]}>
+                <Text style={this.state.buttonStyle.heading3}>
                     +3h
                 </Text>
             </TouchableOpacity>
@@ -445,55 +454,69 @@ class App extends Component {
 
     renderPred(){
         return(
-            <Text style={[styles.heading4, stylesScale.heading4,]}>
+            <Text style={styles.heading4}>
                 {I18n.t('pre')}
             </Text>
         )
     }
+
+    renderSearch(){
+        return(
+            <View style={{flex: 1, flexDirection: 'row'}}>
+                <TextInput
+                    style={{height: 40, width:200 , borderColor: 'gray', borderWidth: 1}}
+                    onChangeText={(text) => this.setState({text})}
+                    value={this.state.text}
+                />
+                <TouchableOpacity onPress={this.getAddress.bind(this)}>
+                    <Image source={require('./img/haku.png')} style={{height: 45, width: 45, backgroundColor: 'rgba(0,0,0,0)'}} />
+                </TouchableOpacity>
+            </View>
+            )
+
+    }
+
 
     render() {
 
             return (
 
                 <ImageBackground source={this.bgImg} style={styles.backgroundImage}>
-                    <View style={[styles.container, {flex: 1}, stylesScale.container]}>
 
-                        <TextInput
-                            style={{height: 40, width:200 , borderColor: 'gray', borderWidth: 1}}
-                            onChangeText={(text) => this.setState({text})}
-                            value={this.state.text}
-                        />
-                        <TouchableOpacity onPress={this.getAddress.bind(this)}>
-                            <Text style={styles.heading4}>Etsi</Text>
-                        </TouchableOpacity>
+                    <View style={[styles.container, {flex: 1, flexDirection: 'column'}]}>
 
-                        {/*Address and location */}
+
+                        <View style={{flex: 1}}>
                             {this.renderAddress()}
-                        {/*main picture*/}
+                        </View>
+
+                        {this.renderSearch()}
+
+
+                        <View style={{flex: 1}}>
+
                             {this.renderImg()}
-                        {/*Weather info*/}
+                        </View>
 
 
-                        <View style={{flex: 1, flexDirection: 'row'}}>
+                        <View style={{flex: 1, flexDirection:'row'}}>
                             {this.renderTempinfo()}
                             {this.renderRainInfo()}
-                            {/*{this.renderIfNull()}*/}
-                        </View>
-                        {/*weathernow button*/}
-                        <View style={{flex: 1, flexDirection: 'row'}}>
-                            {this.renderBtnNow()}
-                        </View>
-                        {/*Predictions text*/}
-                        <View>
-                            {this.renderPred()}
-                        </View>
-                        {/*+1,+2,+3 buttons*/}
-                        <View style={[{flex: 1, flexDirection: 'row'}, stylesScale.buttons]}>
-                            {this.renderBtn1()}
-                            {this.renderBtn2()}
-                            {this.renderBtn3()}
                         </View>
 
+                        <View style={{flex: 1}}>
+                            {this.renderBtnNow()}
+                        </View>
+
+                        <View style={{flex: 1, flexDirection:'column'}}>
+                            {this.renderPred()}
+
+                            <View style={{flex: 1, flexDirection: 'row'}}>
+                                {this.renderBtn1()}
+                                {this.renderBtn2()}
+                                {this.renderBtn3()}
+                            </View>
+                        </View>
                     </View>
                 </ImageBackground>
             );
@@ -513,7 +536,8 @@ I18n.translations = {
         fail: 'GPS Not found \n Weather in Helsinki',
         snow: 'Snow',
         sleet: 'Sleet',
-        dry: 'Dry'
+        dry: 'Dry',
+        search: 'Search'
 
     },
     fi: {
@@ -525,7 +549,8 @@ I18n.translations = {
         fail: 'Paikannus ei onnistunut \n Sää Helsingissä',
         snow: 'Lunta',
         sleet: 'Räntää',
-        dry: 'Poutaa'
+        dry: 'Poutaa',
+        search: 'Etsi'
     },
     sv: {
         temp: 'Temperatur',
@@ -536,93 +561,17 @@ I18n.translations = {
         fail: 'Lokaliseringen mislyckades \n Vädret i Helsingfors',
         snow: 'Snö',
         sleet: 'Slask',
-        dry: 'Uppehåll'
+        dry: 'Uppehåll',
+        search: 'Söka'
     }
 }
 
-const stylesScale = ScaleSheet.create({
-    container: {
-        // 82.5% of the devices width, can also be written as '82.5vw'
-        width: 100 + 'vw',
-
-        // 57% of the devices height, can also be written as 57vh
-        height: 100 + 'vh',
-
-
-    },
-    location: {
-        // 82.5% of the devices width, can also be written as '82.5vw'
-        width: 7 + 'vw',
-
-        // 57% of the devices height, can also be written as 57vh
-        height: 5 + 'vh',
-    },
-    mainImage: {
-        // 82.5% of the devices width, can also be written as '82.5vw'
-        width: 25 + 'vw',
-
-        // 57% of the devices height, can also be written as 57vh
-        height: 25 + 'vh',
-    },
-
-
-    timestamp: {
-        // 82.5% of the devices width, can also be written as '82.5vw'
-        width: 1 + 'vw',
-
-        // 57% of the devices height, can also be written as 57vh
-        height: 1 + 'vh',
-    },
-    buttons: {
-        marginBottom: 3 +'vh'
-    },
-    infoButton: {
-        // 82.5% of the devices width, can also be written as '82.5vw'
-        width: 80 + 'vw',
-
-        // 57% of the devices height, can also be written as 57vh
-    },
-    heading1: {
-        // 82.5% of the devices width, can also be written as '82.5vw'
-        width: 30 + 'vw',
-
-        // 57% of the devices height, can also be written as 57vh
-
-
-
-    },
-    heading2: {
-        // 82.5% of the devices width, can also be written as '82.5vw'
-        width: 30 + 'vw',
-
-        // 57% of the devices height, can also be written as 57vh
-
-
-
-    },
-    heading3: {
-        // 82.5% of the devices width, can also be written as '82.5vw'
-        width: 30 + 'vw',
-
-        // 57% of the devices height, can also be written as 57vh
-
-
-    },
-
-
-  /*  heading4: {
-        // 82.5% of the devices width, can also be written as '82.5vw'
-        width: 30 + 'vw',
-
-        // 57% of the devices height, can also be written as 57vh
-
-
-    }*/
-});
 
 const styles = StyleSheet.create({
     backgroundImage: {
-        flex: 1
+        flex: 1,
+        // width: undefined,
+        // height: undefined
 //        resizeMode: 'cover', // or 'stretch'
     },
 
@@ -632,9 +581,28 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
+    addressRow: {
+        marginTop: 20,
+    },
     location: {
         width: 40,
         height: 40,
+        marginRight: 10,
+    },
+    addressInput: {
+        height: 40,
+        width:200,
+        borderRadius: 3,
+        borderColor:'#ffffff',
+        backgroundColor: 'white',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    searchButton: {
+        height: 40,
+        width: 40,
+        backgroundColor: 'rgba(0,0,0,0)',
+        marginLeft: 10,
     },
     address: {
         fontSize: 20,
@@ -653,10 +621,12 @@ const styles = StyleSheet.create({
         textShadowRadius: 4,
     },
     mainImage: {
-        width: 300,
-        height: 300,
-        marginTop: -70,
-        marginBottom: -30,
+        width: 130,
+        height: 130,
+        borderWidth: 3,
+        borderColor: '#FFFFFF',
+        /*marginTop: -70,
+        marginBottom: -30,*/
     },
     infoText: {
         color: '#FFFFFF',
@@ -667,8 +637,7 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         marginRight: 10,
         marginTop: 10,
-        marginBottom: -15,
-        padding: 5,
+        marginBottom: -50,
         textAlign: 'center',
         backgroundColor:'transparent'
     },
@@ -685,7 +654,7 @@ const styles = StyleSheet.create({
         height: 50,
     },
 
-/*    infoButton: {
+    infoButton: {
         fontSize: 15,
         marginTop: 30,
         marginBottom: 10,
@@ -693,10 +662,10 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginLeft: 2,
         marginRight: 2,
-        paddingTop: 20,
+        /*paddingTop: 20,
         paddingBottom: 30,
         paddingLeft: 20,
-        paddingRight: 20,
+        paddingRight: 20,*/
         overflow: 'hidden',
         textAlign: 'center',
         borderColor:'#ffffff',
@@ -710,10 +679,10 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginLeft: 2,
         marginRight: 2,
-        paddingTop: 20,
+        /*paddingTop: 20,
         paddingBottom: 20,
         paddingLeft: 20,
-        paddingRight: 20,
+        paddingRight: 20,*/
         overflow: 'hidden',
         textAlign: 'center',
         borderColor:'#ffffff',
@@ -727,10 +696,10 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginLeft: 2,
         marginRight: 2,
-        paddingTop: 20,
+        /*paddingTop: 20,
         paddingBottom: 20,
         paddingLeft: 20,
-        paddingRight: 20,
+        paddingRight: 20,*/
         overflow: 'hidden',
         textAlign: 'center',
         borderColor:'#ffffff',
@@ -744,21 +713,22 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginLeft: 2,
         marginRight: 2,
-        paddingTop: 20,
+        /*paddingTop: 20,
         paddingBottom: 20,
         paddingLeft: 20,
-        paddingRight: 20,
+        paddingRight: 20,*/
         overflow: 'hidden',
         textAlign: 'center',
         borderColor:'#ffffff',
         backgroundColor:'#aeaa42',
-    },*/
+    },
     heading4: {
         color: "#FFFFFF",
+        backgroundColor:'rgba(0,0,0,0)',
         textShadowColor:'black',
-        textShadowRadius: 5,
+        //textShadowRadius: 5,
         textShadowOffset: {width: 1, height: 1},
-        fontSize: 30,
+        fontSize: 20,
         fontWeight: 'bold',
         marginLeft: 2,
         marginRight: 2,
