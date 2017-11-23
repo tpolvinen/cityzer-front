@@ -201,7 +201,7 @@ class App extends Component {
 
 
 
-        //const url = 'http://128.199.61.201/api/weather.json';
+        /*const url = 'http://128.199.61.201/api/weather.json';*/
         const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
 
 
@@ -510,7 +510,7 @@ class App extends Component {
                         {this.renderBtnNow()}
                     </View>
 
-                    <View style={{flex: 1, flexDirection:'column'}}>
+                    <View style={{flex: 2, flexDirection:'column', paddingTop: 20}}>
                         {this.renderPred()}
 
                         <View style={{flex: 1, flexDirection: 'row'}}>
@@ -690,21 +690,12 @@ const styles = StyleSheet.create({
         backgroundColor:'transparent',
         color: '#FFFFFF',
     },
-    timestamp: {
-        fontSize: 15,
-        marginLeft: 200,
-        color: '#FFFFFF',
-        textShadowColor:'#333333',
-        textShadowOffset: {width: 1, height: 1},
-        textShadowRadius: 4,
-    },
+
     mainImage: {
         width: 200,
         height: 200,
         borderWidth: 3,
-        borderColor: '#FFFFFF',
-        /*marginTop: -70,
-        marginBottom: -30,*/
+        resizeMode: 'cover'
     },
     infoText: {
         color: '#FFFFFF',
@@ -806,7 +797,7 @@ const styles = StyleSheet.create({
         textShadowColor:'black',
         //textShadowRadius: 5,
         textShadowOffset: {width: 1, height: 1},
-        fontSize: 20,
+        fontSize: 30,
         fontWeight: 'bold',
         marginLeft: 2,
         marginRight: 2,
@@ -814,6 +805,7 @@ const styles = StyleSheet.create({
         paddingRight: 30,*/
         overflow: 'hidden',
         textAlign: 'center',
+        textAlignVertical:'center'
     },
 });
 
