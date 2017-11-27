@@ -6,29 +6,26 @@ var{
 module.exports = StyleSheet.create({
     infoButton: {
         marginTop: 30,
-        marginBottom: 10,
+        marginBottom: 20,
         borderWidth: 2,
         borderRadius: 10,
         marginLeft: 2,
         marginRight: 2,
-        paddingTop: 20,
-        paddingBottom: 30,
-        paddingLeft: 20,
-        paddingRight: 20,
         borderColor:'#ffffff',
         backgroundColor:'#8cfcf6',
         justifyContent: 'center',
         alignItems: 'center'
     },
     infotext: {
-        marginTop: 20,
+        width: 308,
+        height: 75,
         color: 'white',
         textShadowColor:'black',
         textShadowRadius: 10,
         textShadowOffset: {width: 1, height: 1},
         fontSize: 30,
         textAlign: 'center',
-        marginBottom: 13,
+        textAlignVertical:'center'
     },
     heading1: {
         color: 'white',

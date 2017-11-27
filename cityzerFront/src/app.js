@@ -9,7 +9,8 @@ import {
     AppState,
     Platform,
     ImageBackground,
-    TextInput
+    TextInput,
+    Keyboard
 } from 'react-native';
 import axios from 'axios';
 import Geocoder from 'react-native-geocoding';
@@ -158,6 +159,7 @@ class App extends Component {
         return imgSrc;
     }
     getAddress() {
+        Keyboard.dismiss();
         Geocoder.setApiKey('AIzaSyD-VCDRI-XxI1U-oz-5ujODryCQ1zSJi0U'); // use a valid API key
         Geocoder.getFromLocation(this.state.text).then(
             json => {
@@ -472,7 +474,7 @@ class App extends Component {
                     onSubmitEditing={this.getAddress.bind(this)}
                 />
                 <TouchableOpacity onPress={this.getAddress.bind(this)}>
-                    <Image source={require('./img/haku.png')} style={{height: 45, width: 45, backgroundColor: 'rgba(0,0,0,0)'}} />
+                    <Image source={require('./img/haku.png')} style={{height: 40, width: 40, backgroundColor: 'rgba(0,0,0,0)'}} />
                 </TouchableOpacity>
             </View>
         )
@@ -492,25 +494,21 @@ class App extends Component {
                     <View style={{flex: 1}}>
                         {this.renderAddress()}
                     </View>
-
+                    <View style={{flex: 1}}>
                     {this.renderSearch()}
-
-
-
+                    </View>
+                    <View style={{flex: 3}}>
                     {this.renderImg()}
-
+                    </View>
                     <View style={{flex: 1, flexDirection:'row'}}>
                         {this.renderTempinfo()}
                         {this.renderRainInfo()}
                     </View>
-
                     <View style={{flex: 1}}>
                         {this.renderBtnNow()}
                     </View>
-
                     <View style={{flex: 2, flexDirection:'column', paddingTop: 20}}>
                         {this.renderPred()}
-
                         <View style={{flex: 1, flexDirection: 'row'}}>
                             {this.renderBtn1()}
                             {this.renderBtn2()}
@@ -661,8 +659,8 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
     location: {
-        width: 40,
-        height: 40,
+        width: 100,
+        height: 100,
         marginRight: 10,
     },
     addressInput: {
@@ -682,7 +680,6 @@ const styles = StyleSheet.create({
         fontSize: 20,
         textAlign: 'center',
         margin: 10,
-        marginBottom: -20,
         backgroundColor:'transparent',
         color: '#FFFFFF',
     },
