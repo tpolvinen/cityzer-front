@@ -21,16 +21,20 @@ module.exports = StyleSheet.create({
         alignItems: 'center'
     },
     infotext: {
-        marginTop: 20,
+        width: 308,
+        height: 75,
         color: 'black',
         textShadowColor:'white',
         textShadowRadius: 10,
         textShadowOffset: {width: 1, height: 1},
         fontSize: 30,
         textAlign: 'center',
-        marginBottom: 13,
-    },
+        textAlignVertical:'center'
+        },
+
     heading1: {
+        width: 100,
+        height: 75,
         color: 'black',
         fontSize: 30,
         fontWeight: 'bold',
@@ -46,10 +50,13 @@ module.exports = StyleSheet.create({
         paddingRight: 20,*/
         overflow: 'hidden',
         textAlign: 'center',
+        textAlignVertical:'center',
         borderColor:'#ffffff',
         backgroundColor:'#e6e255',
     },
     heading2: {
+        width: 100,
+        height: 75,
         color: 'black',
         fontSize: 30,
         fontWeight: 'bold',
@@ -65,10 +72,13 @@ module.exports = StyleSheet.create({
         paddingRight: 20,*/
         overflow: 'hidden',
         textAlign: 'center',
+        textAlignVertical:'center',
         borderColor:'#ffffff',
         backgroundColor:'#e6e255',
     },
     heading3: {
+        width: 100,
+        height: 75,
         color: 'black',
         fontSize: 30,
         fontWeight: 'bold',
@@ -84,6 +94,7 @@ module.exports = StyleSheet.create({
         paddingRight: 20,*/
         overflow: 'hidden',
         textAlign: 'center',
+        textAlignVertical:'center',
         borderColor: '#ffffff',
         backgroundColor: '#e6e255',
     }

@@ -9,9 +9,7 @@ import {
     AppState,
     Platform,
     ImageBackground,
-    TextInput,
-    LayoutAnimation,
-    Animated
+    TextInput
 } from 'react-native';
 import axios from 'axios';
 import Geocoder from 'react-native-geocoding';
@@ -40,9 +38,7 @@ class App extends Component {
             bgImg: '',
             buttonStyle: require('./components/sunStyle.js') ,
             rainState:  require('./components/rainStyle.js'),
-            text: '',
-            fadeAnim: new Animated.Value(0),
-            op: 1
+            text: ''
         };
         this.getWeather = this.getWeather.bind(this);
         this.weatherState = this.weatherState.bind(this);
@@ -61,48 +57,48 @@ class App extends Component {
         return temp.toString();
     };
 
-
-
     weatherState(x,y) {
-
+        console.log(x+ ' ' + y);
         let imgSrc = '';
         var time = new Date().getHours().toLocaleString();
         time = parseInt(time);
 
-        LayoutAnimation.easeInEaseOut();
+        console.log(time);
+
+        // yli +2°C, sade tulee vetenä
         if (y > 2) {
+
+            // ei sadetta
             if (x <= 0.3){
                 if (time > 21 && time <= 5){
                     this.imgSrc = require('./img/moon.png');}
                 else {
                     this.imgSrc = require('./img/sun.png');
                 }
-                this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun_1280x1920.jpg');
+                this.bgImg = require('./img/blurbag/light_blue.jpg');
                 this.state.buttonStyle = require('./components/sunStyle');
-//Aurinkoinen sää
-            } else if (x >= 0.31 && x <= 0.9) {
 
+            } else if (x >= 0.31 && x <= 0.9) {
+                // tihkuaa
                 this.imgSrc = require('./img/cloudrain.png');
-                this.bgImg = require('./img/blurbag/blue-blurred-background_1280x1920.jpg');
+                this.bgImg = require('./img/blurbag/light_blue.jpg');
                 this.state.buttonStyle = require('./components/rainStyle');
 
-//tihkuaa
             } else if (x >= 0.91 && x <= 4.4) {
+                // sataa
                 this.imgSrc = require('./img/cloudraintwo.png');
-                this.bgImg = require('./img/blurbag/darkblue-blurred-background_1280x1920.jpg');
+                this.bgImg = require('./img/blurbag/blue.jpg');
                 this.state.buttonStyle = require('./components/rain2Style');
 
-
-//sataa
+                // sataa paljon
             } else {
                 this.imgSrc = require('./img/cloudrainthree.png');
-                this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundDark_1280x1920.jpg');
+                this.bgImg = require('./img/blurbag/dark_blue.jpg');
                 this.state.buttonStyle = require('./components/rain3Style');
-
-//Sataa paljon vettä
-
             }
         }
+
+        // 0 ja +2°C välissä, loskaa
         else if(y > 0 && y <= 2) {
             if (x <= 0.3) {
                 if (time > 21 && time <= 5){
@@ -110,27 +106,28 @@ class App extends Component {
                 else {
                     this.imgSrc = require('./img/sun.png');
                 }
-                this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun_1280x1920.jpg');
+                this.bgImg = require('./img/blurbag/light_blue.jpg');
                 this.state.buttonStyle = require('./components/sunStyle');
-
 
             } else if (x >= 0.31 && x <= 0.9) {
 
                 this.imgSrc = require('./img/cloudsnowrain.png');
-                this.bgImg = require('./img/blurbag/blue-blurred-background_1280x1920.jpg');
+                this.bgImg = require('./img/blurbag/light_blue.jpg');
                 this.state.buttonStyle = require('./components/rainStyle');
 
             } else if (x >= 0.91 && x <= 4.4) {
                 this.imgSrc = require('./img/cloudsnowraintwo.png');
-                this.bgImg = require('./img/blurbag/darkblue-blurred-background_1280x1920.jpg');
+                this.bgImg = require('./img/blurbag/blue.jpg');
                 this.state.buttonStyle = require('./components/rain2Style');
 
             } else {
-                this.imgSrc = require('./img/suncloudsnowrainthree.png');
-                this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundDark_1280x1920.jpg');
+                this.imgSrc = require('./img/cloudsnowrainthree.png');
+                this.bgImg = require('./img/blurbag/dark_blue.jpg');
                 this.state.buttonStyle = require('./components/rain3Style');
             }
         }
+
+        // alle 0, lunta
         else{
             if (x <= 0.3) {
                 if (time > 21 && time <= 5){
@@ -138,20 +135,20 @@ class App extends Component {
                 else {
                     this.imgSrc = require('./img/sun.png');
                 }
-                this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun_1280x1920.jpg');
+                this.bgImg = require('./img/blurbag/light_blue.jpg');
 //Aurinkoinen sää
             } else if (x >= 0.31 && x <= 0.9) {
 
                 this.imgSrc = require('./img/cloudsnow.png');
-                this.bgImg = require('./img/blurbag/blue-blurred-background_1280x1920.jpg');
+                this.bgImg = require('./img/blurbag/light_blue.jpg');
 //Vähän lunta
             } else if (x >= 0.91 && x <= 4.4) {
                 this.imgSrc = require('./img/cloudsnowtwo.png');
-                this.bgImg = require('./img/blurbag/darkblue-blurred-background_1280x1920.jpg');
+                this.bgImg = require('./img/blurbag/blue.jpg');
 //Enemmän lunta
             } else {
                 this.imgSrc = require('./img/cloudsnowthree.png');
-                this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundDark_1280x1920.jpg');
+                this.bgImg = require('./img/blurbag/dark_blue.jpg');
                 this.state.buttonStyle = require('./components/rain3Style');
 //Vielä enemmän lunta
             }
@@ -205,11 +202,7 @@ class App extends Component {
     urlCall() {
 
 
-
-        const url = 'http://128.199.61.201/api/weather.json';
-        //const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
-
-
+        const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
 
         axios.get(url)
             .then(response => {
@@ -233,15 +226,15 @@ class App extends Component {
 
     componentDidMount() {
         this.imgSrc = require('./img/sun.png');
-        this.bgImg = require('./img/blurbag/blur-backgrounds/blur-backgroundSun_1280x1920.jpg');
+        this.bgImg = require('./img/blurbag/light_blue.jpg');
         AppState.addEventListener('change', this._handleAppStateChange);
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 this.setState({ lon: position.coords.longitude, lat: position.coords.latitude });
-               const url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='+this.state.lat+','+this.state.lon+'&key=AIzaSyD-VCDRI-XxI1U-oz-5ujODryCQ1zSJi0U&language='+I18n.t('lang')+'&region='+I18n.t('lang');
-               // const url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='+this.state.lat+','+this.state.lon+'&key=AIzaSyD-VCDRI-XxI1U-oz-5ujODryCQ1zSJi0U&language=FI&region=FI';
+                const url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='+this.state.lat+','+this.state.lon+'&key=AIzaSyD-VCDRI-XxI1U-oz-5ujODryCQ1zSJi0U&language='+I18n.t('lang')+'&region='+I18n.t('lang');
+                // const url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='+this.state.lat+','+this.state.lon+'&key=AIzaSyD-VCDRI-XxI1U-oz-5ujODryCQ1zSJi0U&language=FI&region=FI';
                 axios.get(url)
-                    //.then(response => console.log(response.data)
+                //.then(response => console.log(response.data)
                     .then(response => this.setState({ address: response.data.results[0].address_components[1].long_name , addressNo: response.data.results[0].address_components[0].long_name , suburb: response.data.results[2].address_components[0].long_name})
                     );
 
@@ -257,8 +250,6 @@ class App extends Component {
 
 
     }
-
-
 
     componentWillUnmount() {
         AppState.removeEventListener('change', this._handleAppStateChange);
@@ -291,12 +282,12 @@ class App extends Component {
         if (this.state.temperature !== null){
 
             return(
-            <Text style={styles.infoText}>
-                {I18n.t('temp')}{'\n'}
-                <Text style={styles.info}>
-                    {this.state.temperature.replace(".", ",")}°C
+                <Text style={styles.infoText}>
+                    {I18n.t('temp')}{'\n'}
+                    <Text style={styles.info}>
+                        {this.state.temperature.replace(".", ",")}°C
+                    </Text>
                 </Text>
-            </Text>
             )
         }else{
             return(
@@ -361,7 +352,7 @@ class App extends Component {
                     {I18n.t('sleet')}{'\n'}
                     {/*infoRain temporary*/}
                     <Text style={styles.infoRain}>
-                         mm/h{'\n'}
+                        mm/h{'\n'}
                     </Text>
                 </Text>
             )
@@ -382,7 +373,7 @@ class App extends Component {
             )
         }else {
             return(
-                <Animated.Image
+                <Image
                     style={styles.mainImage}
                     source={require('./img/lines.png')}
                 />
@@ -404,13 +395,13 @@ class App extends Component {
             )
         }else{
             return(
-            <Text style={styles.address}>
-                <Image
-                    style={styles.location}
-                    source={{uri: 'https://i.imgur.com/K67wWwj.gif'}}
-                />
-                  {'\n\n\n\n'}
-            </Text>
+                <Text style={styles.address}>
+                    <Image
+                        style={styles.location}
+                        source={{uri: 'https://i.imgur.com/K67wWwj.gif'}}
+                    />
+                    {'\n\n\n\n'}
+                </Text>
             )
         }
 
@@ -475,7 +466,7 @@ class App extends Component {
         return(
             <View style={{flex: 1, flexDirection: 'row'}}>
                 <TextInput
-                    style={{height: 40, width:200 , borderColor: 'gray', borderWidth: 1}}
+                    style={{height: 40, width:200 }}
                     onChangeText={(text) => this.setState({text})}
                     value={this.state.text}
                     onSubmitEditing={this.getAddress.bind(this)}
@@ -484,51 +475,51 @@ class App extends Component {
                     <Image source={require('./img/haku.png')} style={{height: 45, width: 45, backgroundColor: 'rgba(0,0,0,0)'}} />
                 </TouchableOpacity>
             </View>
-            )
+        )
 
     }
 
 
     render() {
-        let { fadeAnim } = this.state
-            return (
 
-                <ImageBackground source={this.bgImg} style={styles.backgroundImage} >
+        return (
 
-                    <View style={[styles.container, {flex: 1, flexDirection: 'column'}]}>
+            <ImageBackground source={this.bgImg} style={styles.backgroundImage}>
 
-
-                        <View style={{flex: 1}}>
-                            {this.renderAddress()}
-                        </View>
-
-                        {this.renderSearch()}
+                <View style={[styles.container, {flex: 1, flexDirection: 'column'}]}>
 
 
+                    <View style={{flex: 1}}>
+                        {this.renderAddress()}
+                    </View>
 
-                        {this.renderImg()}
+                    {this.renderSearch()}
 
-                        <View style={{flex: 1, flexDirection:'row'}}>
-                            {this.renderTempinfo()}
-                            {this.renderRainInfo()}
-                        </View>
 
-                        <View style={{flex: 1}}>
-                            {this.renderBtnNow()}
-                        </View>
 
-                        <View style={{flex: 1, flexDirection:'column'}}>
-                            {this.renderPred()}
+                    {this.renderImg()}
 
-                            <View style={{flex: 1, flexDirection: 'row'}}>
-                                {this.renderBtn1()}
-                                {this.renderBtn2()}
-                                {this.renderBtn3()}
-                            </View>
+                    <View style={{flex: 1, flexDirection:'row'}}>
+                        {this.renderTempinfo()}
+                        {this.renderRainInfo()}
+                    </View>
+
+                    <View style={{flex: 1}}>
+                        {this.renderBtnNow()}
+                    </View>
+
+                    <View style={{flex: 2, flexDirection:'column', paddingTop: 20}}>
+                        {this.renderPred()}
+
+                        <View style={{flex: 1, flexDirection: 'row'}}>
+                            {this.renderBtn1()}
+                            {this.renderBtn2()}
+                            {this.renderBtn3()}
                         </View>
                     </View>
-                </ImageBackground>
-            );
+                </View>
+            </ImageBackground>
+        );
 
     }
 }
@@ -644,14 +635,11 @@ const stylesScale = ScaleSheet.create({
     },
 
 
-  /*  heading4: {
-        // 82.5% of the devices width, can also be written as '82.5vw'
-        width: 30 + 'vw',
-
-        // 57% of the devices height, can also be written as 57vh
-
-
-    }*/
+    /*  heading4: {
+          // 82.5% of the devices width, can also be written as '82.5vw'
+          width: 30 + 'vw',
+          // 57% of the devices height, can also be written as 57vh
+      }*/
 });
 
 
@@ -680,9 +668,7 @@ const styles = StyleSheet.create({
     addressInput: {
         height: 40,
         width:200,
-        borderRadius: 3,
-        borderColor:'#ffffff',
-        backgroundColor: 'white',
+
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -700,21 +686,12 @@ const styles = StyleSheet.create({
         backgroundColor:'transparent',
         color: '#FFFFFF',
     },
-    timestamp: {
-        fontSize: 15,
-        marginLeft: 200,
-        color: '#FFFFFF',
-        textShadowColor:'#333333',
-        textShadowOffset: {width: 1, height: 1},
-        textShadowRadius: 4,
-    },
+
     mainImage: {
         width: 200,
         height: 200,
         borderWidth: 3,
-        borderColor: '#FFFFFF',
-        /*marginTop: -70,
-        marginBottom: -30,*/
+        resizeMode: 'cover'
     },
     infoText: {
         color: '#FFFFFF',
@@ -816,7 +793,7 @@ const styles = StyleSheet.create({
         textShadowColor:'black',
         //textShadowRadius: 5,
         textShadowOffset: {width: 1, height: 1},
-        fontSize: 20,
+        fontSize: 30,
         fontWeight: 'bold',
         marginLeft: 2,
         marginRight: 2,
@@ -824,6 +801,7 @@ const styles = StyleSheet.create({
         paddingRight: 30,*/
         overflow: 'hidden',
         textAlign: 'center',
+        textAlignVertical:'center'
     },
 });
 
