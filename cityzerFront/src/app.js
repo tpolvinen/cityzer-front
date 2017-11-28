@@ -39,8 +39,8 @@ class App extends Component {
             bgImg: '',
             buttonStyle: require('./components/sunStyle.js') ,
             rainState:  require('./components/rainStyle.js'),
-            text: ''
-
+            text: '',
+            chill: null,
         };
         this.getWeather = this.getWeather.bind(this);
         this.weatherState = this.weatherState.bind(this);
@@ -176,10 +176,10 @@ class App extends Component {
     }
 
     getWeather(i) {
-        this.urlCall();
-        
-        if(this.state.json ==! null) {
-            console.log('+++++')
+       // this.urlCall();
+
+        if(this.state.json !== null) {
+            console.log('+++++');
             console.log(this.state.json);
             const rain = parseFloat(this.state.json.precipitation_amount_353).toFixed(1);
             const temperature = parseFloat(this.KtoC(this.state.json.air_temperature_4));
@@ -194,28 +194,36 @@ class App extends Component {
             let imgSrc = '';
             switch (i) {
                 case '0':
+                    console.log('1')
                     return this.setState({
+
                         rain: rain,
                         imgSrc: this.weatherState(rain, temperature),
                         temperature: this.KtoC(this.state.json.air_temperature_4),
                         chill: this.KtoC(this.state.json.windchill_air_temp)
                     });
                 case '1':
+                    console.log('2');
                     return this.setState({
+
                         rain: rain1,
                         imgSrc: this.weatherState(rain1, temperature1),
                         temperature: this.KtoC(this.state.json.air_temperature_4_1h),
                         chill: this.KtoC(this.state.json.windchill_air_temp_1h)
                     });
                 case '2':
+                    console.log('3');
                     return (this.setState({
+
                         rain: rain2,
                         imgSrc: this.weatherState(rain2, temperature2),
                         temperature: this.KtoC(this.state.json.air_temperature_4_2h),
                         chill: this.KtoC(this.state.json.windchill_air_temp_2h)
                     }));
                 case '3':
+                    console.log('4');
                     return this.setState({
+
                         rain: rain3,
                         imgSrc: this.weatherState(rain3, temperature3),
                         temperature: this.KtoC(this.state.json.air_temperature_4_3h),
@@ -223,10 +231,13 @@ class App extends Component {
                     });
 
                 default:
+                    console.log('defautlt');
                     this.setState({
+
                         rain: parseFloat(this.state.json.precipitation_amount_353).toFixed(1),
                         temperature: this.KtoC(this.state.json.air_temperature_4),
-                        imgSrc: this.weatherState(parseFloat(this.state.json.precipitation_amount_353).toFixed(1))
+                        imgSrc: this.weatherState(parseFloat(this.state.json.precipitation_amount_353).toFixed(1)),
+                        chill: this.KtoC(this.state.json.windchill_air_temp)
                     });
             }
 
@@ -234,12 +245,9 @@ class App extends Component {
     }
 
     urlCall() {
-
-
         //const url = 'http://193.166.9.27/~a1500903/weather.json';
         //const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
 
-        // jsonin urli windchill-arvon testaamiseen
         const url = 'http://193.166.9.27/~a1500903/chill.json';
 
 
@@ -247,10 +255,12 @@ class App extends Component {
             .then(response => {
 
                 console.log(response.data);
+
                     this.setState({
                         json: response.data,
                         rain: response.data.precipitation_amount_353.toFixed(1),
-                        temperature: this.KtoC(response.data.air_temperature_4)
+                        temperature: this.KtoC(response.data.air_temperature_4),
+                        chill: this.KtoC(response.data.windchill_air_temp)
                     });
                     console.log(this.state);
 
@@ -258,6 +268,7 @@ class App extends Component {
             .catch(error => {
                 console.log(error.response)
             });
+
     }
 
 
@@ -283,9 +294,6 @@ class App extends Component {
             { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 },
         );
         this.urlCall();
-        this.getWeather('0');
-
-
 
     }
 
