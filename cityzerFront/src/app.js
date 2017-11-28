@@ -39,8 +39,7 @@ class App extends Component {
             bgImg: '',
             buttonStyle: require('./components/sunStyle.js') ,
             rainState:  require('./components/rainStyle.js'),
-            text: '',
-            chill: ''
+            text: ''
 
         };
         this.getWeather = this.getWeather.bind(this);
@@ -184,15 +183,13 @@ class App extends Component {
             console.log(this.state.json);
             const rain = parseFloat(this.state.json.precipitation_amount_353).toFixed(1);
             const temperature = parseFloat(this.KtoC(this.state.json.air_temperature_4));
-
             const rain1 = parseFloat(this.state.json.precipitation_amount_353_1h).toFixed(1);
             const temperature1 = parseFloat(this.KtoC(this.state.json.air_temperature_4_1h));
-
             const rain2 = parseFloat(this.state.json.precipitation_amount_353_2h).toFixed(1);
             const temperature2 = parseFloat(this.KtoC(this.state.json.air_temperature_4_2h));
-
             const rain3 = parseFloat(this.state.json.precipitation_amount_353_3h).toFixed(1);
             const temperature3 = parseFloat(this.KtoC(this.state.json.air_temperature_4_3h));
+
 
             let imgSrc = '';
             switch (i) {
@@ -239,11 +236,11 @@ class App extends Component {
     urlCall() {
 
 
-        // const url = 'http://193.166.9.27/~a1500903/weather.json';
-         const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
+        //const url = 'http://193.166.9.27/~a1500903/weather.json';
+        //const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
 
         // jsonin urli windchill-arvon testaamiseen
-        //const url = 'http://193.166.9.27/~a1500903/chill.json';
+        const url = 'http://193.166.9.27/~a1500903/chill.json';
 
 
         axios.get(url)
@@ -285,7 +282,7 @@ class App extends Component {
             (error) => this.setState({ address: I18n.t('fail'), lat:"24.940922", lon:"60.168630"}),
             { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 },
         );
-        //this.urlCall();
+        this.urlCall();
         this.getWeather('0');
 
 
