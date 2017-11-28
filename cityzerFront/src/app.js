@@ -39,7 +39,8 @@ class App extends Component {
             bgImg: '',
             buttonStyle: require('./components/sunStyle.js') ,
             rainState:  require('./components/rainStyle.js'),
-            text: ''
+            text: '',
+            chill: ''
         };
         this.getWeather = this.getWeather.bind(this);
         this.weatherState = this.weatherState.bind(this);
@@ -180,7 +181,6 @@ class App extends Component {
         const rain = parseFloat(this.state.json.precipitation_amount_353).toFixed(1);
         const temperature = parseFloat(this.KtoC(this.state.json.air_temperature_4));
         const chill = parseFloat(this.state.json.windchill_air_temp).toFixed(1);
-        console.log(chill + "debug");
         const rain1 = parseFloat(this.state.json.precipitation_amount_353_1h).toFixed(1);
         const temperature1 = parseFloat(this.KtoC(this.state.json.air_temperature_4_1h));
         const chill1 = parseFloat(this.state.json.windchill_air_temp_1h).toFixed(1);
@@ -195,11 +195,11 @@ class App extends Component {
             case '0':
                 return this.setState({rain: rain, imgSrc: this.weatherState(rain,temperature), temperature: this.KtoC(this.state.json.air_temperature_4), chill: this.KtoC(this.state.json.windchill_air_temp)});
             case '1':
-                return this.setState({rain: rain1, imgSrc: this.weatherState(rain1,temperature1), temperature: this.KtoC(this.state.json.air_temperature_4_1h), chill: this.KtoC(this.state.json.windchill_air_temp_1h)});
+                return this.setState({rain: rain1, imgSrc: this.weatherState(rain1,temperature1), temperature: this.KtoC(this.state.json.air_temperature_4_1h), chill1: this.KtoC(this.state.json.windchill_air_temp_1h)});
             case '2':
-                return (this.setState({rain: rain2, imgSrc: this.weatherState(rain2,temperature2), temperature: this.KtoC(this.state.json.air_temperature_4_2h), chill: this.KtoC(this.state.json.windchill_air_temp_2h)}));
+                return (this.setState({rain: rain2, imgSrc: this.weatherState(rain2,temperature2), temperature: this.KtoC(this.state.json.air_temperature_4_2h), chill2: this.KtoC(this.state.json.windchill_air_temp_2h)}));
             case '3':
-                return this.setState({rain: rain3, imgSrc: this.weatherState(rain3,temperature3), temperature: this.KtoC(this.state.json.air_temperature_4_3h), chill: this.KtoC(this.state.json.windchill_air_temp_3h)});
+                return this.setState({rain: rain3, imgSrc: this.weatherState(rain3,temperature3), temperature: this.KtoC(this.state.json.air_temperature_4_3h), chill3: this.KtoC(this.state.json.windchill_air_temp_3h)});
 
             default:
                 this.setState({rain: parseFloat(this.state.json.precipitation_amount_353).toFixed(1), temperature: this.KtoC(this.state.json.air_temperature_4), imgSrc: this.weatherState(parseFloat(this.state.json.precipitation_amount_353).toFixed(1))});
@@ -209,10 +209,10 @@ class App extends Component {
     urlCall() {
 
         // const url = 'http://193.166.9.27/~a1500903/weather.json';
-        // const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
+         const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
 
         // jsonin urli windchill-arvon testaamiseen
-        const url = 'http://193.166.9.27/~a1500903/chill.json';
+        //const url = 'http://193.166.9.27/~a1500903/chill.json';
 
         axios.get(url)
             .then(response => {
