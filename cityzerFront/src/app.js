@@ -160,7 +160,7 @@ class App extends Component {
     }
     getAddress() {
         Keyboard.dismiss();
-        Geocoder.setApiKey('AIzaSyD-VCDRI-XxI1U-oz-5ujODryCQ1zSJi0U'); // use a valid API key
+        Geocoder.setApiKey('AIzaSyD-VCDRI-XxI1U-oz-5ujODryCQ1zSJi0U');
         Geocoder.getFromLocation(this.state.text).then(
             json => {
                 var location = json.results[0].geometry.location;
@@ -204,7 +204,8 @@ class App extends Component {
     urlCall() {
 
 
-        const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
+        //const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
+        const url = 'http://128.199.61.201/api/weather.json';
 
         axios.get(url)
             .then(response => {
