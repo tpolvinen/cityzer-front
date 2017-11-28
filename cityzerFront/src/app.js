@@ -177,6 +177,8 @@ class App extends Component {
         console.log(this.state.json);
         const rain = parseFloat(this.state.json.precipitation_amount_353).toFixed(1);
         const temperature = parseFloat(this.KtoC(this.state.json.air_temperature_4));
+        const chill = parseFloat(this.state.json.windchill_air_temp).toFixed(1);
+        console.log(chill + "debug");
         const rain1 = parseFloat(this.state.json.precipitation_amount_353_1h).toFixed(1);
         const temperature1 = parseFloat(this.KtoC(this.state.json.air_temperature_4_1h));
         const rain2 = parseFloat(this.state.json.precipitation_amount_353_2h).toFixed(1);
@@ -186,7 +188,7 @@ class App extends Component {
         let imgSrc = '';
         switch (i) {
             case '0':
-                return this.setState({rain: rain, imgSrc: this.weatherState(rain,temperature), temperature: this.KtoC(this.state.json.air_temperature_4)});
+                return this.setState({rain: rain, imgSrc: this.weatherState(rain,temperature), temperature: this.KtoC(this.state.json.air_temperature_4), chill: this.KtoC(this.state.json.windchill_air_temp)});
             case '1':
                 return this.setState({rain: rain1, imgSrc: this.weatherState(rain1,temperature1), temperature: this.KtoC(this.state.json.air_temperature_4_1h)});
             case '2':
@@ -201,8 +203,9 @@ class App extends Component {
 
     urlCall() {
 
-
-        const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
+        // const url = 'http://193.166.9.27/~a1500903/weather.json';
+        // const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
+        const url = 'http://193.166.9.27/~a1500903/chill.json';
 
         axios.get(url)
             .then(response => {
@@ -280,12 +283,14 @@ class App extends Component {
     renderTempinfo(){
 
         if (this.state.temperature !== null){
-
             return(
                 <Text style={styles.infoText}>
                     {I18n.t('temp')}{'\n'}
                     <Text style={styles.info}>
-                        {this.state.temperature.replace(".", ",")}°C
+                        {this.state.temperature.replace(".", ",")}°C 
+                    </Text>
+                    <Text style={styles.info}>
+                        {this.state.chill.replace(".", ",")}°C
                     </Text>
                 </Text>
             )
