@@ -52,7 +52,7 @@ class App extends Component {
         let temp = parseFloat(kelvin);
         console.log(temp);
         temp = kelvinToCelsius(temp);
-        temp = parseFloat(temp).toFixed(1);
+        temp = parseFloat(temp).toFixed(0);
         console.log(temp);
         //let temps = toString(temp);
         return temp.toString();
