@@ -41,8 +41,6 @@ class App extends Component {
             rainState:  require('./components/rainStyle.js'),
             text: '',
             chill: null,
-
-
         };
         this.getWeather = this.getWeather.bind(this);
         this.weatherState = this.weatherState.bind(this);
@@ -166,7 +164,7 @@ class App extends Component {
     }
     getAddress() {
         Keyboard.dismiss();
-        Geocoder.setApiKey('AIzaSyD-VCDRI-XxI1U-oz-5ujODryCQ1zSJi0U'); // use a valid API key
+        Geocoder.setApiKey('AIzaSyD-VCDRI-XxI1U-oz-5ujODryCQ1zSJi0U');
         Geocoder.getFromLocation(this.state.text).then(
             json => {
                 var location = json.results[0].geometry.location;
@@ -181,8 +179,6 @@ class App extends Component {
     }
 
     getWeather(i) {
-
-
        // this.urlCall();
 
         if(this.state.json !== null) {
@@ -190,15 +186,13 @@ class App extends Component {
             console.log(this.state.json);
             const rain = parseFloat(this.state.json.precipitation_amount_353).toFixed(1);
             const temperature = parseFloat(this.KtoC(this.state.json.air_temperature_4));
-
             const rain1 = parseFloat(this.state.json.precipitation_amount_353_1h).toFixed(1);
             const temperature1 = parseFloat(this.KtoC(this.state.json.air_temperature_4_1h));
-
             const rain2 = parseFloat(this.state.json.precipitation_amount_353_2h).toFixed(1);
             const temperature2 = parseFloat(this.KtoC(this.state.json.air_temperature_4_2h));
-
             const rain3 = parseFloat(this.state.json.precipitation_amount_353_3h).toFixed(1);
             const temperature3 = parseFloat(this.KtoC(this.state.json.air_temperature_4_3h));
+
 
             let imgSrc = '';
             switch (i) {
@@ -250,17 +244,13 @@ class App extends Component {
                     });
             }
 
-
         }
     }
 
     urlCall() {
+        //const url = 'http://193.166.9.27/~a1500903/weather.json';
+        //const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
 
-
-        // const url = 'http://193.166.9.27/~a1500903/weather.json';
-         //const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
-
-        // jsonin urli windchill-arvon testaamiseen
         const url = 'http://193.166.9.27/~a1500903/chill.json';
 
 
@@ -307,9 +297,6 @@ class App extends Component {
             { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 },
         );
         this.urlCall();
-        //this.getWeather();
-
-
 
     }
 
