@@ -138,6 +138,7 @@ class App extends Component {
                     this.imgSrc = require('./img/moon.png');}
                 else {
                     this.imgSrc = require('./img/sun.png');
+                    this.state.buttonStyle = require('./components/sunStyle');
                 }
                 this.bgImg = require('./img/blurbag/light_blue.jpg');
 //Aurinkoinen sää
@@ -145,10 +146,12 @@ class App extends Component {
 
                 this.imgSrc = require('./img/cloudsnow.png');
                 this.bgImg = require('./img/blurbag/light_blue.jpg');
+                this.state.buttonStyle = require('./components/rainStyle');
 //Vähän lunta
             } else if (x >= 0.91 && x <= 4.4) {
                 this.imgSrc = require('./img/cloudsnowtwo.png');
                 this.bgImg = require('./img/blurbag/blue.jpg');
+                this.state.buttonStyle = require('./components/rain2Style');
 //Enemmän lunta
             } else {
                 this.imgSrc = require('./img/cloudsnowthree.png');
