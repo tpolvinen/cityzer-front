@@ -299,7 +299,7 @@ class App extends Component {
                     );
             },
             (error) => this.setState({
-                address: "Paikannus ei onnistunut\nSää Helsingissä",
+                address: I18n.t('fail'),
                 lat: "24.940922",
                 lon: "60.168630",
                 addressNo: null,
