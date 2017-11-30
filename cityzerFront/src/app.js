@@ -39,7 +39,8 @@ class App extends Component {
             bgImg: '',
             buttonStyle: require('./components/sunStyle.js') ,
             rainState:  require('./components/rainStyle.js'),
-            text: ''
+            text: '',
+            chill: null,
         };
         this.getWeather = this.getWeather.bind(this);
         this.weatherState = this.weatherState.bind(this);
@@ -52,7 +53,7 @@ class App extends Component {
         let temp = parseFloat(kelvin);
         console.log(temp);
         temp = kelvinToCelsius(temp);
-        temp = parseFloat(temp).toFixed(1);
+        temp = parseFloat(temp).toFixed(0);
         console.log(temp);
         //let temps = toString(temp);
         return temp.toString();
@@ -135,6 +136,7 @@ class App extends Component {
                     this.imgSrc = require('./img/moon.png');}
                 else {
                     this.imgSrc = require('./img/sun.png');
+                    this.state.buttonStyle = require('./components/sunStyle');
                 }
                 this.bgImg = require('./img/blurbag/light_blue.jpg');
 //Aurinkoinen sää
@@ -142,10 +144,12 @@ class App extends Component {
 
                 this.imgSrc = require('./img/cloudsnow.png');
                 this.bgImg = require('./img/blurbag/light_blue.jpg');
+                this.state.buttonStyle = require('./components/rainStyle');
 //Vähän lunta
             } else if (x >= 0.91 && x <= 4.4) {
                 this.imgSrc = require('./img/cloudsnowtwo.png');
                 this.bgImg = require('./img/blurbag/blue.jpg');
+                this.state.buttonStyle = require('./components/rain2Style');
 //Enemmän lunta
             } else {
                 this.imgSrc = require('./img/cloudsnowthree.png');
@@ -160,7 +164,7 @@ class App extends Component {
     }
     getAddress() {
         Keyboard.dismiss();
-        Geocoder.setApiKey('AIzaSyD-VCDRI-XxI1U-oz-5ujODryCQ1zSJi0U'); // use a valid API key
+        Geocoder.setApiKey('AIzaSyD-VCDRI-XxI1U-oz-5ujODryCQ1zSJi0U');
         Geocoder.getFromLocation(this.state.text).then(
             json => {
                 var location = json.results[0].geometry.location;
@@ -175,54 +179,99 @@ class App extends Component {
     }
 
     getWeather(i) {
-        this.urlCall()
-        console.log(this.state.json);
-        const rain = parseFloat(this.state.json.precipitation_amount_353).toFixed(1);
-        const temperature = parseFloat(this.KtoC(this.state.json.air_temperature_4));
-        const rain1 = parseFloat(this.state.json.precipitation_amount_353_1h).toFixed(1);
-        const temperature1 = parseFloat(this.KtoC(this.state.json.air_temperature_4_1h));
-        const rain2 = parseFloat(this.state.json.precipitation_amount_353_2h).toFixed(1);
-        const temperature2 = parseFloat(this.KtoC(this.state.json.air_temperature_4_2h));
-        const rain3 = parseFloat(this.state.json.precipitation_amount_353_3h).toFixed(1);
-        const temperature3 = parseFloat(this.KtoC(this.state.json.air_temperature_4_3h));
-        let imgSrc = '';
-        switch (i) {
-            case '0':
-                return this.setState({rain: rain, imgSrc: this.weatherState(rain,temperature), temperature: this.KtoC(this.state.json.air_temperature_4)});
-            case '1':
-                return this.setState({rain: rain1, imgSrc: this.weatherState(rain1,temperature1), temperature: this.KtoC(this.state.json.air_temperature_4_1h)});
-            case '2':
-                return (this.setState({rain: rain2, imgSrc: this.weatherState(rain2,temperature2), temperature: this.KtoC(this.state.json.air_temperature_4_2h)}));
-            case '3':
-                return this.setState({rain: rain3, imgSrc: this.weatherState(rain3,temperature3), temperature: this.KtoC(this.state.json.air_temperature_4_3h)});
+       // this.urlCall();
 
-            default:
-                this.setState({rain: parseFloat(this.state.json.precipitation_amount_353).toFixed(1), temperature: this.KtoC(this.state.json.air_temperature_4), imgSrc: this.weatherState(parseFloat(this.state.json.precipitation_amount_353).toFixed(1))});
+        if(this.state.json !== null) {
+            console.log('+++++');
+            console.log(this.state.json);
+            const rain = parseFloat(this.state.json.precipitation_amount_353).toFixed(1);
+            const temperature = parseFloat(this.KtoC(this.state.json.air_temperature_4));
+            const rain1 = parseFloat(this.state.json.precipitation_amount_353_1h).toFixed(1);
+            const temperature1 = parseFloat(this.KtoC(this.state.json.air_temperature_4_1h));
+            const rain2 = parseFloat(this.state.json.precipitation_amount_353_2h).toFixed(1);
+            const temperature2 = parseFloat(this.KtoC(this.state.json.air_temperature_4_2h));
+            const rain3 = parseFloat(this.state.json.precipitation_amount_353_3h).toFixed(1);
+            const temperature3 = parseFloat(this.KtoC(this.state.json.air_temperature_4_3h));
+
+
+            let imgSrc = '';
+            switch (i) {
+                case '0':
+                    console.log('1')
+                    return this.setState({
+
+                        rain: rain,
+                        imgSrc: this.weatherState(rain, temperature),
+                        temperature: this.KtoC(this.state.json.air_temperature_4),
+                        chill: this.KtoC(this.state.json.windchill_air_temp)
+                    });
+                case '1':
+                    console.log('2');
+                    return this.setState({
+
+                        rain: rain1,
+                        imgSrc: this.weatherState(rain1, temperature1),
+                        temperature: this.KtoC(this.state.json.air_temperature_4_1h),
+                        chill: this.KtoC(this.state.json.windchill_air_temp_1h)
+                    });
+                case '2':
+                    console.log('3');
+                    return (this.setState({
+
+                        rain: rain2,
+                        imgSrc: this.weatherState(rain2, temperature2),
+                        temperature: this.KtoC(this.state.json.air_temperature_4_2h),
+                        chill: this.KtoC(this.state.json.windchill_air_temp_2h)
+                    }));
+                case '3':
+                    console.log('4');
+                    return this.setState({
+
+                        rain: rain3,
+                        imgSrc: this.weatherState(rain3, temperature3),
+                        temperature: this.KtoC(this.state.json.air_temperature_4_3h),
+                        chill: this.KtoC(this.state.json.windchill_air_temp_3h)
+                    });
+
+                default:
+                    console.log('defautlt');
+                    this.setState({
+
+                        rain: parseFloat(this.state.json.precipitation_amount_353).toFixed(1),
+                        temperature: this.KtoC(this.state.json.air_temperature_4),
+                        imgSrc: this.weatherState(parseFloat(this.state.json.precipitation_amount_353).toFixed(1)),
+                        chill: this.KtoC(this.state.json.windchill_air_temp)
+                    });
+            }
+
         }
     }
 
     urlCall() {
+        //const url = 'http://193.166.9.27/~a1500903/weather.json';
+        //const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
 
+        const url = 'http://193.166.9.27/~a1500903/chill.json';
 
-        const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
 
         axios.get(url)
             .then(response => {
-                if (this.state.rain == null) {
+
+                console.log(response.data);
+
                     this.setState({
                         json: response.data,
                         rain: response.data.precipitation_amount_353.toFixed(1),
-                        temperature: this.KtoC(response.data.air_temperature_4)
+                        temperature: this.KtoC(response.data.air_temperature_4),
+                        chill: this.KtoC(response.data.windchill_air_temp)
                     });
                     console.log(this.state);
 
-
-
-                }
             })
             .catch(error => {
                 console.log(error.response)
             });
+
     }
 
 
@@ -230,6 +279,7 @@ class App extends Component {
         this.imgSrc = require('./img/sun.png');
         this.bgImg = require('./img/blurbag/light_blue.jpg');
         AppState.addEventListener('change', this._handleAppStateChange);
+
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 this.setState({ lon: position.coords.longitude, lat: position.coords.latitude });
@@ -246,10 +296,7 @@ class App extends Component {
             (error) => this.setState({ address: I18n.t('fail'), lat:"24.940922", lon:"60.168630"}),
             { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 },
         );
-
         this.urlCall();
-
-
 
     }
 
@@ -282,12 +329,14 @@ class App extends Component {
     renderTempinfo(){
 
         if (this.state.temperature !== null){
-
             return(
                 <Text style={styles.infoText}>
                     {I18n.t('temp')}{'\n'}
                     <Text style={styles.info}>
-                        {this.state.temperature.replace(".", ",")}°C
+                        {this.state.temperature.replace(".", ",")}°C 
+                    </Text>
+                    <Text style={styles.info2} >
+                        {' '}({this.state.chill.replace(".", ",")}°C)
                     </Text>
                 </Text>
             )
@@ -706,6 +755,12 @@ const styles = StyleSheet.create({
     info: {
         fontSize: 30,
         color: '#ffffff',
+        width: 50,
+        height: 50,
+    },
+    info2: {
+        fontSize: 20,
+        color: '#b7e6ff',
         width: 50,
         height: 50,
     },
