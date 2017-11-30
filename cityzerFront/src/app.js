@@ -182,10 +182,7 @@ class App extends Component {
 
     getWeather(i) {
        // this.urlCall();
-        Animated.timing(          // Uses easing functions
-            this.state.fadeAnim,    // The value to drive
-            {toValue: 0}            // Configuration
-        ).start();
+
         if(this.state.json !== null) {
 
 
@@ -281,6 +278,12 @@ class App extends Component {
     }
 
     componentDidMount() {
+        Animated.timing(
+            this.state.fadeAnim,
+            {
+                toValue: 1,
+            },
+        ).start();
         this.bgImg = require('./img/blurbag/light_blue.jpg');
         AppState.addEventListener('change', this._handleAppStateChange);
         navigator.geolocation.getCurrentPosition(
@@ -414,12 +417,6 @@ class App extends Component {
                 />
             )
 
-        }else {
-            return(
-                <Image
-                    style={styles.mainImage}
-                    source={require('./img/lines.png')}/>
-            )
         }
     }
 
