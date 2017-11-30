@@ -42,11 +42,16 @@ class App extends Component {
             rainState:  require('./components/rainStyle.js'),
             text: '',
             chill: null,
-            fadeAnim: new Animated.Value(0)
+            fadeAnim: new Animated.Value(0),
+            img1: require('./img/blurbag/dark_blue.jpg'),
+            img2: require('./img/blurbag/blue.jpg'),
+            img3: require('./img/blurbag/light_blue.jpg')
         };
         this.getWeather = this.getWeather.bind(this);
         this.weatherState = this.weatherState.bind(this);
     }
+
+
     state = { address: [] };
 
     KtoC(kelvin) {
@@ -194,6 +199,10 @@ class App extends Component {
             {toValue: 0}            // Configuration
         ).start();
         if(this.state.json !== null) {
+
+       /* this.urlCall();*/
+
+        /*if(this.state.json !== '') {*/
             console.log('+++++');
             console.log(this.state.json);
             const rain = parseFloat(this.state.json.precipitation_amount_353).toFixed(1);
@@ -207,6 +216,7 @@ class App extends Component {
 
 
             let imgSrc = '';
+
             switch (i) {
                 case '0':
                     console.log('1')
@@ -219,6 +229,7 @@ class App extends Component {
                     });
                 case '1':
                     console.log('2');
+
                     return this.setState({
 
                         rain: rain1,
@@ -237,6 +248,7 @@ class App extends Component {
                     }));
                 case '3':
                     console.log('4');
+
                     return this.setState({
 
                         rain: rain3,
@@ -257,11 +269,11 @@ class App extends Component {
             }
 
         }
-    }
+   }
 
     urlCall() {
         //const url = 'http://193.166.9.27/~a1500903/weather.json';
-        //const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
+        /*const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;*/
 
         const url = 'http://193.166.9.27/~a1500903/chill.json';
 
@@ -275,9 +287,10 @@ class App extends Component {
                         json: response.data,
                         rain: response.data.precipitation_amount_353.toFixed(1),
                         temperature: this.KtoC(response.data.air_temperature_4),
-                        chill: this.KtoC(response.data.windchill_air_temp)
+                        chill: this.KtoC(response.data.windchill_air_temp),
                     });
                     console.log(this.state);
+
                     this.getWeather()
 
             })
@@ -289,7 +302,7 @@ class App extends Component {
 
 
     componentDidMount() {
-        this.imgSrc = require('./img/sun.png');
+        /*this.imgSrc = require('./img/cloudrain.png');*/
         this.bgImg = require('./img/blurbag/light_blue.jpg');
         AppState.addEventListener('change', this._handleAppStateChange);
 
@@ -304,10 +317,8 @@ class App extends Component {
                     );
 
             },
-            (error) => this.setState({ address: "Paikannus ei onnistunut\nSää Helsingissä", lat:"24.940922", lon:"60.168630", addressNo: null, suburb: null}),
-            { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 },
-            (error) => this.setState({ address: I18n.t('fail'), lat:"24.940922", lon:"60.168630"}),
-            { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 },
+            (error) => this.setState({ address: I18n.t('fail'), lat:"24.940922", lon:"60.168630", addressNo: null, suburb: null}),
+            { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 }
         );
         this.urlCall();
 
@@ -328,8 +339,8 @@ class App extends Component {
                         .then(response => this.setState(
                             { address: response.data.results[0].address_components[1].long_name }));
                 },
-                (error) => this.setState({ address: "Paikannus ei onnistunut \nSää Helsingissä" }),
-                { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 },
+                (error) => this.setState({ address: I18n.t('fail'), lat:"24.940922", lon:"60.168630", addressNo: null, suburb: null}),
+                { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 }
             );
         }
         this.setState({appState: nextAppState});
@@ -434,13 +445,6 @@ class App extends Component {
                 <Animated.Image
                     style={{opacity: this.state.fadeAnim, width: 200, height: 200,}}
                     source={this.imgSrc}
-                />
-            )
-        }else {
-            return(
-                <Animated.Image
-                    style={styles.mainImage}
-                    source={require('./img/lines.png')}
                 />
             )
         }
