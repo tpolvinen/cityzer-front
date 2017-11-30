@@ -45,7 +45,11 @@ class App extends Component {
             fadeAnim: new Animated.Value(0),
             img1: require('./img/blurbag/dark_blue.jpg'),
             img2: require('./img/blurbag/blue.jpg'),
-            img3: require('./img/blurbag/light_blue.jpg')
+            img3: require('./img/blurbag/light_blue.jpg'),
+            actB1: '',
+            actB2: '',
+            actB3: '',
+            actB4: ''
         };
         this.getWeather = this.getWeather.bind(this);
         this.weatherState = this.weatherState.bind(this);
@@ -216,10 +220,12 @@ class App extends Component {
 
 
             let imgSrc = '';
+            this.setState({actB1: '', actB2:'',actB3:'', actB4:''});
 
             switch (i) {
                 case '0':
                     console.log('1')
+                    this.setState({actB1: styles.activeBtn})
                     return this.setState({
 
                         rain: rain,
@@ -229,7 +235,7 @@ class App extends Component {
                     });
                 case '1':
                     console.log('2');
-
+                    this.setState({actB2: styles.activeBtn})
                     return this.setState({
 
                         rain: rain1,
@@ -239,6 +245,7 @@ class App extends Component {
                     });
                 case '2':
                     console.log('3');
+                    this.setState({actB3: styles.activeBtn})
                     return (this.setState({
 
                         rain: rain2,
@@ -248,7 +255,7 @@ class App extends Component {
                     }));
                 case '3':
                     console.log('4');
-
+                    this.setState({actB4: styles.activeBtn})
                     return this.setState({
 
                         rain: rain3,
@@ -478,7 +485,7 @@ class App extends Component {
 
     renderBtnNow(){
         return(
-            <TouchableOpacity style={this.state.buttonStyle.infoButton}
+            <TouchableOpacity style={[this.state.buttonStyle.infoButton, this.state.actB1]}
                               onPress={this.getWeather.bind(this, '0')}>
                 <Text style={this.state.buttonStyle.infotext}>
                     {I18n.t('now')}
@@ -491,7 +498,7 @@ class App extends Component {
         return(
 
             <TouchableOpacity onPress={this.getWeather.bind(this, '1')}>
-                <Text style={this.state.buttonStyle.heading1}>
+                <Text style={[this.state.buttonStyle.heading1, this.state.actB2]}>
                     +1h
                 </Text>
             </TouchableOpacity>
@@ -502,7 +509,7 @@ class App extends Component {
     renderBtn2(){
         return(
             <TouchableOpacity onPress={this.getWeather.bind(this, '2')}>
-                <Text style={this.state.buttonStyle.heading2}>
+                <Text style={[this.state.buttonStyle.heading2, this.state.actB3]}>
                     +2h
                 </Text>
             </TouchableOpacity>
@@ -512,7 +519,7 @@ class App extends Component {
     renderBtn3(){
         return(
             <TouchableOpacity onPress={this.getWeather.bind(this, '3')}>
-                <Text style={this.state.buttonStyle.heading3}>
+                <Text style={[this.state.buttonStyle.heading3, this.state.actB4]}>
                     +3h
                 </Text>
             </TouchableOpacity>
@@ -709,6 +716,9 @@ const stylesScale = ScaleSheet.create({
 
 
 const styles = StyleSheet.create({
+    activeBtn: {
+        borderWidth: 7
+    },
     backgroundImage: {
         flex: 1,
         // width: undefined,
