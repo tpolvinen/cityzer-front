@@ -49,6 +49,7 @@ module.exports = StyleSheet.create({
         textAlignVertical:'center',
         borderColor:'#ffffff',
         backgroundColor:'#e6e255',
+        textShadowOffset: {width: 1, height: 1},
     },
     heading2: {
         width: 100,
@@ -71,6 +72,7 @@ module.exports = StyleSheet.create({
         textAlignVertical:'center',
         borderColor:'#ffffff',
         backgroundColor:'#e6e255',
+        textShadowOffset: {width: 1, height: 1},
     },
     heading3: {
         width: 100,
@@ -93,5 +95,6 @@ module.exports = StyleSheet.create({
         textAlignVertical:'center',
         borderColor: '#ffffff',
         backgroundColor: '#e6e255',
+        textShadowOffset: {width: 1, height: 1},
     }
 });

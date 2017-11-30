@@ -30,7 +30,8 @@ module.exports = StyleSheet.create({
     heading1: {
         width: 100,
         height: 75,
-        color: 'black',
+        color: 'white',
+        textShadowColor:'black',
         fontSize: 30,
         fontWeight: 'bold',
         marginTop: 10,
@@ -44,13 +45,15 @@ module.exports = StyleSheet.create({
         textAlignVertical:'center',
         borderColor: '#ffffff',
         backgroundColor:'#77e6e0',
+        textShadowOffset: {width: 1, height: 1},
 
 
     },
     heading2: {
         width: 100,
         height: 75,
-        color: 'black',
+        color: 'white',
+        textShadowColor:'black',
         fontSize: 30,
         fontWeight: 'bold',
         marginTop: 10,
@@ -64,11 +67,13 @@ module.exports = StyleSheet.create({
         textAlignVertical:'center',
         borderColor: '#ffffff',
         backgroundColor:'#77e6e0',
+        textShadowOffset: {width: 1, height: 1},
     },
     heading3: {
         width: 100,
         height: 75,
-        color: 'black',
+        color: 'white',
+        textShadowColor:'black',
         fontSize: 30,
         fontWeight: 'bold',
         marginTop: 10,
@@ -82,5 +87,6 @@ module.exports = StyleSheet.create({
         textAlignVertical:'center',
         borderColor: '#ffffff',
         backgroundColor: '#77e6e0',
+        textShadowOffset: {width: 1, height: 1},
     }
 });

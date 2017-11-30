@@ -136,6 +136,7 @@ class App extends Component {
                     this.imgSrc = require('./img/moon.png');}
                 else {
                     this.imgSrc = require('./img/sun.png');
+                    this.state.buttonStyle = require('./components/sunStyle');
                 }
                 this.bgImg = require('./img/blurbag/light_blue.jpg');
 //Aurinkoinen sää
@@ -143,10 +144,12 @@ class App extends Component {
 
                 this.imgSrc = require('./img/cloudsnow.png');
                 this.bgImg = require('./img/blurbag/light_blue.jpg');
+                this.state.buttonStyle = require('./components/rainStyle');
 //Vähän lunta
             } else if (x >= 0.91 && x <= 4.4) {
                 this.imgSrc = require('./img/cloudsnowtwo.png');
                 this.bgImg = require('./img/blurbag/blue.jpg');
+                this.state.buttonStyle = require('./components/rain2Style');
 //Enemmän lunta
             } else {
                 this.imgSrc = require('./img/cloudsnowthree.png');
@@ -176,9 +179,9 @@ class App extends Component {
     }
 
     getWeather(i) {
-       // this.urlCall();
+       /* this.urlCall();*/
 
-        if(this.state.json !== null) {
+        /*if(this.state.json !== '') {*/
             console.log('+++++');
             console.log(this.state.json);
             const rain = parseFloat(this.state.json.precipitation_amount_353).toFixed(1);
@@ -192,6 +195,7 @@ class App extends Component {
 
 
             let imgSrc = '';
+
             switch (i) {
                 case '0':
                     console.log('1')
@@ -242,12 +246,11 @@ class App extends Component {
             }
 
         }
-    }
+   /* }*/
 
     urlCall() {
         //const url = 'http://193.166.9.27/~a1500903/weather.json';
         const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
-
         //const url = 'http://193.166.9.27/~a1500903/chill.json';
 
 
@@ -260,10 +263,10 @@ class App extends Component {
                         json: response.data,
                         rain: response.data.precipitation_amount_353.toFixed(1),
                         temperature: this.KtoC(response.data.air_temperature_4),
-                        chill: this.KtoC(response.data.windchill_air_temp)
+                        chill: this.KtoC(response.data.windchill_air_temp),
                     });
                     console.log(this.state);
-
+                this.getWeather()
             })
             .catch(error => {
                 console.log(error.response)
@@ -273,7 +276,7 @@ class App extends Component {
 
 
     componentDidMount() {
-        this.imgSrc = require('./img/sun.png');
+        /*this.imgSrc = require('./img/cloudrain.png');*/
         this.bgImg = require('./img/blurbag/light_blue.jpg');
         AppState.addEventListener('change', this._handleAppStateChange);
 
