@@ -252,7 +252,6 @@ class App extends Component {
 
    }
 
-
     urlCall() {
         const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
         //const url = 'http://ctzr.me:8080/cityzer/api/getWeather?userLat=60.201953770612505&userLon=24.934014050581936';
@@ -265,10 +264,7 @@ class App extends Component {
                         temperature: this.KtoC(response.data.air_temperature_4),
                         chill: this.KtoC(response.data.windchill_air_temp),
                     });
-
-
-
-                    this.getWeather()
+                        this.getWeather()
 
                 this.getWeather()
             })
