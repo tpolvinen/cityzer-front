@@ -246,9 +246,9 @@ class App extends Component {
 
     urlCall() {
         //const url = 'http://193.166.9.27/~a1500903/weather.json';
-        //const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
+        const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
 
-        const url = 'http://193.166.9.27/~a1500903/chill.json';
+        //const url = 'http://193.166.9.27/~a1500903/chill.json';
 
 
         axios.get(url)
