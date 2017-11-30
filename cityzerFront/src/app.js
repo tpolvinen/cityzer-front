@@ -283,8 +283,8 @@ class App extends Component {
                         .then(response => this.setState(
                             { address: response.data.results[0].address_components[1].long_name }));
                 },
-                (error) => this.setState({ address: "Paikannus ei onnistunut \nSää Helsingissä" }),
-                { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 },
+                (error) => this.setState({ address: I18n.t('fail'), lat:"24.940922", lon:"60.168630", addressNo: null, suburb: null}),
+                { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 }
             );
         }
         this.setState({appState: nextAppState});
