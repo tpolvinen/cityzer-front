@@ -10,7 +10,8 @@ import {
     Platform,
     ImageBackground,
     TextInput,
-    Keyboard
+    Keyboard,
+    Animated
 } from 'react-native';
 import axios from 'axios';
 import Geocoder from 'react-native-geocoding';
@@ -41,6 +42,7 @@ class App extends Component {
             rainState:  require('./components/rainStyle.js'),
             text: '',
             chill: null,
+            fadeAnim: new Animated.Value(0)
         };
         this.getWeather = this.getWeather.bind(this);
         this.weatherState = this.weatherState.bind(this);
@@ -60,13 +62,16 @@ class App extends Component {
     };
 
     weatherState(x,y) {
-        console.log(x+ ' ' + y);
+        Animated.timing(          // Uses easing functions
+            this.state.fadeAnim,    // The value to drive
+            {toValue: 0}            // Configuration
+        ).start();
         let imgSrc = '';
         var time = new Date().getHours().toLocaleString();
         time = parseInt(time);
 
         console.log(time);
-
+        //y = lämpötila & x = sademäärä
         // yli +2°C, sade tulee vetenä
         if (y > 2) {
 
@@ -160,6 +165,10 @@ class App extends Component {
         }
 
         console.log(imgSrc);
+        Animated.timing(
+            this.state.fadeAnim,    // The value to drive
+            {toValue: 1}            // Configuration
+        ).start();
         return imgSrc;
     }
     getAddress() {
@@ -180,7 +189,10 @@ class App extends Component {
 
     getWeather(i) {
        // this.urlCall();
-
+        Animated.timing(          // Uses easing functions
+            this.state.fadeAnim,    // The value to drive
+            {toValue: 0}            // Configuration
+        ).start();
         if(this.state.json !== null) {
             console.log('+++++');
             console.log(this.state.json);
@@ -266,6 +278,7 @@ class App extends Component {
                         chill: this.KtoC(response.data.windchill_air_temp)
                     });
                     console.log(this.state);
+                    this.getWeather()
 
             })
             .catch(error => {
@@ -417,14 +430,15 @@ class App extends Component {
     renderImg(){
         if (this.state.rain !== null){
             return(
-                <Image
-                    style={styles.mainImage}
+
+                <Animated.Image
+                    style={{opacity: this.state.fadeAnim, width: 200, height: 200,}}
                     source={this.imgSrc}
                 />
             )
         }else {
             return(
-                <Image
+                <Animated.Image
                     style={styles.mainImage}
                     source={require('./img/lines.png')}
                 />
@@ -736,7 +750,6 @@ const styles = StyleSheet.create({
     mainImage: {
         width: 200,
         height: 200,
-        borderWidth: 3,
         resizeMode: 'cover'
     },
     infoText: {

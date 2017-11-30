@@ -14,7 +14,8 @@ module.exports = StyleSheet.create({
         borderColor:'#ffffff',
         backgroundColor:'#faf658',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        overflow: 'hidden'
     },
     infotext: {
         width: 308,
@@ -26,6 +27,7 @@ module.exports = StyleSheet.create({
         fontSize: 30,
         textAlign: 'center',
         textAlignVertical:'center'
+
         },
 
     heading1: {
