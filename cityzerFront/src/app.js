@@ -10,7 +10,8 @@ import {
     Platform,
     ImageBackground,
     TextInput,
-    Keyboard
+    Keyboard,
+    Animated
 } from 'react-native';
 import axios from 'axios';
 import Geocoder from 'react-native-geocoding';
@@ -37,10 +38,20 @@ class App extends Component {
             rainState:  require('./components/rainStyle.js'),
             text: '',
             chill: null,
+            fadeAnim: new Animated.Value(0),
+            img1: require('./img/blurbag/dark_blue.jpg'),
+            img2: require('./img/blurbag/blue.jpg'),
+            img3: require('./img/blurbag/light_blue.jpg'),
+            actB1: '',
+            actB2: '',
+            actB3: '',
+            actB4: ''
         };
         this.getWeather = this.getWeather.bind(this);
         this.weatherState = this.weatherState.bind(this);
     }
+
+
     state = { address: [] };
 
     KtoC(kelvin) {
@@ -52,10 +63,12 @@ class App extends Component {
     };
 
     weatherState(x,y) {
+
         let imgSrc = '';
         var time = new Date().getHours().toLocaleString();
         time = parseInt(time);
 
+        //y = lämpötila & x = sademäärä
         // yli +2°C, sade tulee vetenä
         if (y > 2) {
 
@@ -147,6 +160,8 @@ class App extends Component {
 //Vielä enemmän lunta
             }
         }
+
+
         return imgSrc;
     }
     getAddress() {
@@ -166,6 +181,17 @@ class App extends Component {
     }
 
     getWeather(i) {
+       // this.urlCall();
+        Animated.timing(          // Uses easing functions
+            this.state.fadeAnim,    // The value to drive
+            {toValue: 0}            // Configuration
+        ).start();
+        if(this.state.json !== null) {
+
+
+            console.log('+++++');
+            console.log(this.state.json);
+
             const rain = parseFloat(this.state.json.precipitation_amount_353).toFixed(1);
             const temperature = parseFloat(this.KtoC(this.state.json.air_temperature_4));
             const rain1 = parseFloat(this.state.json.precipitation_amount_353_1h).toFixed(1);
@@ -175,10 +201,12 @@ class App extends Component {
             const rain3 = parseFloat(this.state.json.precipitation_amount_353_3h).toFixed(1);
             const temperature3 = parseFloat(this.KtoC(this.state.json.air_temperature_4_3h));
             let imgSrc = '';
+            this.setState({actB1: '', actB2:'',actB3:'', actB4:''});
 
             switch (i) {
                 case '0':
                     console.log('1')
+                    this.setState({actB1: styles.activeBtn})
                     return this.setState({
                         rain: rain,
                         imgSrc: this.weatherState(rain, temperature),
@@ -187,6 +215,7 @@ class App extends Component {
                     });
                 case '1':
                     console.log('2');
+                    this.setState({actB2: styles.activeBtn})
                     return this.setState({
                         rain: rain1,
                         imgSrc: this.weatherState(rain1, temperature1),
@@ -195,6 +224,7 @@ class App extends Component {
                     });
                 case '2':
                     console.log('3');
+                    this.setState({actB3: styles.activeBtn})
                     return (this.setState({
                         rain: rain2,
                         imgSrc: this.weatherState(rain2, temperature2),
@@ -203,6 +233,7 @@ class App extends Component {
                     }));
                 case '3':
                     console.log('4');
+                    this.setState({actB4: styles.activeBtn})
                     return this.setState({
                         rain: rain3,
                         imgSrc: this.weatherState(rain3, temperature3),
@@ -222,6 +253,9 @@ class App extends Component {
             }
         }
 
+   }
+
+
     urlCall() {
         const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
         //const url = 'http://ctzr.me:8080/cityzer/api/getWeather?userLat=60.201953770612505&userLon=24.934014050581936';
@@ -234,6 +268,11 @@ class App extends Component {
                         temperature: this.KtoC(response.data.air_temperature_4),
                         chill: this.KtoC(response.data.windchill_air_temp),
                     });
+
+
+
+                    this.getWeather()
+
                 this.getWeather()
             })
             .catch(error => {
@@ -368,10 +407,13 @@ class App extends Component {
     renderImg(){
         if (this.state.rain !== null){
             return(
-                <Image
-                    style={styles.mainImage}
-                    source={this.imgSrc}/>
+
+                <Animated.Image
+                    style={{opacity: this.state.fadeAnim, width: 200, height: 200,}}
+                    source={this.imgSrc}
+                />
             )
+
         }else {
             return(
                 <Image
@@ -406,7 +448,7 @@ class App extends Component {
 
     renderBtnNow(){
         return(
-            <TouchableOpacity style={this.state.buttonStyle.infoButton}
+            <TouchableOpacity style={[this.state.buttonStyle.infoButton, this.state.actB1]}
                               onPress={this.getWeather.bind(this, '0')}>
                 <Text style={this.state.buttonStyle.infotext}>
                     {I18n.t('now')}
@@ -418,7 +460,7 @@ class App extends Component {
     renderBtn1(){
         return(
             <TouchableOpacity onPress={this.getWeather.bind(this, '1')}>
-                <Text style={this.state.buttonStyle.heading1}>
+                <Text style={[this.state.buttonStyle.heading1, this.state.actB2]}>
                     +1h
                 </Text>
             </TouchableOpacity>
@@ -428,7 +470,7 @@ class App extends Component {
     renderBtn2(){
         return(
             <TouchableOpacity onPress={this.getWeather.bind(this, '2')}>
-                <Text style={this.state.buttonStyle.heading2}>
+                <Text style={[this.state.buttonStyle.heading2, this.state.actB3]}>
                     +2h
                 </Text>
             </TouchableOpacity>
@@ -437,7 +479,7 @@ class App extends Component {
     renderBtn3(){
         return(
             <TouchableOpacity onPress={this.getWeather.bind(this, '3')}>
-                <Text style={this.state.buttonStyle.heading3}>
+                <Text style={[this.state.buttonStyle.heading3, this.state.actB4]}>
                     +3h
                 </Text>
             </TouchableOpacity>
@@ -458,7 +500,7 @@ class App extends Component {
         return(
             <View style={{flex: 1, flexDirection: 'row'}}>
                 <TextInput
-                    style={{height: 40, width:200 , borderColor: 'rgba(0,0,0,0)', borderWidth: 1}}
+                    style={{height: 40, width:200 }}
                     onChangeText={(text) => this.setState({text})}
                     value={this.state.text}
                     onSubmitEditing={this.getAddress.bind(this)}/>
@@ -578,6 +620,9 @@ const stylesScale = ScaleSheet.create({
 });
 
 const styles = StyleSheet.create({
+    activeBtn: {
+        borderWidth: 7
+    },
     backgroundImage: {
         flex: 1,
     },
@@ -598,9 +643,7 @@ const styles = StyleSheet.create({
     addressInput: {
         height: 40,
         width:200,
-        borderRadius: 3,
-        borderColor:'#ffffff',
-        backgroundColor: 'white',
+
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -620,7 +663,6 @@ const styles = StyleSheet.create({
     mainImage: {
         width: 200,
         height: 200,
-        borderWidth: 3,
         resizeMode: 'cover'
     },
     infoText: {

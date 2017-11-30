@@ -12,9 +12,10 @@ module.exports = StyleSheet.create({
         marginLeft: 2,
         marginRight: 2,
         borderColor:'#ffffff',
-        backgroundColor:'#faf658',
+        backgroundColor:'rgb(250,186,37)',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        overflow: 'hidden'
     },
     infotext: {
         width: 308,
@@ -26,6 +27,7 @@ module.exports = StyleSheet.create({
         fontSize: 30,
         textAlign: 'center',
         textAlignVertical:'center'
+
         },
 
     heading1: {
@@ -48,7 +50,7 @@ module.exports = StyleSheet.create({
         textAlign: 'center',
         textAlignVertical:'center',
         borderColor:'#ffffff',
-        backgroundColor:'#e6e255',
+        backgroundColor:'rgb(250,186,37)',
         textShadowOffset: {width: 1, height: 1},
     },
     heading2: {
@@ -71,7 +73,7 @@ module.exports = StyleSheet.create({
         textAlign: 'center',
         textAlignVertical:'center',
         borderColor:'#ffffff',
-        backgroundColor:'#e6e255',
+        backgroundColor:'rgb(250,186,37)',
         textShadowOffset: {width: 1, height: 1},
     },
     heading3: {
@@ -94,7 +96,7 @@ module.exports = StyleSheet.create({
         textAlign: 'center',
         textAlignVertical:'center',
         borderColor: '#ffffff',
-        backgroundColor: '#e6e255',
+        backgroundColor: 'rgb(250,186,37)',
         textShadowOffset: {width: 1, height: 1},
     }
 });
