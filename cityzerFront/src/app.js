@@ -248,7 +248,7 @@ class App extends Component {
 
     urlCall() {
         const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
-        //const url = 'http://193.166.9.27/~a1500903/weather.json';
+        // const url = 'http://193.166.9.27/~a1500903/weather.json';
         // const url = 'http://ctzr.me:8080/cityzer/api/getWeather?userLat=60.201953770612505&userLon=24.934014050581936';
 
         axios.get(url)
@@ -417,7 +417,7 @@ class App extends Component {
                 <Text style={styles.address}>
                     <Image
                         style={styles.location}
-                        source={{uri: 'https://i.imgur.com/K67wWwj.gif'}}/>
+                        source={require('./img/location.png')}/>
                     {' ' + this.state.address} {this.state.addressNo} {'\n'}
                     {this.state.suburb} {'\n\n'}
                 </Text>
@@ -427,7 +427,7 @@ class App extends Component {
                 <Text style={styles.address}>
                     <Image
                         style={styles.location}
-                        source={{uri: 'https://i.imgur.com/K67wWwj.gif'}}/>
+                        source={require('./img/location.png')}/>
                     {'\n\n\n\n'}
                 </Text>
             )
@@ -548,7 +548,7 @@ I18n.translations = {
         now: 'Weather now',
         lang: 'FI',
         pre: 'Predictions',
-        fail: 'GPS Not found \n Weather in Helsinki',
+        fail: 'GPS signal not found \n Weather in Helsinki',
         snow: 'Snow',
         sleet: 'Sleet',
         dry: 'Dry',
