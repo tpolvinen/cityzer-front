@@ -39,9 +39,10 @@ class App extends Component {
             text: '',
             chill: null,
             fadeAnim: new Animated.Value(0),
-            img1: require('./img/blurbag/dark_blue.jpg'),
-            img2: require('./img/blurbag/blue.jpg'),
-            img3: require('./img/blurbag/light_blue.jpg'),
+            opacity: 1,
+            darkBlueSky: styles.backgroundImageFade,
+            blueSky: styles.backgroundImageFade,
+            lightBlueSky: styles.backgroundImageShow,
             actB1: '',
             actB2: '',
             actB3: '',
@@ -79,25 +80,25 @@ class App extends Component {
                 else {
                     this.imgSrc = require('./img/sun.png');
                 }
-                this.bgImg = require('./img/blurbag/light_blue.jpg');
+                this.setState({lightBlueSky: styles.backgroundImageShow, blueSky: styles.backgroundImageFade, darkBlueSky: styles.backgroundImageFade});
                 this.state.buttonStyle = require('./components/sunStyle');
 
             } else if (x >= 0.31 && x <= 0.9) {
                 // tihkuaa
                 this.imgSrc = require('./img/cloudrain.png');
-                this.bgImg = require('./img/blurbag/light_blue.jpg');
+                this.setState({lightBlueSky: styles.backgroundImageShow, blueSky: styles.backgroundImageFade, darkBlueSky: styles.backgroundImageFade});
                 this.state.buttonStyle = require('./components/rainStyle');
 
             } else if (x >= 0.91 && x <= 4.4) {
                 // sataa
                 this.imgSrc = require('./img/cloudraintwo.png');
-                this.bgImg = require('./img/blurbag/blue.jpg');
+                this.setState({lightBlueSky: styles.backgroundImageFade, blueSky: styles.backgroundImageShow, darkBlueSky: styles.backgroundImageFade});
                 this.state.buttonStyle = require('./components/rain2Style');
 
                 // sataa paljon
             } else {
                 this.imgSrc = require('./img/cloudrainthree.png');
-                this.bgImg = require('./img/blurbag/dark_blue.jpg');
+                this.setState({lightBlueSky: styles.backgroundImageFade, blueSky: styles.backgroundImageFade, darkBlueSky: styles.backgroundImageShow});
                 this.state.buttonStyle = require('./components/rain3Style');
             }
         }
@@ -110,23 +111,23 @@ class App extends Component {
                 else {
                     this.imgSrc = require('./img/sun.png');
                 }
-                this.bgImg = require('./img/blurbag/light_blue.jpg');
+                this.setState({lightBlueSky: styles.backgroundImageShow, blueSky: styles.backgroundImageFade, darkBlueSky: styles.backgroundImageFade});
                 this.state.buttonStyle = require('./components/sunStyle');
 
             } else if (x >= 0.31 && x <= 0.9) {
 
                 this.imgSrc = require('./img/cloudsnowrain.png');
-                this.bgImg = require('./img/blurbag/light_blue.jpg');
+                this.setState({lightBlueSky: styles.backgroundImageShow, blueSky: styles.backgroundImageFade, darkBlueSky: styles.backgroundImageFade});
                 this.state.buttonStyle = require('./components/rainStyle');
 
             } else if (x >= 0.91 && x <= 4.4) {
                 this.imgSrc = require('./img/cloudsnowraintwo.png');
-                this.bgImg = require('./img/blurbag/blue.jpg');
+                this.setState({lightBlueSky: styles.backgroundImageFade, blueSky: styles.backgroundImage, darkBlueSky: styles.backgroundImageFade});
                 this.state.buttonStyle = require('./components/rain2Style');
 
             } else {
                 this.imgSrc = require('./img/cloudsnowrainthree.png');
-                this.bgImg = require('./img/blurbag/dark_blue.jpg');
+                this.setState({lightBlueSky: styles.backgroundImageFade, blueSky: styles.backgroundImageFade, darkBlueSky: styles.backgroundImageShow});
                 this.state.buttonStyle = require('./components/rain3Style');
             }
         }
@@ -140,22 +141,22 @@ class App extends Component {
                     this.imgSrc = require('./img/sun.png');
                     this.state.buttonStyle = require('./components/sunStyle');
                 }
-                this.bgImg = require('./img/blurbag/light_blue.jpg');
+                this.setState({lightBlueSky: styles.backgroundImageShow, blueSky: styles.backgroundImageFade, darkBlueSky: styles.backgroundImageFade});
 //Aurinkoinen sää
             } else if (x >= 0.31 && x <= 0.9) {
 
                 this.imgSrc = require('./img/cloudsnow.png');
-                this.bgImg = require('./img/blurbag/light_blue.jpg');
+                this.setState({lightBlueSky: styles.backgroundImageShow, blueSky: styles.backgroundImageFade, darkBlueSky: styles.backgroundImageFade});
                 this.state.buttonStyle = require('./components/rainStyle');
 //Vähän lunta
             } else if (x >= 0.91 && x <= 4.4) {
                 this.imgSrc = require('./img/cloudsnowtwo.png');
-                this.bgImg = require('./img/blurbag/blue.jpg');
+                this.setState({lightBlueSky: styles.backgroundImageFade, blueSky: styles.backgroundImageShow, darkBlueSky: styles.backgroundImageFade});
                 this.state.buttonStyle = require('./components/rain2Style');
 //Enemmän lunta
             } else {
                 this.imgSrc = require('./img/cloudsnowthree.png');
-                this.bgImg = require('./img/blurbag/dark_blue.jpg');
+                this.setState({lightBlueSky: styles.backgroundImageFade, blueSky: styles.backgroundImageFade, darkBlueSky: styles.backgroundImageShow});
                 this.state.buttonStyle = require('./components/rain3Style');
 //Vielä enemmän lunta
             }
@@ -186,8 +187,6 @@ class App extends Component {
         if(this.state.json !== null) {
 
 
-            console.log('+++++');
-            console.log(this.state.json);
 
             const rain = parseFloat(this.state.json.precipitation_amount_353).toFixed(1);
             const temperature = parseFloat(this.KtoC(this.state.json.air_temperature_4));
@@ -202,7 +201,6 @@ class App extends Component {
 
             switch (i) {
                 case '0':
-                    console.log('1')
                     this.setState({actB1: styles.activeBtn})
                     return this.setState({
                         rain: rain,
@@ -211,7 +209,6 @@ class App extends Component {
                         chill: this.KtoC(this.state.json.windchill_air_temp)
                     });
                 case '1':
-                    console.log('2');
                     this.setState({actB2: styles.activeBtn})
                     return this.setState({
                         rain: rain1,
@@ -220,7 +217,6 @@ class App extends Component {
                         chill: this.KtoC(this.state.json.windchill_air_temp_1h)
                     });
                 case '2':
-                    console.log('3');
                     this.setState({actB3: styles.activeBtn})
                     return (this.setState({
                         rain: rain2,
@@ -229,7 +225,6 @@ class App extends Component {
                         chill: this.KtoC(this.state.json.windchill_air_temp_2h)
                     }));
                 case '3':
-                    console.log('4');
                     this.setState({actB4: styles.activeBtn})
                     return this.setState({
                         rain: rain3,
@@ -239,7 +234,6 @@ class App extends Component {
                     });
 
                 default:
-                    console.log('defautlt');
                     this.setState({
 
                         rain: parseFloat(this.state.json.precipitation_amount_353).toFixed(1),
@@ -254,7 +248,8 @@ class App extends Component {
 
     urlCall() {
         const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
-        //const url = 'http://ctzr.me:8080/cityzer/api/getWeather?userLat=60.201953770612505&userLon=24.934014050581936';
+        //const url = 'http://193.166.9.27/~a1500903/weather.json';
+        // const url = 'http://ctzr.me:8080/cityzer/api/getWeather?userLat=60.201953770612505&userLon=24.934014050581936';
 
         axios.get(url)
             .then(response => {
@@ -506,7 +501,10 @@ class App extends Component {
 
     render() {
         return (
-            <ImageBackground source={this.bgImg} style={styles.backgroundImage}>
+            <View style={{ flex: 1}}>
+            <ImageBackground source={require('./img/blurbag/blue.jpg')} style={styles.backgroundImage} imageStyle={this.state.blueSky}>
+            <ImageBackground source={require('./img/blurbag/dark_blue.jpg')} style={styles.backgroundImage}imageStyle={this.state.darkBlueSky}>
+            <ImageBackground source={require('./img/blurbag/light_blue.jpg')} style={styles.backgroundImage} imageStyle={this.state.lightBlueSky}>
                 <View style={[styles.container, {flex: 1, flexDirection: 'column'}]}>
                     <View style={{flex: 1}}>
                         {this.renderAddress()}
@@ -534,6 +532,9 @@ class App extends Component {
                     </View>
                 </View>
             </ImageBackground>
+            </ImageBackground>
+            </ImageBackground>
+            </View>
         );
     }
 }
@@ -619,6 +620,16 @@ const styles = StyleSheet.create({
     backgroundImage: {
         flex: 1,
     },
+    backgroundImageFade: {
+        flex: 1,
+        opacity: 0,
+        zIndex: 0
+    },
+    backgroundImageShow: {
+        flex: 1,
+        opacity: 1,
+        zIndex: 0
+    },
     container: {
         flex: 1,
         marginTop: (Platform.OS === 'ios') ? 20 : 0,
@@ -689,58 +700,7 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
     },
-    infoButton: {
-        fontSize: 15,
-        marginTop: 30,
-        marginBottom: 10,
-        borderWidth: 4,
-        borderRadius: 10,
-        marginLeft: 2,
-        marginRight: 2,
-        overflow: 'hidden',
-        textAlign: 'center',
-        borderColor:'#ffffff',
-        backgroundColor:'#faf658',
-    },
-    heading1: {
-        fontSize: 25,
-        marginTop: 10,
-        marginBottom: 10,
-        borderWidth: 4,
-        borderRadius: 10,
-        marginLeft: 2,
-        marginRight: 2,
-        overflow: 'hidden',
-        textAlign: 'center',
-        borderColor:'#ffffff',
-        backgroundColor:'#e6e255',
-    },
-    heading2: {
-        fontSize: 25,
-        marginTop: 10,
-        marginBottom: 10,
-        borderWidth: 4,
-        borderRadius: 10,
-        marginLeft: 2,
-        marginRight: 2,
-        overflow: 'hidden',
-        textAlign: 'center',
-        borderColor:'#ffffff',
-        backgroundColor:'#bab643',
-    },
-    heading3: {
-        fontSize: 25,
-        marginTop: 10,
-        marginBottom: 10,
-        borderWidth: 4,
-        borderRadius: 10,
-        marginLeft: 2,
-        marginRight: 2,
-        overflow: 'hidden',
-        textAlign: 'center',
-        borderColor:'#ffffff',
-        backgroundColor:'#aeaa42',
-    },
+
     heading4: {
         color: "#FFFFFF",
         backgroundColor:'rgba(0,0,0,0)',
