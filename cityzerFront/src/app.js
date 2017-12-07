@@ -488,7 +488,7 @@ class App extends Component {
         return(
             <View style={{flex: 1, flexDirection: 'row'}}>
                 <TextInput
-                    style={{height: 40, width:200 }}
+                    style={{height: 40, width:200, color: 'white', fontSize: 20 }}
                     onChangeText={(text) => this.setState({text})}
                     value={this.state.text}
                     onSubmitEditing={this.getAddress.bind(this)}/>
