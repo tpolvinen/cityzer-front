@@ -52,7 +52,6 @@ class App extends Component {
         this.weatherState = this.weatherState.bind(this);
     }
 
-
     state = { address: [] };
 
     KtoC(kelvin) {
@@ -72,7 +71,6 @@ class App extends Component {
         //y = lämpötila & x = sademäärä
         // yli +2°C, sade tulee vetenä
         if (y > 2) {
-
             // ei sadetta
             if (x <= 0.3){
                 if (time > 21 && time <= 5){
@@ -134,6 +132,7 @@ class App extends Component {
 
         // alle 0, lunta
         else{
+            // ei sadetta
             if (x <= 0.3) {
                 if (time > 21 && time <= 5){
                     this.imgSrc = require('./img/moon.png');}
@@ -142,27 +141,23 @@ class App extends Component {
                     this.state.buttonStyle = require('./components/sunStyle');
                 }
                 this.setState({lightBlueSky: styles.backgroundImageShow, blueSky: styles.backgroundImageFade, darkBlueSky: styles.backgroundImageFade});
-//Aurinkoinen sää
+            // vähän lunta
             } else if (x >= 0.31 && x <= 0.9) {
-
                 this.imgSrc = require('./img/cloudsnow.png');
                 this.setState({lightBlueSky: styles.backgroundImageShow, blueSky: styles.backgroundImageFade, darkBlueSky: styles.backgroundImageFade});
                 this.state.buttonStyle = require('./components/rainStyle');
-//Vähän lunta
+            // lunta
             } else if (x >= 0.91 && x <= 4.4) {
                 this.imgSrc = require('./img/cloudsnowtwo.png');
                 this.setState({lightBlueSky: styles.backgroundImageFade, blueSky: styles.backgroundImageShow, darkBlueSky: styles.backgroundImageFade});
                 this.state.buttonStyle = require('./components/rain2Style');
-//Enemmän lunta
+            // paljon lunta
             } else {
                 this.imgSrc = require('./img/cloudsnowthree.png');
                 this.setState({lightBlueSky: styles.backgroundImageFade, blueSky: styles.backgroundImageFade, darkBlueSky: styles.backgroundImageShow});
                 this.state.buttonStyle = require('./components/rain3Style');
-//Vielä enemmän lunta
             }
         }
-
-
         return imgSrc;
     }
     getAddress() {
@@ -182,12 +177,7 @@ class App extends Component {
     }
 
     getWeather(i) {
-       // this.urlCall();
-
         if(this.state.json !== null) {
-
-
-
             const rain = parseFloat(this.state.json.precipitation_amount_353).toFixed(1);
             const temperature = parseFloat(this.KtoC(this.state.json.air_temperature_4));
             const rain1 = parseFloat(this.state.json.precipitation_amount_353_1h).toFixed(1);
@@ -243,14 +233,10 @@ class App extends Component {
                     });
             }
         }
-
    }
 
     urlCall() {
         const url = 'http://128.199.61.201:8080/cityzer/api/getWeather?userLat='+this.state.lat+'&userLon='+this.state.lon;
-        // const url = 'http://193.166.9.27/~a1500903/weather.json';
-        // const url = 'http://ctzr.me:8080/cityzer/api/getWeather?userLat=60.201953770612505&userLon=24.934014050581936';
-
         axios.get(url)
             .then(response => {
                 this.setState({
